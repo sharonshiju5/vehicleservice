@@ -4,12 +4,12 @@ function Review() {
     const [scrollPosition, setScrollPosition] = useState(0);
 
     useEffect(() => {
-            const interval = setInterval(() => {
-                setScrollPosition(prev => (prev + 1) % 600); // Adjust speed and range as needed
-            }, 50); // Adjust speed (lower = faster)
-    
-            return () => clearInterval(interval);
-        }, []);
+        const interval = setInterval(() => {
+            setScrollPosition(prev => prev + 0.5);
+        }, 16);
+
+        return () => clearInterval(interval);
+    }, []);
     
         const ReviewCard = ({ profilePic = "" }) => (
             <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 mb-6 w-full max-w-sm relative overflow-hidden">
@@ -67,8 +67,7 @@ function Review() {
                             <div
                                 className="flex flex-col absolute w-full transition-transform duration-75 ease-linear"
                                 style={{
-                                    transform: `translateY(-${scrollPosition}px)`,
-                                    height: 'calc(200% + 600px)' // Extra height for seamless loop
+                                    transform: `translateY(-${scrollPosition % 600}px)`
                                 }}
                             >
                                 {/* First set of reviews - Shuffled alignment */}
@@ -117,7 +116,7 @@ function Review() {
                             </div>
 
                             {/* Bottom blur overlay on container */}
-                            <div className="absolute bottom-0 left-0 right-0 h-80 bg-gradient-to-t from-white-50 via-white-50/60 via-white-50/25 to-white-50/5 backdrop-blur-sm pointer-events-none z-10"></div>
+<div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-white via-white/60 via-white/80 via-white/100 to-transparent pointer-events-none z-10"></div>
                         </div>
                     </div>
                 </div>

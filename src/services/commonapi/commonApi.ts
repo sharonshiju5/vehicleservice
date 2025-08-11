@@ -14,3 +14,26 @@ export const getCategories = async (
     throw error;
   }
 };
+
+export const getBanners = async (): Promise<any> => {
+  try {
+    const { data } = await AxiosConfig.get('');
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export const getSubCategories = async (search: string, page: number, limit: number, categoryId: string): Promise<any> => {
+  try {
+    const { data } = await AxiosConfig.get('/v1/seclobService-no/subcategories/list', {
+      params: { search, page, limit, categoryId },
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
