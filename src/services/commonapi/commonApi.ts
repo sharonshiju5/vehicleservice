@@ -1,9 +1,33 @@
 import AxiosConfig from "../AxiosConfig";
 
+interface Category {
+  id: string;
+  name: string;
+  image?: string;
+}
+
+interface CategoriesResponse {
+  data: {
+    categories: Category[];
+  };
+}
+
+interface SubCategoriesResponse {
+  data: {
+    subCategories: Category[];
+    totalPages: number;
+  };
+}
+
+interface BannersResponse {
+  data: {
+    data: unknown[];
+  };
+}
 
 export const getCategories = async (
   search: string
-): Promise<any> => {
+): Promise<CategoriesResponse> => {
   try {
     const { data } = await AxiosConfig.get('/v1/seclobService-no/categories/list', {
       params: {search,page: 1, limit: 1000},
@@ -15,9 +39,9 @@ export const getCategories = async (
   }
 };
 
-export const getBanners = async (): Promise<any> => {
+export const getBanners = async (): Promise<BannersResponse> => {
   try {
-    const { data } = await AxiosConfig.get('');
+    const { data } = await AxiosConfig.get('/v1/seclobService-no/banners/list');
     return data;
   } catch (error) {
     console.error(error);
@@ -25,7 +49,7 @@ export const getBanners = async (): Promise<any> => {
   }
 }
 
-export const getSubCategories = async (search: string, page: number, limit: number, categoryId: string): Promise<any> => {
+export const getSubCategories = async (search: string, page: number, limit: number, categoryId: string): Promise<SubCategoriesResponse> => {
   try {
     const { data } = await AxiosConfig.get('/v1/seclobService-no/subcategories/list', {
       params: { search, page, limit, categoryId },

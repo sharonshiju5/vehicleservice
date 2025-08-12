@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
+import { store } from "@/redux/store"; // ✅ Import the Redux store
+import { RootState } from "@/redux/store";
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -21,24 +23,23 @@ const createAxiosInstance = (): AxiosInstance => {
         config.headers["Authorization"] = `Bearer ${accessToken}`;
       }
 
-      const userLocation = Cookies.get("userLocation");
-      if (userLocation) {
-        try {
-          const locationData = JSON.parse(userLocation);
-          const encodeHeader = (value: string) =>
-            value ? encodeURIComponent(value) : "";
+      const state: RootState = store.getState();
+      const location = state.location;
 
-          config.headers["city"] = encodeHeader(locationData?.city ?? "");
-          config.headers["regionName"] = encodeHeader(
-            locationData?.regionName ?? ""
-          );
-          config.headers["country"] = encodeHeader(locationData?.country ?? "");
-          config.headers["lat"] = encodeHeader(
-            locationData?.lat?.toString() ?? ""
-          );
-          config.headers["lon"] = encodeHeader(
-            locationData?.lon?.toString() ?? ""
-          );
+      
+      if (location) {
+        try {
+          const encodeHeader = (value: string) =>
+          value ? encodeURIComponent(value) : "";
+
+        config.headers["userCountry"] = encodeHeader(location.country ?? "");
+        config.headers["userState"] = encodeHeader(location.state ?? "");
+        config.headers["userLat"] = encodeHeader(
+          location.coordinates.latitude?.toString() ?? ""
+        );
+        config.headers["userLon"] = encodeHeader(
+          location.coordinates.longitude?.toString() ?? ""
+        );
         } catch (error) {}
       }
 

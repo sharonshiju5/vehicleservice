@@ -1,56 +1,137 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import { getBanners } from '@/services/commonapi/commonApi';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
+type RawBanner = {
+  id?: string;
+  _id?: string;
+  link?: string;
+  filePath?: string;
+  fileName?: string;
+  status?: string;
+  validFrom?: string;
+  validTo?: string;
+  position?: string;
+  countryStates?: { country: string; states?: string[] }[];
+};
 
 interface BannerProps {
-  images?: string[];
+  position?: 'top' | 'bottom' | 'all';
+  country?: string;
+  height?: number | string;
+  openInNewTab?: boolean;
+  placeholderImages?: string[];
 }
 
-function Banner({ images = ['/assets/banner/banner.jpg', '/assets/banner/banner.jpg', '/assets/banner/banner.jpg'] }: BannerProps) {
-  const [currentSlide, setCurrentSlide] = useState(0);
+const Banner: React.FC<BannerProps> = ({
+  position = 'all',
+  country,
+  openInNewTab = true,
+  placeholderImages = [],
+}) => {
+  const [banners, setBanners] = useState<RawBanner[]>([]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+    let mounted = true;
+    const fetchBanners = async () => {
+      try {
+
+        const response = await getBanners();
+        // robust: handle axios wrapper (response.data.data) or direct returned array
+        const bannerList: RawBanner[] = (response?.data?.data ?? response?.data ?? []) as RawBanner[];
+
+        if (!mounted) return;
+
+        const now = new Date();
+        const visible = (bannerList ?? []).filter((b) => {
+          if (b.status !== 'active') return false;
+          if (position !== 'all' && b.position !== position) return false;
+
+          try {
+            const from = b.validFrom ? new Date(b.validFrom) : null;
+            const to = b.validTo ? new Date(b.validTo) : null;
+            if (from && now < from) return false;
+            if (to && now > to) return false;
+          } catch {}
+
+          if (country && Array.isArray(b.countryStates) && b.countryStates.length) {
+            const countries = b.countryStates.map((c) => c.country);
+            if (!countries.includes(country)) return false;
+          }
+
+          return true;
+        });
+
+        setBanners(visible);
+      } catch (err) {
+        console.error('Error fetching banners:', err);
+      } finally {}
+    };
+
+    fetchBanners();
+    return () => {
+      mounted = false;
+    };
+  }, [position, country]);
+
+
+
+  const displayed = banners.length
+    ? banners
+    : placeholderImages.map((src, i) => ({ id: `ph-${i}`, filePath: src, link: '#' }));
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: true,
+  };
 
   return (
-    <div className="relative w-full overflow-hidden md:rounded-lg pt-8" style={{ height: '264px' }}>
-      {/* Image Carousel */}
-      <div 
-        className="flex transition-transform duration-700 ease-in-out h-full"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-      >
-        {images.map((image, index) => (
-          <div key={index} className="w-full h-full flex-shrink-0 relative">
-            <img 
-              src={image} 
-              alt={`Banner ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
+    <div className="relative w-full md:rounded-lg pt-8 pb-12 rounded-lg" style={{ height: '300px' }}>
+      <Slider {...sliderSettings}>
+        {displayed.map((b, index) => {
+          const src = (b as RawBanner).filePath ?? placeholderImages[0];
+          const link = (b as RawBanner).link ?? '#';
+          const key = (b as RawBanner).id ?? (b as RawBanner)._id ?? `banner-${index}`;
 
-      {/* Indicators */}
-      {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide 
-                  ? 'bg-orange-500 scale-110' 
-                  : 'bg-white bg-opacity-50 hover:bg-opacity-75'
-              }`}
-            />
-          ))}
-        </div>
-      )}
+          return (
+            <div key={key} className="relative" style={{ height: '264px' }}>
+              {link && link !== '#' ? (
+                <a
+                  href={link}
+                  target={openInNewTab ? '_blank' : '_self'}
+                  rel={openInNewTab ? 'noopener noreferrer' : undefined}
+                  className="block w-full h-full rounded-lg"
+                >
+                  <img
+                    src={src}
+                    alt={`Banner ${index + 1}`}
+                    className="w-full h-full object-cover cursor-pointer rounded-lg"
+                    style={{ height: '264px' }}
+                  />
+                </a>
+              ) : (
+                <img 
+                  src={src} 
+                  alt={`Banner ${index + 1}`} 
+                  className="w-full h-full object-cover" 
+                  style={{ height: '264px' }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </Slider>
     </div>
   );
-}
+};
 
 export default Banner;

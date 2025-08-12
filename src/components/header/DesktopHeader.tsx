@@ -8,6 +8,8 @@ import { FiUser } from 'react-icons/fi'
 import { getUser } from '@/services/auth/auth'
 import DownloadAppModal from '@/components/DownloadAppModal'
 import { createPortal } from 'react-dom'
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store"; 
 
 interface User {
   name?: string;
@@ -18,8 +20,8 @@ function DesktopHeader() {
   const [user, setUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [showModal, setShowModal] = React.useState(false);
-  const refreshToken = "c3e45f2ccd4a831984750781215641b5eb6ffab6f18bdef65e1f88300d959fd6dd1f7c65193145fc"
-  
+  const refreshToken = "42c1942682a388f77b0172491050e1247b84fc040b550df3e40e1a6ccf53f9b1c087f7fb7f19f28f"
+  const location = useSelector((state: RootState) => state.location);
   const HandleUserget = async () => {
     try {
       const data = await getUser({refreshToken});
@@ -59,8 +61,8 @@ function DesktopHeader() {
             <Link href="/channelpartner" className="hidden md:block text-black font-medium hover:text-gray-600">Partner</Link>
             <button className="hidden lg:flex h-10 bg-white/40 backdrop-blur-md border border-white/30 rounded-lg px-4 items-center hover:bg-white/60">
               <IoLocationOutline className="text-gray-600 text-sm" />
-              <span className="text-gray-700 text-sm">Bangalore, MG Road…</span>
-              <IoChevronDown className="text-gray-600 text-xs" />
+              <span className="text-gray-700 text-sm">{location.city}, {location.country}</span>
+              {/* <IoChevronDown className="text-gray-600 text-xs" /> */}
             </button>
             <button className="h-8 sm:h-10 bg-[#3D155F] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]">
               <FiUser className="text-sm" />
