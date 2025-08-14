@@ -1,6 +1,7 @@
 import Partnersearch from '@/components/partnersearch/Partnersearch'
 import Review from '@/components/reviews/Review'
 import React, { useState } from 'react'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 function Desktop() {
     const [openIndex, setOpenIndex] = useState(0);

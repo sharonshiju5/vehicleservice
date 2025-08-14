@@ -252,7 +252,7 @@ function DesktopSegment() {
               <img
                 src={subcat.image}
                 alt={subcat.name}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 object-contain"
+                className="w-full h-full rounded-xl  object-contain"
               />
             </div>
             <div className="text-xs sm:text-sm font-medium text-gray-800 leading-tight">
