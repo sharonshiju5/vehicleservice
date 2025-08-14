@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
 
 function Review() {
-    const [scrollPosition, setScrollPosition] = useState(0);
+    const [animationDuration, setAnimationDuration] = useState('20s');
+    const firstHalfRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setScrollPosition(prev => prev + 0.5);
-        }, 16);
-
-        return () => clearInterval(interval);
+    useLayoutEffect(() => {
+        if (firstHalfRef.current) {
+            const height = firstHalfRef.current.offsetHeight;
+            const duration = height / 30; // 30 pixels per second
+            setAnimationDuration(`${duration}s`);
+        }
     }, []);
     
         const ReviewCard = ({ profilePic = "" }) => (
@@ -54,7 +55,17 @@ function Review() {
         text: "The electrician was on time, polite, and fixed my wiring issue quickly. Booking through the app was super smooth. Highly recommended!"
     };
   return (
-    <div className="w-full min-h-[400px] md:h-[600px] lg:h-[1220px]">
+    <>
+      <style jsx>{`
+        @keyframes scroll {
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(0, -50%, 0); }
+        }
+        .animate-scroll {
+          animation-name: scroll;
+        }
+      `}</style>
+      <div className="w-full min-h-[400px] md:h-[600px] lg:h-[1220px]">
                     <div className="bg-white w-full h-full relative overflow-hidden">
                         {/* Header */}
                         <div className="text-center pt-12 pb-8 px-4">
@@ -65,31 +76,35 @@ function Review() {
                         {/* Scrolling Reviews Container */}
                         <div className="relative h-full overflow-hidden">
                             <div
-                                className="flex flex-col absolute w-full transition-transform duration-75 ease-linear"
+                                className="flex flex-col absolute w-full animate-scroll"
                                 style={{
-                                    transform: `translateY(-${scrollPosition % 600}px)`
+                                    animationDuration: animationDuration,
+                                    animationTimingFunction: 'linear',
+                                    animationIterationCount: 'infinite'
                                 }}
                             >
                                 {/* First set of reviews - Shuffled alignment */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
-                                    <div className="mt-0"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-4 sm:mt-8"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-2 sm:mt-4"><ReviewCard profilePic="" /></div>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
-                                    <div className="mt-3 sm:mt-6"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-1 sm:mt-2"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-5 sm:mt-10"><ReviewCard profilePic="" /></div>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
-                                    <div className="mt-2 sm:mt-4"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-0"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-4 sm:mt-8"><ReviewCard profilePic="" /></div>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
-                                    <div className="mt-4 sm:mt-8"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-3 sm:mt-6"><ReviewCard profilePic="" /></div>
-                                    <div className="mt-1 sm:mt-2"><ReviewCard profilePic="" /></div>
+                                <div ref={firstHalfRef}>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
+                                        <div className="mt-0"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-4 sm:mt-8"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-2 sm:mt-4"><ReviewCard profilePic="" /></div>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
+                                        <div className="mt-3 sm:mt-6"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-1 sm:mt-2"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-5 sm:mt-10"><ReviewCard profilePic="" /></div>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
+                                        <div className="mt-2 sm:mt-4"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-0"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-4 sm:mt-8"><ReviewCard profilePic="" /></div>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-8 lg:px-12 mb-6 sm:mb-8">
+                                        <div className="mt-4 sm:mt-8"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-3 sm:mt-6"><ReviewCard profilePic="" /></div>
+                                        <div className="mt-1 sm:mt-2"><ReviewCard profilePic="" /></div>
+                                    </div>
                                 </div>
 
                                 {/* Duplicate set for seamless loop - Shuffled alignment */}
@@ -120,6 +135,7 @@ function Review() {
                         </div>
                     </div>
                 </div>
+      </>
   )
 }
 
