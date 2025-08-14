@@ -3,7 +3,8 @@ import Cookies from "js-cookie";
 import { store } from "@/redux/store"; // ✅ Import the Redux store
 import { RootState } from "@/redux/store";
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+// const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const baseURL = "https://apigateway.seclob.com/";
 
 const createAxiosInstance = (): AxiosInstance => {
   console.log('Creating axios instance with baseURL:', baseURL);
