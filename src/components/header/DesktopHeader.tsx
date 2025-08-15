@@ -20,24 +20,9 @@ function DesktopHeader() {
   const [user, setUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [showModal, setShowModal] = React.useState(false);
-  const refreshToken = "42c1942682a388f77b0172491050e1247b84fc040b550df3e40e1a6ccf53f9b1c087f7fb7f19f28f"
+  const name = localStorage.getItem('name') ;
   const location = useSelector((state: RootState) => state.location);
-  const HandleUserget = async () => {
-    try {
-      const data = await getUser({refreshToken});
-      setUser(data);
-      localStorage.setItem('user', JSON.stringify(data));
-      console.log("User data fetched successfully:", data);
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  React.useEffect(() => {
-    HandleUserget();
-  }, []);
+  
 
   return (
     <div className="sticky top-0 z-50 bg-white/40 backdrop-blur-md border-b border-white/30 shadow-md header-container">
@@ -69,7 +54,7 @@ function DesktopHeader() {
               {loading ? (
                 <div className="hidden sm:block w-4 h-4 ml-1 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <span className="hidden sm:block text-sm font-medium ml-1">{user?.name || 'Login/Sign Up'}</span>
+                <span className="hidden sm:block text-sm font-medium ml-1">{name|| 'Login/Sign Up'}</span>
               )}
             </button>
             <button 
