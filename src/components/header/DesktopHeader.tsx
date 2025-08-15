@@ -20,8 +20,16 @@ function DesktopHeader() {
   const [user, setUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [showModal, setShowModal] = React.useState(false);
-  const name = localStorage.getItem('name') ;
+  const [name, setName] = React.useState<string | null>(null);
   const location = useSelector((state: RootState) => state.location);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedName = localStorage.getItem('name');
+      setName(storedName);
+      setLoading(false);
+    }
+  }, []);
   
 
   return (
@@ -54,7 +62,7 @@ function DesktopHeader() {
               {loading ? (
                 <div className="hidden sm:block w-4 h-4 ml-1 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <span className="hidden sm:block text-sm font-medium ml-1">{name|| 'Login/Sign Up'}</span>
+                <span className="hidden sm:block text-sm font-medium ml-1">{name || 'Login/Sign Up'}</span>
               )}
             </button>
             <button 

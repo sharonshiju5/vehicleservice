@@ -42,7 +42,7 @@ export default function AuthPage() {
         }
       } catch (error) {
         console.error('Auth error:', error)
-          window.location.href = 'https://seclob.com'
+        window.location.href = 'https://seclob.com'
       }
     }
 
