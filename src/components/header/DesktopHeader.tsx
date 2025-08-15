@@ -30,8 +30,8 @@ function DesktopHeader() {
       setLoading(false);
     }
   }, []);
-  const regionName = localStorage.get('regionName')
-  const country = localStorage.get('country')
+  const regionName = localStorage.getItem('regionName')
+  const country = localStorage.getItem('country')
 
   return (
     <div className="sticky top-0 z-50 bg-white/40 backdrop-blur-md border-b border-white/30 shadow-md header-container">
