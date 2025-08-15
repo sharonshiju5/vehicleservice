@@ -21,17 +21,21 @@ function DesktopHeader() {
   const [loading, setLoading] = React.useState(true);
   const [showModal, setShowModal] = React.useState(false);
   const [name, setName] = React.useState<string | null>(null);
+  const [regionName, setRegionName] = React.useState<string | null>(null);
+  const [country, setCountry] = React.useState<string | null>(null);
   const location = useSelector((state: RootState) => state.location);
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedName = localStorage.getItem('name');
+      const storedRegionName = localStorage.getItem('regionName');
+      const storedCountry = localStorage.getItem('country');
       setName(storedName);
+      setRegionName(storedRegionName);
+      setCountry(storedCountry);
       setLoading(false);
     }
   }, []);
-  const regionName = localStorage.getItem('regionName')
-  const country = localStorage.getItem('country')
 
   return (
     <div className="sticky top-0 z-50 bg-white/40 backdrop-blur-md border-b border-white/30 shadow-md header-container">

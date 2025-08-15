@@ -3,6 +3,9 @@
 import { useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 function AuthContent() {
     const searchParams = useSearchParams()
     const refreshToken = searchParams.get('refreshtoken')
@@ -13,10 +16,12 @@ function AuthContent() {
 
     useEffect(() => {
         // Store location data
-        if (country) localStorage.setItem('country', country)
-        if (lat) localStorage.setItem('lat', lat)
-        if (lon) localStorage.setItem('lon', lon)
-        if (regionName) localStorage.setItem('regionName', regionName)
+        if (typeof window !== 'undefined') {
+            if (country) localStorage.setItem('country', country)
+            if (lat) localStorage.setItem('lat', lat)
+            if (lon) localStorage.setItem('lon', lon)
+            if (regionName) localStorage.setItem('regionName', regionName)
+        }
         const handleAuth = async () => {
             if (!refreshToken) return
 
@@ -35,23 +40,29 @@ function AuthContent() {
 
                 if (data.success) {
                     // Store all data in localStorage
-                    localStorage.setItem('accessToken', data.accessToken)
-                    localStorage.setItem('refreshtoken', data.refreshToken)
-                    localStorage.setItem('unique_id', data.unique_id)
-                    localStorage.setItem('email', data.email)
-                    localStorage.setItem('phone', data.phone)
-                    localStorage.setItem('userId', data.userId)
-                    localStorage.setItem('name', data.name)
-
-                    // Navigate to home on success
-                    window.location.href = '/'
+                    if (typeof window !== 'undefined') {
+                        localStorage.setItem('accessToken', data.accessToken)
+                        localStorage.setItem('refreshtoken', data.refreshToken)
+                        localStorage.setItem('unique_id', data.unique_id)
+                        localStorage.setItem('email', data.email)
+                        localStorage.setItem('phone', data.phone)
+                        localStorage.setItem('userId', data.userId)
+                        localStorage.setItem('name', data.name)
+                        
+                        // Navigate to home on success
+                        window.location.href = '/'
+                    }
                 } else {
                     // Navigate to seclob.com on failure
-                    window.location.href = 'https://seclob.com'
+                    if (typeof window !== 'undefined') {
+                        window.location.href = 'https://seclob.com'
+                    }
                 }
             } catch (error) {
                 console.error('Auth error:', error)
-                window.location.href = 'https://seclob.com'
+                if (typeof window !== 'undefined') {
+                    window.location.href = 'https://seclob.com'
+                }
             }
         }
 

@@ -67,7 +67,7 @@ const createAxiosInstance = (): AxiosInstance => {
       if (error?.response?.status === 401 && !originalRequest?._retry) {
         originalRequest._retry = true;
         
-        const refreshToken = localStorage?.getItem('refreshtoken') ?? Cookies.get('refreshtoken');
+        const refreshToken = (typeof window !== 'undefined' ? localStorage?.getItem('refreshtoken') : null) ?? Cookies.get('refreshtoken');
 
         if (refreshToken) {
           try {
@@ -76,8 +76,10 @@ const createAxiosInstance = (): AxiosInstance => {
               { refreshToken }
             );
 
-            localStorage?.setItem('token', response?.data?.accessToken);
-            localStorage?.setItem('refreshtoken', response?.data?.refreshToken);
+            if (typeof window !== 'undefined') {
+              localStorage?.setItem('token', response?.data?.accessToken);
+              localStorage?.setItem('refreshtoken', response?.data?.refreshToken);
+            }
             Cookies.set('token', response?.data?.accessToken);
             Cookies.set('refreshtoken', response?.data?.refreshToken);
             
