@@ -30,7 +30,8 @@ function DesktopHeader() {
       setLoading(false);
     }
   }, []);
-  
+  const regionName = localStorage.get('regionName')
+  const country = localStorage.get('country')
 
   return (
     <div className="sticky top-0 z-50 bg-white/40 backdrop-blur-md border-b border-white/30 shadow-md header-container">
@@ -54,7 +55,7 @@ function DesktopHeader() {
             <Link href="/channelpartner" className="hidden md:block text-black font-medium hover:text-gray-600">Partner</Link>
             <button className="hidden lg:flex h-10 bg-white/40 backdrop-blur-md border border-white/30 rounded-lg px-4 items-center hover:bg-white/60">
               <IoLocationOutline className="text-gray-600 text-sm" />
-              <span className="text-gray-700 text-sm">{location.city}, {location.country}</span>
+              <span className="text-gray-700 text-sm">{regionName}, {country}</span>
               {/* <IoChevronDown className="text-gray-600 text-xs" /> */}
             </button>
             <button className="h-8 sm:h-10 bg-[#3D155F] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]">
