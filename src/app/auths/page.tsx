@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 
-export default function AuthPage() {
+function AuthContent() {
   const searchParams = useSearchParams()
   const refreshToken = searchParams.get('refreshtoken')
 
@@ -56,5 +56,20 @@ export default function AuthPage() {
         <p className="mt-4">Authenticating...</p>
       </div>
     </div>
+  )
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4">Loading...</p>
+        </div>
+      </div>
+    }>
+      <AuthContent />
+    </Suspense>
   )
 }
