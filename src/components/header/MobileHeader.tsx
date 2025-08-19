@@ -27,7 +27,7 @@ function MobileHeader({ toggleCart }: MobileHeaderProps) {
         }
       }, []);
   return (
-    <div className=' mobile-header w-full h-[80px] bg-[#8948F9] position-fixed px-4 flex items-center justify-between '>
+    <div className=' mobile-header w-full h-[60px] bg-[#8948F9] position-fixed px-4 flex items-center justify-between '>
          {/* Location Section */}
         <div className="flex items-center gap-2">
           <MdLocationOn className="text-white text-xl" />

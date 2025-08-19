@@ -88,7 +88,7 @@ function MobileSegment() {
             <div className="w-full p-2">
                 {/* Top Scrollable Tabs */}
                 <div className="flex gap-3 overflow-x-auto no-scrollbar mb-6">
-                    {categories.map((cat) => (
+                    {categories.map((cat, index) => (
                         <button
                             key={cat.id}
                             onClick={() => handleCategoryClick(cat.id)}
@@ -96,7 +96,7 @@ function MobileSegment() {
               ${active === cat.id
                                     ? "border-purple-500 bg-purple-50 text-purple-600"
                                     : "border-gray-200 bg-white text-gray-500"
-                                }`}
+                                } ${index === 0 ? "ml-2" : ""}`}
                         >
                             <CiShop className="w-4 h-4" />
                             <span className="whitespace-nowrap text-sm">{cat.name}</span>
@@ -108,7 +108,7 @@ function MobileSegment() {
                 <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
                     {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => (
                         <Link key={subcat.id} href="/servicedeatils">
-                            <div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:shadow">
+                            <div className="flex flex-col items-center justify-center p-4  rounded-lg hover:shadow">
                                 <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[53px] h-[53px] object-contain mb-2" />
                                 <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
                             </div>

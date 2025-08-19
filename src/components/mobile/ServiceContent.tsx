@@ -33,7 +33,7 @@ function ServiceContent() {
         <Faq/>
         
       </div>
-      <div className="fixed bottom-0 left-0 w-full  h-[75px] flex items-center z-50">
+      <div className="fixed bottom-0 left-0 w-full bg-white  h-[75px] flex items-center z-50">
         <button className='w-[90%] mx-auto h-[42px] text-white bg-[#7722FF] rounded-xl font-medium text-sm leading-[22px]'>Book now</button>
       </div>
     </div>

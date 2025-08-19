@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react'
 import { CiShop } from 'react-icons/ci';
 import { getCategories, getSubCategories } from '@/services/commonapi/commonApi';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface Category {
     id: string
@@ -59,7 +58,7 @@ function Page() {
       }
     }
     loadData()
-  }, [fetchCategories])
+  }, [])
 
   return (
     <div className='w-full'>
@@ -94,7 +93,7 @@ function Page() {
                     {subcategories.map((subcat) => (
                         <Link key={subcat.id} href="/servicedeatils">
                             <div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:shadow">
-                                <Image src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} width={53} height={53} className="object-contain mb-2" />
+                                <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[53px] h-[53px] object-contain mb-2" />
                                 <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
                             </div>
                         </Link>
