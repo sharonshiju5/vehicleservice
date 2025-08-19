@@ -5,7 +5,7 @@ import MobileLanding from "@/components/landingpage/MobileLanding"
 import { useEffect, useState } from "react"
 
 export default function HomePage(){
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -17,6 +17,11 @@ export default function HomePage(){
     
     return () => window?.removeEventListener('resize', checkMobile)
   }, [])
+  
+  if (isMobile === undefined) {
+    return <div style={{ minHeight: '100vh' }} />
+  }
+  
   return(
     <>
       <div>

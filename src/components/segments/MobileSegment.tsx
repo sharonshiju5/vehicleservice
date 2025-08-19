@@ -2,6 +2,7 @@ import { getCategories, getSubCategories } from '@/services/commonapi/commonApi'
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { CiShop } from "react-icons/ci";
+import { CategorySkeleton, SubcategorySkeleton } from '@/components/ui/SkeletonLoader';
 
 interface Category {
     id: string
@@ -16,6 +17,8 @@ function MobileSegment() {
     const [showAll, setShowAll] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [isLoading, setIsLoading] = useState(true)
+    const [isSubcatLoading, setIsSubcatLoading] = useState(false)
 
     const fetchCategories = async (search: string = '') => {
         try {
@@ -30,10 +33,13 @@ function MobileSegment() {
             console.error('Failed to fetch categories:', error)
             setCategories([])
             return []
+        } finally {
+            setIsLoading(false)
         }
     }
 
     const handleGetSubCategories = async (categoryId: string, search: string = '', page: number = 1) => {
+        setIsSubcatLoading(true)
         try {
             const limit = showAll ? 1000 : 12
             const response = await getSubCategories(search, page, limit, categoryId || '');
@@ -44,6 +50,8 @@ function MobileSegment() {
         } catch (error) {
             console.error("Error fetching subcategories:", error);
             setSubCategories([]);
+        } finally {
+            setIsSubcatLoading(false)
         }
     };
 
@@ -87,34 +95,42 @@ function MobileSegment() {
             </div>
             <div className="w-full p-2">
                 {/* Top Scrollable Tabs */}
-                <div className="flex gap-3 overflow-x-auto no-scrollbar mb-6">
-                    {categories.map((cat, index) => (
-                        <button
-                            key={cat.id}
-                            onClick={() => handleCategoryClick(cat.id)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition
-              ${active === cat.id
-                                    ? "border-purple-500 bg-purple-50 text-purple-600"
-                                    : "border-gray-200 bg-white text-gray-500"
-                                } ${index === 0 ? "ml-2" : ""}`}
-                        >
-                            <CiShop className="w-4 h-4" />
-                            <span className="whitespace-nowrap text-sm">{cat.name}</span>
-                        </button>
-                    ))}
-                </div>
+                {isLoading ? (
+                    <CategorySkeleton />
+                ) : (
+                    <div className="flex gap-3 overflow-x-auto no-scrollbar mb-6">
+                        {categories.map((cat, index) => (
+                            <button
+                                key={cat.id}
+                                onClick={() => handleCategoryClick(cat.id)}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition
+                  ${active === cat.id
+                                        ? "border-purple-500 bg-purple-50 text-purple-600"
+                                        : "border-gray-200 bg-white text-gray-500"
+                                    } ${index === 0 ? "ml-2" : ""}`}
+                            >
+                                <CiShop className="w-4 h-4" />
+                                <span className="whitespace-nowrap text-sm">{cat.name}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
 
                 {/* Bottom Grid */}
-                <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
-                    {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => (
-                        <Link key={subcat.id} href="/servicedeatils">
-                            <div className="flex flex-col items-center justify-center p-4  rounded-lg hover:shadow">
-                                <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[53px] h-[53px] object-contain mb-2" />
-                                <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                {isLoading || isSubcatLoading ? (
+                    <SubcategorySkeleton />
+                ) : (
+                    <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
+                        {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => (
+                            <Link key={subcat.id} href="/servicedeatils">
+                                <div className="flex flex-col items-center justify-center p-4  rounded-lg hover:shadow">
+                                    <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[53px] h-[53px] object-contain mb-2" />
+                                    <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                )}
 
                 {/* See All Button */}
                 {!showAll && subcategories.length > 12 && (
