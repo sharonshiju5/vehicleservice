@@ -14,15 +14,18 @@ function MobileHeader({ toggleCart }: MobileHeaderProps) {
   const pathname = usePathname();
   const [loading, setLoading] = React.useState(true);
   const [regionName, setRegionName] = React.useState<string | null>(null);
-    const [country, setCountry] = React.useState<string | null>(null);
+  const [country, setCountry] = React.useState<string | null>(null);
+  const [city, setcity] = React.useState<string | null>(null);
 
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
           const storedName = localStorage.getItem('name');
           const storedRegionName = localStorage.getItem('regionName');
           const storedCountry = localStorage.getItem('country');
+          const storedcity = localStorage.getItem('city');
           setRegionName(storedRegionName);
           setCountry(storedCountry);
+          setcity(storedcity);
           setLoading(false);
         }
       }, []);
@@ -34,7 +37,7 @@ function MobileHeader({ toggleCart }: MobileHeaderProps) {
           <div>
             {/* <div className="text-white text-xs">Location</div> */}
             <div className="flex items-center gap-1 text-white font-normal text-[12px] leading-[18px] tracking-[0.03px] text-center">
-             {regionName}, {country}
+             {city ?? regionName}, {country}
               
             </div>
           </div>
