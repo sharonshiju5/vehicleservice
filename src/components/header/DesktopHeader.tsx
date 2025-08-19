@@ -35,6 +35,7 @@ function DesktopHeader() {
       setName(storedName);
       setRegionName(storedRegionName);
       setCountry(storedCountry);
+      setcity(storedcity);
       setLoading(false);
     }
   }, []);
