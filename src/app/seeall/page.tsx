@@ -1,34 +1,65 @@
 'use client'
 import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CiShop } from 'react-icons/ci';
+import { getCategories, getSubCategories } from '@/services/commonapi/commonApi';
+import Link from 'next/link';
+import Image from 'next/image';
 
-type Service = {
-    id: number;
-    name: string;
-    img: string;
-};
+interface Category {
+    id: string
+    name: string
+    image?: string
+}
+
 function Page() {
   const router = useRouter()
-  const [active, setActive] = useState("all");
-      const categories = [
-          { id: "all", label: "All services", icon: <CiShop className="text-lg" /> },
-          { id: "cleaning", label: "Cleaning", icon: <CiShop className="text-lg" /> },
-          { id: "appliance", label: "Appliance Cleaning", icon: <CiShop className="text-lg" /> },
-      ];
-  
-      // Example services (replace `img` with your given src)
-      const services: Service[] = [
-          { id: 1, name: "Repair", img: "/assets/logo/seg.png" },
-          { id: 2, name: "Plumber", img: "/assets/logo/seg.png" },
-          { id: 3, name: "Electrician", img: "/assets/logo/seg.png" },
-          { id: 4, name: "Cleaning", img: "/assets/logo/seg.png" },
-          { id: 2, name: "Plumber", img: "/assets/logo/seg.png" },
-          { id: 3, name: "Electrician", img: "/assets/logo/seg.png" },
-          { id: 4, name: "Cleaning", img: "/assets/logo/seg.png" },
-          { id: 4, name: "Cleaning", img: "/assets/logo/seg.png" },
-      ];
+  const [active, setActive] = useState<string>("");
+  const [categories, setCategories] = useState<Category[]>([])
+  const [subcategories, setSubCategories] = useState<Category[]>([])
+
+  const fetchCategories = async (search: string = '') => {
+    try {
+      const response = await getCategories(search)
+      const categoriesArray = response?.data?.categories || []
+      setCategories(categoriesArray)
+      if (categoriesArray.length > 0 && !active) {
+        setActive(categoriesArray[0].id)
+      }
+      return categoriesArray
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
+      setCategories([])
+      return []
+    }
+  }
+
+  const handleGetSubCategories = async (categoryId: string, search: string = '') => {
+    try {
+      const response = await getSubCategories(search, 1, 1000, categoryId || '');
+      const subcats = response?.data?.subCategories || [];
+      setSubCategories(subcats);
+    } catch (error) {
+      console.error("Error fetching subcategories:", error);
+      setSubCategories([]);
+    }
+  };
+
+  const handleCategoryClick = (categoryId: string) => {
+    setActive(categoryId)
+    handleGetSubCategories(categoryId, '')
+  }
+
+  useEffect(() => {
+    const loadData = async () => {
+      const cats = await fetchCategories()
+      if (cats && cats.length > 0) {
+        await handleGetSubCategories(cats[0].id, '')
+      }
+    }
+    loadData()
+  }, [fetchCategories])
 
   return (
     <div className='w-full'>
@@ -41,33 +72,32 @@ function Page() {
 
         <div className="w-full p-4">
                 {/* Top Scrollable Tabs */}
-                <div className="flex gap-3 overflow-x-auto scrollbar-hide mb-6">
+                <div className="flex gap-3 overflow-x-auto no-scrollbar mb-6">
                     {categories.map((cat) => (
                         <button
                             key={cat.id}
-                            onClick={() => setActive(cat.id)}
+                            onClick={() => handleCategoryClick(cat.id)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition
               ${active === cat.id
                                     ? "border-purple-500 bg-purple-50 text-purple-600"
                                     : "border-gray-200 bg-white text-gray-500"
                                 }`}
                         >
-                            {cat.icon}
-                            <span className="whitespace-nowrap">{cat.label}</span>
+                            <CiShop className="w-4 h-4" />
+                            <span className="whitespace-nowrap text-sm">{cat.name}</span>
                         </button>
                     ))}
                 </div>
 
                 {/* Bottom Grid */}
                 <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
-                    {services.map((service) => (
-                        <div
-                            key={service.id}
-                            className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:shadow"
-                        >
-                            <img src={service.img} alt={service.name} className="w-[53px] h-[53px] object-contain mb-2" />
-                            <span className="text-gray-500 text-sm font-medium">{service.name}</span>
-                        </div>
+                    {subcategories.map((subcat) => (
+                        <Link key={subcat.id} href="/servicedeatils">
+                            <div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:shadow">
+                                <Image src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} width={53} height={53} className="object-contain mb-2" />
+                                <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </div>

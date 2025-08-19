@@ -54,7 +54,7 @@ function Popular() {
       </h2>
 
       {/* Horizontal scroll container */}
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide">
+      <div className="flex gap-4 overflow-x-auto no-scrollbar scrollbar-hide">
         {contractors.slice(0, 5).map((c) => (
           <div
             key={c.id}

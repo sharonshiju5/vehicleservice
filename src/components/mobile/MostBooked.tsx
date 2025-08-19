@@ -33,7 +33,7 @@ function MostBooked() {
       <h2 className="font-medium text-[16px] leading-[26px] tracking-[0.01px] mb-4">Most booked services</h2>
 
       {/* Scrollable Cards */}
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide">
+      <div className="flex gap-4 overflow-x-auto no-scrollbar scrollbar-hide">
         {services.map((service) => (
           <div
             key={service.id}

@@ -18,7 +18,7 @@ function Mobilebanner() {
     },
   ];
   return (
-    <div className="w-full overflow-x-auto pl-4 ">
+    <div className="w-full overflow-x-auto no-scrollbar pl-4 ">
       <div className="flex gap-4">
         {banners.map((banner) => (
           <a
