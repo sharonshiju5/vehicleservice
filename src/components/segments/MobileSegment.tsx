@@ -104,7 +104,7 @@ function MobileSegment() {
                                 key={cat.id}
                                 onClick={() => handleCategoryClick(cat.id)}
                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition
-                  ${active === cat.id
+                                ${active === cat.id
                                         ? "border-purple-500 bg-purple-50 text-purple-600"
                                         : "border-gray-200 bg-white text-gray-500"
                                     } ${index === 0 ? "ml-2" : ""}`}

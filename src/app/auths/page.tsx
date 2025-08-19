@@ -12,6 +12,7 @@ function AuthContent() {
     const country = searchParams.get('country')
     const lat = searchParams.get('lat')
     const lon = searchParams.get('lon')
+    const city = searchParams.get('city')
     const regionName = searchParams.get('regionName')
 
     useEffect(() => {
@@ -20,6 +21,7 @@ function AuthContent() {
             if (country) localStorage.setItem('country', country)
             if (lat) localStorage.setItem('lat', lat)
             if (lon) localStorage.setItem('lon', lon)
+            if (city) localStorage.setItem('city', city)
             if (regionName) localStorage.setItem('regionName', regionName)
         }
         const handleAuth = async () => {

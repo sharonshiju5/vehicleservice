@@ -22,6 +22,7 @@ function DesktopHeader() {
   const [showModal, setShowModal] = React.useState(false);
   const [name, setName] = React.useState<string | null>(null);
   const [regionName, setRegionName] = React.useState<string | null>(null);
+  const [city, setcity] = React.useState<string | null>(null);
   const [country, setCountry] = React.useState<string | null>(null);
   const location = useSelector((state: RootState) => state.location);
 
@@ -29,6 +30,7 @@ function DesktopHeader() {
     if (typeof window !== 'undefined') {
       const storedName = localStorage.getItem('name');
       const storedRegionName = localStorage.getItem('regionName');
+      const storedcity = localStorage.getItem('city');
       const storedCountry = localStorage.getItem('country');
       setName(storedName);
       setRegionName(storedRegionName);
@@ -59,7 +61,7 @@ function DesktopHeader() {
             <Link href="/channelpartner" className="hidden md:block text-black font-medium hover:text-gray-600">Partner</Link>
             <button className="hidden lg:flex h-10 bg-white/40 backdrop-blur-md border border-white/30 rounded-lg px-4 items-center hover:bg-white/60">
               <IoLocationOutline className="text-gray-600 text-sm" />
-              <span className="text-gray-700 text-sm">{regionName}, {country}</span>
+              <span className="text-gray-700 text-sm">{city ?? regionName}, {country}</span>
               {/* <IoChevronDown className="text-gray-600 text-xs" /> */}
             </button>
             <button className="h-8 sm:h-10 bg-[#3D155F] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]">
