@@ -33,13 +33,13 @@ function Desktop() {
     };
 
     return (
-        <div className="hidden md:block">
+        <div className="hidden md:block ">
            
-            <div className="bg-white h-auto w-[100%] mx-auto pb-12">
+            <div className="bg-white h-auto w-[100%] mx-auto pb-12 ">
                 <Partnersearch />
 
-
-                <div className=" py-16 px-4">
+            <div className="w-90%   mx-auto ">
+                <div className=" py-16 px-4 ">
                     <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
                             {/* Left Side - Grouped Image */}
@@ -259,8 +259,10 @@ function Desktop() {
                 </div>
 
 
-                <div className="mx-auto w-[90%]">
-                    <Review/>
+                <div className="py-16 px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <Review/>
+                    </div>
                 </div>
 
                 <div className="w-full py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
@@ -376,6 +378,8 @@ function Desktop() {
                     </div>
                 </div>
                 </div>
+            </div>
+                
 
             </div>
         </div>

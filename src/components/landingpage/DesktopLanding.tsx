@@ -124,7 +124,7 @@ const DesktopLanding = () => {
                                 </div>
                                 <div className="flex-1 flex flex-col justify-center items-center">
                                     <p className="text-[28px] font-bold">100%</p>
-                                    <p className="text-[14px] mt-[4px]">00% Service Guarantee</p>
+                                    <p className="text-[14px] mt-[4px]">100% Service Guarantee</p>
                                 </div>
                             </div>
                         </div>
