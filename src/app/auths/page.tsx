@@ -57,13 +57,13 @@ function AuthContent() {
                 } else {
                     // Navigate to seclob.com on failure
                     if (typeof window !== 'undefined') {
-                        window.location.href = 'https://seclob.com'
+                        window.location.href = 'https://www.seclob.com/login'
                     }
                 }
             } catch (error) {
                 console.error('Auth error:', error)
                 if (typeof window !== 'undefined') {
-                    window.location.href = 'https://seclob.com'
+                    window.location.href = 'https://www.seclob.com/login'
                 }
             }
         }

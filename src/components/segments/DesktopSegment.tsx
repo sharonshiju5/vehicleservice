@@ -156,8 +156,19 @@ function DesktopSegment() {
       {/* Categories Slider */}
       <div className="mb-8 relative">
         {loading ? (
-          <div className="flex justify-center items-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+          <div className="pl-8">
+            <div className="flex gap-4 overflow-hidden">
+              {Array(5).fill(0).map((_, index) => (
+                <div key={index} className="flex flex-col items-center animate-pulse" style={{ width: '180px', height: '180px' }}>
+                  <div className="flex items-center justify-center" style={{ width: '180px', height: '140px' }}>
+                    <div className="w-24 h-24 bg-gray-200 rounded-lg"></div>
+                  </div>
+                  <div className="mt-2" style={{ height: '40px' }}>
+                    <div className="h-4 bg-gray-200 rounded w-32 mx-auto"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
           <div className="relative">
@@ -236,7 +247,17 @@ function DesktopSegment() {
 
       {/* subcategory Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
-        {subcategories.length > 0 ? (subcategories.map((subcat, index) => (
+        {loading ? (
+          Array(8).fill(0).map((_, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-sm flex items-center gap-3 sm:gap-4 p-3 sm:p-4 w-full max-w-xs animate-pulse">
+              <div className="bg-gray-200 rounded-xl shrink-0 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"></div>
+              <div className="flex-1">
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-3 bg-gray-200 rounded w-1/2 mt-2"></div>
+              </div>
+            </div>
+          ))
+        ) : subcategories.length > 0 ? (subcategories.map((subcat, index) => (
           <motion.div
             key={subcat.id}
             className="bg-white rounded-xl shadow-sm flex items-center gap-3 sm:gap-4 p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer w-full max-w-xs"
