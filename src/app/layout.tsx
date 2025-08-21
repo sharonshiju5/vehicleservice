@@ -8,7 +8,7 @@ export const metadata = {
   title: 'Seclob Service',
   description: 'SecLob Service Application',
   icons: {
-    icon: '/assets/logo/Layer_1 (7).png',
+    icon: '/logo/meta.png',
   },
 }
 
