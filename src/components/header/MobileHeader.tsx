@@ -32,11 +32,11 @@ function MobileHeader({ toggleCart }: MobileHeaderProps) {
   return (
     <div className=' mobile-header w-full h-[60px] bg-[#8948F9] position-fixed px-4 flex items-center justify-between '>
          {/* Location Section */}
-        <div className="flex items-center gap-2">
+        <div className="flex relative gap-1">
           <MdLocationOn className="text-white text-xl" />
           <div>
             {/* <div className="text-white text-xs">Location</div> */}
-            <div className="flex items-center gap-1 text-white font-normal text-[12px] leading-[18px] tracking-[0.03px] text-center">
+            <div className="flex absolute bottom-0 items-center gap-1 text-white font-normal text-[14px] leading-[18px] tracking-[0.03px] text-center">
              {city ?? regionName}, {country}
               
             </div>

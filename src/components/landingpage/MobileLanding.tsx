@@ -17,7 +17,7 @@ const MobileLanding = () => {
                 <input
                     type="text"
                     placeholder="Search"
-                    className="ml-2 w-full h-[40px] outline-none text-gray-600 placeholder-gray-400 text-sm"
+                    className="ml-2 w-full h-[30px] outline-none text-gray-600 placeholder-gray-400 text-sm"
                 />
             </div>
             <MobileSegment/>

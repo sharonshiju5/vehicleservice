@@ -123,8 +123,8 @@ function MobileSegment() {
                     <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
                         {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => (
                             <Link key={subcat.id} href="/servicedeatils">
-                                <div className="flex flex-col items-center justify-center p-4  rounded-lg hover:shadow">
-                                    <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[53px] h-[53px] object-contain mb-2" />
+                                <div className="flex flex-col items-center justify-center p-2  rounded-lg hover:shadow">
+                                    <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[58px] h-[58px] object-contain mb-2 rounded-lg" />
                                     <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
                                 </div>
                             </Link>
