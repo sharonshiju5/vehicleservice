@@ -49,9 +49,9 @@ function DesktopSegment() {
       const cats = await fetchCategories(searchTerm);
       if (cats && cats.length > 0) {
         setSelectedCategoryId(cats[0].id);
+        setCurrentPage(1);
+        await handleGetSubCategories(cats[0].id, '', 1);
       }
-      setCurrentPage(1);
-      await handleGetSubCategories('', '', 1);
     };
     loadData();
   }, [searchTerm])
@@ -295,7 +295,7 @@ function DesktopSegment() {
               if (currentPage > 1) {
                 const newPage = currentPage - 1;
                 setCurrentPage(newPage);
-                await handleGetSubCategories('', '', newPage);
+                await handleGetSubCategories(selectedCategoryId || '', '', newPage);
               }
             }}
             className="p-2 hover:bg-gray-100 rounded transition-colors"
@@ -314,7 +314,7 @@ function DesktopSegment() {
               if (currentPage < totalPages) {
                 const newPage = currentPage + 1;
                 setCurrentPage(newPage);
-                await handleGetSubCategories('', '', newPage);
+                await handleGetSubCategories(selectedCategoryId || '', '', newPage);
               }
             }}
             className="p-2 hover:bg-gray-100 rounded transition-colors"
