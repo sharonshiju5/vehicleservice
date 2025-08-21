@@ -9,7 +9,7 @@ function Refer() {
           <p className="text-black w-56 text-sm">
             Rewards Await – Start Referring Now!
           </p>
-          <Link href="/referral">
+          <Link href="https://www.seclob.com/referral">
             <button className="w-24 py-1.5 text-xs bg-[#782FF8] text-white rounded-lg">
               Refer now
             </button>
