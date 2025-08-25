@@ -97,40 +97,40 @@ const DesktopLanding = () => {
 
 
                 {/* Additional Content */}
-                <div className="flex items-center w-full h-[644px] ">
-                    <div className="flex h-[537px] w-[95%] mx-auto bg-white rounded-[20px] relative ">
+                <div className="flex items-center w-full h-[644px] max-lg:h-auto max-lg:py-8">
+                    <div className="flex max-lg:flex-col h-[537px] max-lg:h-auto w-[95%] mx-auto bg-white rounded-[20px] relative max-lg:p-6">
 
                         {/* Left Side: Text */}
-                        <div className="flex flex-col justify-center flex-1">
-                            <h2 className="text-[42px] font-semibold text-[#1E1E1E] leading-[42px] mb-[16px] absolute top-8">
+                        <div className="flex flex-col justify-center flex-1 max-lg:mb-6">
+                            <h2 className="text-[42px] max-lg:text-[28px] font-semibold text-[#1E1E1E] leading-[42px] max-lg:leading-[32px] mb-[16px] absolute max-lg:relative top-8 max-lg:top-0 max-lg:mb-4">
                                 Absolute Home Services: Home <br />
                                 Improvements Contractor Serving
 
                             </h2>
-                            <p className="text-[#8B8B8B] text-[18px]  max-w-[600px] absolute top-[140px]">
+                            <p className="text-[#8B8B8B] text-[18px] max-lg:text-[16px] max-w-[600px] absolute max-lg:relative top-[140px] max-lg:top-0 max-lg:mb-6">
                                 Need home maintenance, repair, or renovation help? Turn your house into a home with
                                 Absolute Home Services. We provide exceptional service, every time.
                             </p>
 
                             {/* Purple Stats Section */}
-                            <div className="flex bg-[#7829EF] text-white rounded-[16px] overflow-hidden w-full h-[120px] absolute bottom-0 ">
+                            <div className="flex bg-[#7829EF] text-white rounded-[16px] overflow-hidden w-full h-[120px] max-lg:h-[100px] absolute max-lg:relative bottom-0 max-lg:bottom-auto">
                                 <div className="flex-1 flex flex-col justify-center items-center border-r border-white/30">
-                                    <p className="text-[28px] font-bold">400+</p>
-                                    <p className="text-[14px] mt-[4px]">Verified Professionals</p>
+                                    <p className="text-[28px] max-lg:text-[20px] font-bold">400+</p>
+                                    <p className="text-[14px] max-lg:text-[12px] mt-[4px]">Verified Professionals</p>
                                 </div>
                                 <div className="flex-1 flex flex-col justify-center items-center border-r border-white/30">
-                                    <p className="text-[28px] font-bold">20+</p>
-                                    <p className="text-[14px] mt-[4px]">Rated by Real Customers</p>
+                                    <p className="text-[28px] max-lg:text-[20px] font-bold">20+</p>
+                                    <p className="text-[14px] max-lg:text-[12px] mt-[4px]">Rated by Real Customers</p>
                                 </div>
                                 <div className="flex-1 flex flex-col justify-center items-center">
-                                    <p className="text-[28px] font-bold">100%</p>
-                                    <p className="text-[14px] mt-[4px]">100% Service Guarantee</p>
+                                    <p className="text-[28px] max-lg:text-[20px] font-bold">100%</p>
+                                    <p className="text-[14px] max-lg:text-[12px] mt-[4px]">100% Service Guarantee</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right Side: Image */}
-                        <div className="flex items-end justify-end flex-1">
+                        <div className="flex items-end justify-end flex-1 max-lg:hidden">
                             <img
                                 src="/assets/landing/serving.png"  // ← Replace with your actual image path
                                 alt="Service People"
@@ -218,28 +218,28 @@ const DesktopLanding = () => {
                         </div>
 
                         {/* Main heading */}
-                        <div className="mb-12">
-                            <h1 className="text-5xl font-bold text-gray-900 leading-tight mb-4">
+                        <div className="mb-12 max-lg:mb-8">
+                            <h1 className="text-5xl max-lg:text-3xl font-bold text-gray-900 leading-tight mb-4">
                                 Home Improvement & Repair<br />
                                 Simplified
                             </h1>
-                            <p className="text-gray-500 text-lg max-w-md">
+                            <p className="text-gray-500 text-lg max-lg:text-base max-w-md">
                                 Every Seclob professional completes a rigorous multi-stage vetting process office-verified
                             </p>
                         </div>
 
                         {/* Content section with categories and images */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-lg:gap-8 items-start">
 
                             {/* Left side - Categories list */}
-                            <div className="space-y-8">
+                            <div className="space-y-8 max-lg:space-y-6">
                                 {/* Category 1 */}
-                                <div className="flex items-start gap-4">
-                                    <div className="w-[80px] h-[75px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px]" />
+                                <div className="flex items-start gap-4 max-lg:gap-3">
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
+                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
                                         <p className="text-gray-500 text-sm">
                                             Every Seclob professional completes a rigorous multi-stage vetting process office-verified
                                         </p>
@@ -247,12 +247,12 @@ const DesktopLanding = () => {
                                 </div>
 
                                 {/* Category 2 */}
-                                <div className="flex items-start gap-4">
-                                    <div className="w-[80px] h-[75px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px]" />
+                                <div className="flex items-start gap-4 max-lg:gap-3">
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
+                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
                                         <p className="text-gray-500 text-sm">
                                             Every Seclob professional completes a rigorous multi-stage vetting process office-verified
                                         </p>
@@ -260,12 +260,12 @@ const DesktopLanding = () => {
                                 </div>
 
                                 {/* Category 3 */}
-                                <div className="flex items-start gap-4">
-                                    <div className="w-[80px] h-[75px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px]" />
+                                <div className="flex items-start gap-4 max-lg:gap-3">
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
+                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
                                         <p className="text-gray-500 text-sm">
                                             Every Seclob professional completes a rigorous multi-stage vetting process office-verified
                                         </p>
@@ -273,12 +273,12 @@ const DesktopLanding = () => {
                                 </div>
 
                                 {/* Category 4 */}
-                                <div className="flex items-start gap-4">
-                                    <div className="w-[80px] h-[75px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px]" />
+                                <div className="flex items-start gap-4 max-lg:gap-3">
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
+                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
                                         <p className="text-gray-500 text-sm">
                                             Every Seclob professional completes a rigorous multi-stage vetting process office-verified
                                         </p>
@@ -287,7 +287,7 @@ const DesktopLanding = () => {
                             </div>
 
                             {/* Right side - Image collage */}
-                            <div className=" h-[600px] absolute right-0 bottom-0 ">
+                            <div className="h-[600px] absolute right-0 bottom-0 max-lg:hidden">
                                 <img src="/assets/landing/servicegrp.png" alt="Service professionals" className="w-full h-full object-cover rounded-2xl" />
                             </div>
                         </div>

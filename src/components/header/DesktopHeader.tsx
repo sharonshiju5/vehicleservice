@@ -43,17 +43,17 @@ function DesktopHeader() {
   return (
     <div className="sticky top-0 z-50 bg-white/40 backdrop-blur-md border-b border-white/30 shadow-md header-container">
       <div className="mx-auto max-w-screen-xl">
-        <div className="h-16 flex items-center justify-between px-4 sm:px-6 lg:px-20">
+        <div className="py-4 flex items-center justify-between px-2 sm:px-6 lg:px-20">
           {/* Left Logo Section */}
           <Link href="/" className="flex items-center gap-2 cursor-pointer">
             <Image
               src="/assets/logo/Layer_1 (7).png"
-              className="h-6 w-6 sm:h-8 sm:w-8"
+              className="h-9 w-9"
               alt="Seclob"
-              width={32}
-              height={32}
+              width={36}
+              height={36}
             />
-            <span className="text-base sm:text-lg font-bold text-[#3D155F]">seclob</span>
+            <span className="text-xl font-bold text-[#3D155F]">Seclob</span>
           </Link>
 
           {/* Right Side Elements */}
@@ -65,7 +65,7 @@ function DesktopHeader() {
               <span className="text-gray-700 text-sm">{city ?? regionName}, {country}</span>
               {/* <IoChevronDown className="text-gray-600 text-xs" /> */}
             </button>
-            <button className="h-8 sm:h-10 bg-[#3D155F] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]">
+            <button className="h-8 bg-[#5818BF] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]">
               <FiUser className="text-sm" />
               {loading ? (
                 <div className="hidden sm:block w-4 h-4 ml-1 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -75,7 +75,7 @@ function DesktopHeader() {
             </button>
             <button 
               onClick={() => setShowModal(true)}
-              className="hidden sm:flex h-10 bg-yellow-400 text-white px-4 rounded-lg hover:bg-yellow-500 items-center justify-center"
+              className="hidden sm:flex h-8 bg-yellow-400 text-white px-4 rounded-lg hover:bg-yellow-500 items-center justify-center"
             >
               <span className="text-sm font-medium">Download App</span>
             </button>
