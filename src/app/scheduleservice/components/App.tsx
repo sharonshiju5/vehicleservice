@@ -27,6 +27,7 @@ function App() {
 
             <div className="fixed bottom-0 left-0 right-0 bg-white w-full flex justify-center items-center p-3">
                 <button
+                onClick={() => router.push('/timecountdown')}
                     className={`w-[90%] h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 bg-[#7722FF] `}
                 >
                     Next
