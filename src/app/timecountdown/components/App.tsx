@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from "react";
 
 function App() {
-    const totalTime = 40; // 1:30 minutes (90 seconds)
+  const totalTime = 40;
   const [timeLeft, setTimeLeft] = useState(totalTime);
+  const [smoothProgress, setSmoothProgress] = useState(0);
 
   useEffect(() => {
     if (timeLeft <= 0) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => prev - 1);
     }, 1000);
-
     return () => clearInterval(timer);
   }, [timeLeft]);
+
+  useEffect(() => {
+    const smoothTimer = setInterval(() => {
+      setSmoothProgress((prev) => {
+        const target = ((totalTime - timeLeft) / totalTime) * 100;
+        return prev + (target - prev) * 0.1;
+      });
+    }, 50);
+    return () => clearInterval(smoothTimer);
+  }, [timeLeft, totalTime]);
 
   // Circle settings
   const radius = 90;
   const circumference = 2 * Math.PI * radius;
-  const progress = ((totalTime - timeLeft) / totalTime) * circumference;
+  const progress = (smoothProgress / 100) * circumference;
 
   // Timer color change logic
   let strokeColor = "url(#purpleGradient)"; // purple gradient
@@ -80,7 +90,9 @@ function App() {
               strokeDasharray={circumference}
               strokeDashoffset={circumference - progress}
               strokeLinecap="round"
-              className="transition-all duration-500 ease-linear"
+              style={{
+                transition: 'stroke-dashoffset 0.05s linear'
+              }}
             />
           </svg>
 
