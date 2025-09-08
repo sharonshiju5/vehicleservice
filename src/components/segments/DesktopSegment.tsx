@@ -247,41 +247,42 @@ function DesktopSegment() {
       </div>
 
       {/* subcategory Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
         {loading ? (
-          Array(8).fill(0).map((_, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-sm flex items-center gap-3 sm:gap-4 p-3 sm:p-4 w-full max-w-xs animate-pulse">
-              <div className="bg-gray-200 rounded-xl shrink-0 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"></div>
+          Array(6).fill(0).map((_, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-sm flex items-center gap-4 p-4 h-24 animate-pulse">
+              <div className="bg-gray-200 rounded-xl shrink-0 w-16 h-16"></div>
               <div className="flex-1">
                 <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                 <div className="h-3 bg-gray-200 rounded w-1/2 mt-2"></div>
               </div>
             </div>
           ))
-        ) : subcategories.length > 0 ? (subcategories.map((subcat, index) => (
-          <Link key={subcat.id} href="/servicedeatils"><motion.div
-            key={subcat.id}
-            className="bg-white rounded-xl shadow-sm flex items-center gap-3 sm:gap-4 p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer w-full max-w-xs"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div
-              className="bg-gray-100 rounded-xl flex items-center justify-center shrink-0 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
-            >
-              <img
-                src={subcat.image}
-                alt={subcat.name}
-                className="w-full h-full rounded-xl  object-contain"
-              />
-            </div>
-            <div className="text-xs sm:text-sm font-medium text-gray-800 leading-tight">
-              {subcat.name}
-            </div>
-          </motion.div></Link>
-        ))) : (
+        ) : subcategories.length > 0 ? (
+          subcategories.map((subcat, index) => (
+            <Link key={subcat.id} href="/servicedeatils">
+              <motion.div
+                className="bg-white rounded-xl shadow-sm flex items-center gap-4 p-4 h-24 hover:shadow-md transition-shadow cursor-pointer"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="bg-gray-100 rounded-xl flex items-center justify-center shrink-0 w-16 h-16">
+                  <img
+                    src={subcat.image}
+                    alt={subcat.name}
+                    className="w-full h-full rounded-xl object-contain"
+                  />
+                </div>
+                <div className="text-sm font-medium text-gray-800 leading-tight flex-1">
+                  {subcat.name}
+                </div>
+              </motion.div>
+            </Link>
+          ))
+        ) : (
           <div className="text-center py-8 text-gray-500 col-span-full">
             No subcategories found
           </div>
