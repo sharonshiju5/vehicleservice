@@ -61,3 +61,19 @@ export const getSubCategories = async (search: string, page: number, limit: numb
   }
 }
 
+interface PartnerSearchData {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+
+export const partnerSearch = async (data: PartnerSearchData) => {
+  try {
+    const response = await AxiosConfig.post('/v1/seclobService-no/get-in-touch/create', data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

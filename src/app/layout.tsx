@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import './globals.css'
 import DesktopHeader from '@/components/header/DesktopHeader'
 import ReduxProvider from '@/components/providers/ReduxProvider'
+import { Toaster } from 'react-hot-toast'
 
 
 export const metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({
               {children}
             </main>
           </div>
+          <Toaster position="top-right" />
         </ReduxProvider>
       </body>
     </html>

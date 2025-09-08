@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { CiSearch } from 'react-icons/ci'
 import { motion } from 'framer-motion'
+import Link from 'next/link';
 import { getCategories, getSubCategories } from '@/services/commonapi/commonApi'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -258,7 +259,7 @@ function DesktopSegment() {
             </div>
           ))
         ) : subcategories.length > 0 ? (subcategories.map((subcat, index) => (
-          <motion.div
+          <Link key={subcat.id} href="/servicedeatils"><motion.div
             key={subcat.id}
             className="bg-white rounded-xl shadow-sm flex items-center gap-3 sm:gap-4 p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer w-full max-w-xs"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -279,7 +280,7 @@ function DesktopSegment() {
             <div className="text-xs sm:text-sm font-medium text-gray-800 leading-tight">
               {subcat.name}
             </div>
-          </motion.div>
+          </motion.div></Link>
         ))) : (
           <div className="text-center py-8 text-gray-500 col-span-full">
             No subcategories found

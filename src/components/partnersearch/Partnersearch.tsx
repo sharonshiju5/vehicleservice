@@ -1,7 +1,9 @@
 'use client'
+import { partnerSearch } from '@/services/commonapi/commonApi'
 import React, { useState } from 'react'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import { showToast } from '@/utils/toast'
 
 function Partnersearch() {
   const [formData, setFormData] = useState({
@@ -15,8 +17,24 @@ function Partnersearch() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = () => {
-    console.log('Form Data:', formData)
+  const handleSubmit = async () => {
+    try {
+      const response = await partnerSearch(formData);
+      if (response.success) {
+        showToast({
+          type: 'success',
+          title: 'Success!',
+          message: response.message
+        });
+        setFormData({ name: '', email: '', phone: '', address: '' });
+      }
+    } catch (error) {
+      showToast({
+        type: 'error',
+        title: 'Error!',
+        message: 'Failed to submit form. Please try again.'
+      });
+    }
   }
   return (
      <div className="w-full min-h-[730px] lg:h-[730px] bg-[#782FF8] bg-[url('/assets/partner/bgpartner.png')] bg-cover bg-center bg-blend-overlay relative">
