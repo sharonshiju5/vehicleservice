@@ -23,7 +23,7 @@ interface Notification {
 }
 interface ScheduleServiceProps {
   selectedPlan: string;
-  subCategoryId: any;
+  subCategoryId: string;
   onBack?: () => void;
 }
 

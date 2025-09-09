@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { CiSearch } from 'react-icons/ci'
 import { motion } from 'framer-motion'
 import Link from 'next/link';
+import Image from 'next/image';
 import { getCategories, getSubCategories } from '@/services/commonapi/commonApi'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -211,11 +212,12 @@ function DesktopSegment() {
                       <div className="flex flex-col items-center cursor-pointer" style={{ width: '180px', height: '180px' }}>
                         {/* Category Image */}
                         <div className="flex items-center justify-center" style={{ width: '180px', height: '140px' }}>
-                          <img
+                          <Image
                             src={category?.image || "/assets/logo/seg.png"}
                             alt={category?.name || 'Category'}
+                            width={96}
+                            height={96}
                             className="w-24 h-24 object-cover rounded-lg"
-                            loading="lazy"
                           />
                         </div>
 
@@ -270,9 +272,11 @@ function DesktopSegment() {
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="bg-gray-100 rounded-xl flex items-center justify-center shrink-0 w-16 h-16">
-                  <img
-                    src={subcat.image}
+                  <Image
+                    src={subcat.image || "/assets/logo/seg.png"}
                     alt={subcat.name}
+                    width={64}
+                    height={64}
                     className="w-full h-full rounded-xl object-contain"
                   />
                 </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import { FaStar } from 'react-icons/fa';
 type Service = {
   id: number;
@@ -41,9 +42,11 @@ function MostBooked() {
           >
             {/* Image */}
             <div className="relative">
-              <img
+              <Image
                 src={service.img}
                 alt={service.title}
+                width={250}
+                height={160}
                 className="w-full h-40 object-cover rounded-xl"
               />
               {/* Rating Badge */}

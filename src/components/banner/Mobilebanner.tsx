@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 type Banner = {
   id: number;
   img: string;
@@ -28,9 +29,11 @@ function Mobilebanner() {
             rel="noopener noreferrer"
             className="min-w-[299px] sm:min-w-[299px] md:min-w-[299px] rounded-xl overflow-hidden shadow-md"
           >
-            <img
+            <Image
               src={banner.img}
               alt="Cashback Banner"
+              width={299}
+              height={156}
               className="w-full h-[156px] object-cover"
             />
           </a>

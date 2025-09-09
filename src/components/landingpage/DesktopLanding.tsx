@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Banner from "../banner/Banner";
 import DesktopSegment from "../segments/DesktopSegment";
 import Review from "../reviews/Review";
@@ -27,9 +28,11 @@ const DesktopLanding = () => {
     const ReviewCard = ({ profilePic = "" }) => (
         <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 mb-6 w-full max-w-sm relative overflow-hidden">
             <div className="flex items-start mb-4">
-                <img
+                <Image
                     src={profilePic || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23e5e7eb'/%3E%3Cpath d='M20 20c3.3 0 6-2.7 6-6s-2.7-6-6-6-6 2.7-6 6 2.7 6 6 6zm0 2c-4 0-12 2-12 6v2h24v-2c0-4-8-6-12-6z' fill='%23999'/%3E%3C/svg%3E"}
                     alt={reviewData.name}
+                    width={48}
+                    height={48}
                     className="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0"
                 />
                 <div className="flex-1 min-w-0">
@@ -131,9 +134,11 @@ const DesktopLanding = () => {
 
                         {/* Right Side: Image */}
                         <div className="flex items-end justify-end flex-1 max-lg:hidden">
-                            <img
-                                src="/assets/landing/serving.png"  // ← Replace with your actual image path
+                            <Image
+                                src="/assets/landing/serving.png"
                                 alt="Service People"
+                                width={500}
+                                height={490}
                                 className="h-[490px] object-contain"
                             />
                         </div>
@@ -168,7 +173,7 @@ const DesktopLanding = () => {
                         <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                             <div className="mb-4">
                                 <div className="bg-purple-600 flex items-center justify-center" style={{ width: '77px', height: '77px', gap: '10px', transform: 'rotate(0deg)', opacity: 1, padding: '16px', borderTopLeftRadius: '28px', borderBottomRightRadius: '28px' }}>
-                                    <img src="/assets/landing/tick.png" alt="Icon" className="w-12 h-12" />
+                                    <Image src="/assets/landing/tick.png" alt="Icon" width={48} height={48} className="w-12 h-12" />
                                 </div>
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-3">Verified Professionals</h3>
@@ -181,7 +186,7 @@ const DesktopLanding = () => {
                         <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                             <div className="mb-4">
                                 <div className="bg-purple-600 flex items-center justify-center" style={{ width: '77px', height: '77px', gap: '10px', transform: 'rotate(0deg)', opacity: 1, padding: '16px', borderTopLeftRadius: '28px', borderBottomRightRadius: '28px' }}>
-                                    <img src="/assets/landing/medal-star.png" alt="Icon" className="w-12 h-12" />
+                                    <Image src="/assets/landing/medal-star.png" alt="Icon" width={48} height={48} className="w-12 h-12" />
                                 </div>
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-3">Verified Professionals</h3>
@@ -194,7 +199,7 @@ const DesktopLanding = () => {
                         <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                             <div className="mb-4">
                                 <div className="bg-purple-600 flex items-center justify-center" style={{ width: '77px', height: '77px', gap: '10px', transform: 'rotate(0deg)', opacity: 1, padding: '16px', borderTopLeftRadius: '28px', borderBottomRightRadius: '28px' }}>
-                                    <img src="/assets/landing/like.png" alt="Icon" className="w-12 h-12" />
+                                    <Image src="/assets/landing/like.png" alt="Icon" width={48} height={48} className="w-12 h-12" />
                                 </div>
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-3">Verified Professionals</h3>
@@ -236,7 +241,7 @@ const DesktopLanding = () => {
                                 {/* Category 1 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
                                     <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
@@ -249,7 +254,7 @@ const DesktopLanding = () => {
                                 {/* Category 2 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
                                     <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
@@ -262,7 +267,7 @@ const DesktopLanding = () => {
                                 {/* Category 3 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
                                     <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
@@ -275,7 +280,7 @@ const DesktopLanding = () => {
                                 {/* Category 4 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
                                     <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <img src="assets/landing/verify.png" alt="Verify Icon" className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
@@ -288,7 +293,7 @@ const DesktopLanding = () => {
 
                             {/* Right side - Image collage */}
                             <div className="h-[600px] absolute right-0 bottom-0 max-lg:hidden">
-                                <img src="/assets/landing/servicegrp.png" alt="Service professionals" className="w-full h-full object-cover rounded-2xl" />
+                                <Image src="/assets/landing/servicegrp.png" alt="Service professionals" width={600} height={600} className="w-full h-full object-cover rounded-2xl" />
                             </div>
                         </div>
                     </div>
@@ -390,17 +395,13 @@ const DesktopLanding = () => {
                             <div className="flex-1 relative flex items-end justify-center pr-8 h-full">
                                 {/* Delivery person illustration */}
                                 <div className="absolute  right-8">
-                                    <img
+                                    <Image
                                         src="/assets/landing/deliveryman.png"
                                         alt="Delivery person with scooter"
+                                        width={380}
+                                        height={600}
                                         className="object-contain"
                                         style={{ height: '600px', width: '380px', transform: 'translateY(30px)' }}
-                                        onError={(e) => {
-                                            const target = e.target as HTMLImageElement;
-                                            const nextSibling = target.nextSibling as HTMLElement;
-                                            target.style.display = 'none';
-                                            if (nextSibling) nextSibling.style.display = 'block';
-                                        }}
                                     />
                                     {/* Fallback placeholder */}
                                     <div className="hidden w-64 h-64 bg-white/20 rounded-lg flex items-center justify-center">
@@ -445,16 +446,12 @@ const DesktopLanding = () => {
                         {/* Card 1 */}
                         <div className="bg-white rounded-xl overflow-hidden shadow-sm">
                             <div className="h-48 bg-gray-200 relative">
-                                <img
-                                    src="/assets/landing/blog1.png" // Replace with your actual image path
+                                <Image
+                                    src="/assets/landing/blog1.png"
                                     alt="Cooking professional"
+                                    width={400}
+                                    height={192}
                                     className="w-full h-full object-cover"
-                                    onError={(e) => {
-                                        const target = e.target as HTMLImageElement;
-                                        const nextSibling = target.nextSibling as HTMLElement;
-                                        target.style.display = 'none';
-                                        if (nextSibling) nextSibling.style.display = 'flex';
-                                    }}
                                 />
                                 {/* Fallback placeholder */}
                                 <div className="hidden absolute inset-0 bg-amber-100 flex items-center justify-center">
@@ -476,16 +473,12 @@ const DesktopLanding = () => {
                         {/* Card 2 */}
                         <div className="bg-white rounded-xl overflow-hidden shadow-sm">
                             <div className="h-48 bg-gray-200 relative">
-                                <img
-                                    src="/assets/landing/blog2.png" // Replace with your actual image path
+                                <Image
+                                    src="/assets/landing/blog2.png"
                                     alt="Cleaning professional"
+                                    width={400}
+                                    height={192}
                                     className="w-full h-full object-cover"
-                                    onError={(e) => {
-                                        const target = e.target as HTMLImageElement;
-                                        const nextSibling = target.nextSibling as HTMLElement;
-                                        target.style.display = 'none';
-                                        if (nextSibling) nextSibling.style.display = 'flex';
-                                    }}
                                 />
                                 {/* Fallback placeholder */}
                                 <div className="hidden absolute inset-0 bg-blue-100 flex items-center justify-center">
@@ -507,9 +500,11 @@ const DesktopLanding = () => {
                         {/* Card 3 */}
                         <div className="bg-white rounded-xl overflow-hidden shadow-sm">
                             <div className="h-48 bg-gray-200 relative">
-                                <img
-                                    src="/assets/landing/blog3.png" // Replace with your actual image path
+                                <Image
+                                    src="/assets/landing/blog3.png"
                                     alt="Home service professional"
+                                    width={400}
+                                    height={192}
                                     className="w-full h-full object-cover"
                                 />
                                 {/* Fallback placeholder */}

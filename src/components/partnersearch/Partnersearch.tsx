@@ -1,5 +1,6 @@
 'use client'
 import { partnerSearch } from '@/services/commonapi/commonApi'
+import Image from 'next/image'
 import React, { useState } from 'react'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
@@ -55,9 +56,11 @@ function Partnersearch() {
 
           {/* People Illustration */}
           <div className="w-full h-96 hidden lg:block absolute bottom-0 left-0">
-            <img 
+            <Image 
               src="/assets/partner/people.png" 
               alt="Two people shaking hands"
+              width={400}
+              height={384}
               className="w-full h-full object-contain"
             />
           </div>

@@ -1,5 +1,6 @@
 import Partnersearch from '@/components/partnersearch/Partnersearch'
 import Review from '@/components/reviews/Review'
+import Image from 'next/image'
 import React, { useState } from 'react'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
@@ -44,9 +45,11 @@ function Desktop() {
                         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
                             {/* Left Side - Grouped Image */}
                             <div className="flex-shrink-0">
-                                <img
+                                <Image
                                     src="/assets/partner/grppartner.png"
                                     alt="Delivery professionals and verified team"
+                                    width={505}
+                                    height={400}
                                     className="object-cover rounded-lg shadow-lg w-full max-w-[505px] h-auto"
                                 />
                             </div>
@@ -103,9 +106,11 @@ function Desktop() {
 
                             {/* Right Side - Service Grid Image */}
                             <div className="flex-shrink-0">
-                                <img
+                                <Image
                                     src="/assets/partner/grp2.png"
                                     alt="Home improvement and repair services grid"
+                                    width={633}
+                                    height={400}
                                     className=" object-cover rounded-lg shadow-lg w-full max-w-[633px] h-auto"
                                 />
                             </div>
@@ -142,9 +147,11 @@ function Desktop() {
                                             borderBottomRightRadius: '12px'
                                         }}
                                     >
-                                        <img
+                                        <Image
                                             src="/assets/partner/tick1.png"
                                             alt="Flexible Work Hours"
+                                            width={48}
+                                            height={48}
                                             className="w-12 h-12"
                                         />
                                     </div>
@@ -170,9 +177,11 @@ function Desktop() {
                                             borderBottomRightRadius: '12px'
                                         }}
                                     >
-                                        <img
+                                        <Image
                                             src="/assets/partner/tick1.png"
                                             alt="Flexible Work Hours"
+                                            width={48}
+                                            height={48}
                                             className="w-12 h-12"
                                         />
                                     </div>
@@ -198,9 +207,11 @@ function Desktop() {
                                             borderBottomRightRadius: '12px'
                                         }}
                                     >
-                                        <img
+                                        <Image
                                             src="/assets/partner/tick1.png"
                                             alt="Flexible Work Hours"
+                                            width={48}
+                                            height={48}
                                             className="w-12 h-12"
                                         />
                                     </div>
@@ -225,9 +236,11 @@ function Desktop() {
                         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                              {/* Right Side - Service Grid Image */}
                             <div className="flex-shrink-0 order-2 lg:order-1">
-                                <img
+                                <Image
                                     src="/assets/partner/grp3.png"
                                     alt="Home improvement and repair services grid"
+                                    width={633}
+                                    height={400}
                                     className=" object-cover rounded-lg shadow-lg w-full max-w-[633px] h-auto"
                                 />
                             </div>
@@ -353,9 +366,11 @@ function Desktop() {
                             <div className="flex-1 relative flex items-end justify-center pr-4 sm:pr-6 lg:pr-8 h-full">
                                 {/* Delivery person illustration */}
                                 <div className="absolute right-4 sm:right-6 lg:right-8">
-                                    <img
+                                    <Image
                                         src="/assets/partner/delivery.png"
                                         alt="Delivery person with scooter"
+                                        width={410}
+                                        height={650}
                                         className="object-contain h-[350px] w-[220px] sm:h-[500px] sm:w-[315px] lg:h-[650px] lg:w-[410px]"
                                         style={{ transform: 'translateY(15px)' }}
                                     />

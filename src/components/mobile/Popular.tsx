@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 type Contractor = {
   id: number;
   category: string;
@@ -62,9 +63,11 @@ function Popular() {
           >
             {/* Image with Sponsor Badge */}
             <div className="relative">
-              <img
+              <Image
                 src={c.img}
                 alt={c.name}
+                width={200}
+                height={128}
                 className="w-full h-32 object-cover"
               />
               {c.sponsor && (

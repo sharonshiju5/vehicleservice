@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -85,9 +86,11 @@ const RecentlyUsed = () => {
                   </div>
 
                   <div className="w-1/2 flex justify-end">
-                    <img
+                    <Image
                       src={card.img}
                       alt={card.title}
+                      width={144}
+                      height={200}
                       className="w-32 md:w-36 h-auto"
                     />
                   </div>

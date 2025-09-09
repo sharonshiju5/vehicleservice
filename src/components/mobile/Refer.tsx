@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import React from 'react'
 
 function Refer() {
@@ -15,8 +16,10 @@ function Refer() {
             </button>
           </Link>
         </div>
-        <img
+        <Image
           src="/assets/landing/gift3d.webp"
+          width={96}
+          height={96}
           className="w-24 absolute -bottom-8 -right-3"
           alt="Referral Illustration"
         />

@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 type Service = {
   id: number;
   name: string;
@@ -48,9 +49,11 @@ function Services() {
             key={s.id}
             className="flex flex-col items-center justify-center  rounded-xl p-2 hover:shadow-md transition"
           >
-            <img
+            <Image
               src={s.img}
               alt={s.name}
+              width={77}
+              height={77}
               className="object-cover mb-3 "
               style={{ width: '77px', height: '77px' }}
             />

@@ -2,6 +2,7 @@ import Banner from '@/components/banner/Banner'
 import DesktopHeader from '@/components/header/DesktopHeader'
 import DesktopSegment from '@/components/segments/DesktopSegment'
 import RecentlyUsed from '@/components/segments/RecentlyUsed'
+import Image from 'next/image'
 import React from 'react'
 
 function Desktop() {
@@ -28,9 +29,11 @@ function Desktop() {
 
                         {/* Right Side: Image */}
                         <div className="flex items-end justify-end flex-1">
-                            <img
+                            <Image
                                 src="/assets/landing/serving.png"
                                 alt="Service People"
+                                width={400}
+                                height={340}
                                 className="h-[340px] object-contain"
                             />
                         </div>

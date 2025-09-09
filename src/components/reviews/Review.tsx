@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
+import Image from 'next/image'
 
 function Review() {
     const [animationDuration, setAnimationDuration] = useState('20s');
@@ -15,9 +16,11 @@ function Review() {
         const ReviewCard = ({ profilePic = "" }) => (
             <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 mb-6 w-full max-w-sm relative overflow-hidden">
                 <div className="flex items-start mb-4">
-                    <img
+                    <Image
                         src={profilePic || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23e5e7eb'/%3E%3Cpath d='M20 20c3.3 0 6-2.7 6-6s-2.7-6-6-6-6 2.7-6 6 2.7 6 6 6zm0 2c-4 0-12 2-12 6v2h24v-2c0-4-8-6-12-6z' fill='%23999'/%3E%3C/svg%3E"}
                         alt={reviewData.name}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">

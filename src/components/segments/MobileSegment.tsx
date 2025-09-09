@@ -1,5 +1,6 @@
 import { getCategories, getSubCategories } from '@/services/commonapi/commonApi';
 import Link from 'next/link';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import { CiShop } from "react-icons/ci";
 import { CategorySkeleton, SubcategorySkeleton } from '@/components/ui/SkeletonLoader';
@@ -124,7 +125,7 @@ function MobileSegment() {
                         {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => (
                             <Link key={subcat.id} href={`/servicedeatils/${subcat.id}`}>
                                 <div className="flex flex-col items-center justify-center p-2  rounded-lg hover:shadow">
-                                    <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[58px] h-[58px] object-contain mb-2 rounded-lg" />
+                                    <Image src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} width={58} height={58} className="w-[58px] h-[58px] object-contain mb-2 rounded-lg" />
                                     <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
                                 </div>
                             </Link>

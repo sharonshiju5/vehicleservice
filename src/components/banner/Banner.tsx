@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Slider from 'react-slick';
 import { getBanners } from '@/services/commonapi/commonApi';
 import 'slick-carousel/slick/slick.css';
@@ -111,17 +112,21 @@ const Banner: React.FC<BannerProps> = ({
                   rel={openInNewTab ? 'noopener noreferrer' : undefined}
                   className="block w-full h-full rounded-lg"
                 >
-                  <img
+                  <Image
                     src={src}
                     alt={`Banner ${index + 1}`}
+                    width={800}
+                    height={264}
                     className="w-full h-full object-cover cursor-pointer rounded-lg"
                     style={{ height: '264px' }}
                   />
                 </a>
               ) : (
-                <img 
+                <Image 
                   src={src} 
                   alt={`Banner ${index + 1}`} 
+                  width={800}
+                  height={264}
                   className="w-full h-full object-cover" 
                   style={{ height: '264px' }}
                 />
