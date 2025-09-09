@@ -179,7 +179,12 @@ function Desktop({ id }: DesktopProps) {
               <div className="bg-white w-full flex justify-center items-center p-3 rounded-bl-3xl rounded-br-3xl">
                 <button
                   disabled={!selectedPlan}
-                  onClick={() => selectedPlan && setShowSchedule(true)}
+                  onClick={() => {
+                    if (selectedPlan) {
+                      console.log('Selected Plan ID:', selectedPlan);
+                      setShowSchedule(true);
+                    }
+                  }}
                   className={`w-[90%] h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 ${selectedPlan ? 'bg-[#7722FF]' : 'bg-gray-400 cursor-not-allowed'}`}
                 >
                   Next
