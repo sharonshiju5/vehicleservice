@@ -1,19 +1,104 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import AddressCard from '../mobile/AddressCard'
 import DatePickerCard from '../mobile/DatePickerCard'
 import TimePicker from '../mobile/TimePicker'
 import IssueDescribe from '../mobile/IssueDescribe'
+import SocketService from '@/services/socketio/SocketService'
+import config from '@/services/socketio/config'
+import { requestProvider } from '@/services/commonapi/commonApi'
+
+interface AcceptedRequest {
+  providerId: string;
+  requestId: string;
+  timestamp: string;
+}
+
+interface Notification {
+  type: string;
+  providerId: string;
+  requestId: string;
+  timestamp: Date;
+}
 interface ScheduleServiceProps {
   selectedPlan: string;
+  subCategoryId: string;
   onBack?: () => void;
 }
 
-function ScheduleService({ selectedPlan, onBack }: ScheduleServiceProps) {
+function ScheduleService({ selectedPlan, onBack,subCategoryId }: ScheduleServiceProps) {
   const router = useRouter()
+  const planId=selectedPlan;
+  
+  const [bookingDate, setBookingDate] = React.useState('');
+  const [bookingTime, setBookingTime] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [connectionStatus, setConnectionStatus] = React.useState('Disconnected');
+  const [acceptedRequests, setAcceptedRequests] = React.useState<AcceptedRequest[]>([]);
+  const [notifications, setNotifications] = React.useState<Notification[]>([]);
+
+
+  const isFormValid = bookingDate && bookingTime && description.trim();
+
+  const handleRequestProvider=async()=>{
+    if (!isFormValid) return;
+    
+    const data={
+      planId,
+      subCategoryId,
+      bookingDate,
+      bookingTime,
+      description
+    };
+    try {
+        const res= await requestProvider(data);
+        console.log('Request Provider Response:', res);
+        if (res.success) {
+            router.push('/timecountdown');
+        }
+    } catch (error) {
+        
+    }
+  }
+  
+
+  useEffect(() => {
+    // Connect to Socket.IO server
+    console.log('App.js config.SOCKET_URL:', config.SOCKET_URL);
+    const socket = SocketService.connect(config.SOCKET_URL);
+
+     socket.on('connect', () => {
+      console.log('Connected');
+      setConnectionStatus('Connected');
+});
+
+socket.on('disconnect', () => {
+    console.log('Disconnected');
+  setConnectionStatus('Disconnected');
+});
+
+
+// Listen for request acceptance
+socket.on('requestAccepted', (data: AcceptedRequest) => {
+  setAcceptedRequests(prev => [...prev, data]);
+  const notification = {
+    type: 'Request Accepted',
+    providerId: data.providerId,
+    requestId: data.requestId,
+    timestamp: new Date(data.timestamp)
+  };
+  setNotifications(prev => [notification, ...prev]);
+});
+
+return () => {
+  SocketService.disconnect();
+};
+  }, []);
   
   console.log('ScheduleService - Selected Plan ID:', selectedPlan);
+  
+
   
     return (
         <div className="bg-white w-full h-full flex flex-col">
@@ -27,16 +112,19 @@ function ScheduleService({ selectedPlan, onBack }: ScheduleServiceProps) {
             <div className="flex-1 overflow-y-auto p-3">
                 <div className="space-y-4 pb-20">
                     <AddressCard />
-                    <DatePickerCard />
-                    <TimePicker />
-                    <IssueDescribe />
+                    <DatePickerCard onDateChange={setBookingDate} />
+                    <TimePicker onTimeChange={setBookingTime} />
+                    <IssueDescribe onDescriptionChange={setDescription} />
                 </div>
             </div>
 
             <div className="bg-white border-t border-gray-100 p-3">
                 <button
-                    onClick={() => router.push('/timecountdown')}
-                    className={`w-full h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 bg-[#7722FF]`}
+                    onClick={handleRequestProvider}
+                    disabled={!isFormValid}
+                    className={`w-full h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 ${
+                        isFormValid ? 'bg-[#7722FF] hover:bg-[#6611EE]' : 'bg-gray-300 cursor-not-allowed'
+                    }`}
                 >
                     Next
                 </button>

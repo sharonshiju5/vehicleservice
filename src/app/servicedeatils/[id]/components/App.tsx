@@ -79,7 +79,7 @@ function App({ id }: AppProps) {
 
             {/* Content that scrolls over slider */}
             <div className="relative z-20 mt-[363px]">
-                <ServiceContent/>
+            <ServiceContent id={id}/>
             </div>
         </div>
     )

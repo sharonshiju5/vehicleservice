@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { AiOutlineCamera, AiOutlineClose } from 'react-icons/ai'
 
-function IssueDescribe() {
+interface IssueDescribeProps {
+  onDescriptionChange?: (description: string) => void;
+}
+
+function IssueDescribe({ onDescriptionChange }: IssueDescribeProps) {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+    const [description, setDescription] = useState('')
 
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -19,6 +24,11 @@ function IssueDescribe() {
             <h2 className="font-medium mb-3">Describe the issue</h2>
 
             <textarea
+                value={description}
+                onChange={(e) => {
+                    setDescription(e.target.value);
+                    onDescriptionChange?.(e.target.value);
+                }}
                 className="w-full h-[110px] p-3 border border-gray-100 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-700"
                 placeholder="Describe the issue in detail..."
             ></textarea>

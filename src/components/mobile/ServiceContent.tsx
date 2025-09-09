@@ -20,9 +20,13 @@ type PackageType = {
   percentage: { inr: number; usd: number };
   type: string;
 };
+interface ScheduleServiceProps {
 
+  id: string;
+  
+}
 
-function ServiceContent() {
+function ServiceContent({ id }: ScheduleServiceProps) {
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
@@ -82,6 +86,7 @@ function ServiceContent() {
         <div className="fixed inset-0 z-50 bg-white">
           <ScheduleService 
             selectedPlan={selectedPlan!} 
+            subCategoryId={id} 
             onBack={() => setShowSchedule(false)} 
           />
         </div>

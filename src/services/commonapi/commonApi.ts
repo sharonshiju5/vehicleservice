@@ -87,3 +87,20 @@ export const getPackages =async()=>{
     throw error;
   }
 }
+
+interface requestProviderData {
+  subCategoryId: string;
+  planId: string;
+  description: string;
+  bookingTime: string;
+  bookingDate: string;
+}
+export const requestProvider =async(data:requestProviderData)=>{
+  try {
+    const response = await AxiosConfig.post('/v1/seclobServiceCustomer/service/req',data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

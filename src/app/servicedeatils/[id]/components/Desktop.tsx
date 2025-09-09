@@ -138,6 +138,7 @@ function Desktop({ id }: DesktopProps) {
                 <ScheduleService 
                   selectedPlan={selectedPlan!} 
                   onBack={() => setShowSchedule(false)} 
+                  subCategoryId={id}
                 />
               ) : (
               <>

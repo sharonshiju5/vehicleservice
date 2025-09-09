@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const DatePickerCard: React.FC = () => {
+interface DatePickerCardProps {
+  onDateChange?: (date: string) => void;
+}
+
+const DatePickerCard: React.FC<DatePickerCardProps> = ({ onDateChange }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
 
@@ -73,7 +77,10 @@ const DatePickerCard: React.FC = () => {
               return (
                 <button
                   key={index}
-                  onClick={() => setSelectedDate(day)}
+                  onClick={() => {
+                    setSelectedDate(day);
+                    onDateChange?.(format(day, "yyyy-MM-dd"));
+                  }}
                   className={`flex flex-col items-center justify-center min-w-[56px] h-14 rounded-lg transition whitespace-nowrap
                     ${isSelected ? "bg-purple-600 text-white" : "text-gray-800 hover:bg-purple-100"}`}
                 >

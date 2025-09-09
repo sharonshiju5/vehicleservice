@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
 
-function TimePicker() {
+interface TimePickerProps {
+  onTimeChange?: (time: string) => void;
+}
+
+function TimePicker({ onTimeChange }: TimePickerProps) {
     const times = [
   "09:00 AM", "09:30 AM",
   "10:00 AM", "10:30 AM",
@@ -42,7 +46,10 @@ function TimePicker() {
                     {currentTimes.map((time) => (
                         <button 
                             key={time} 
-                            onClick={() => setSelectedTime(time)}
+                            onClick={() => {
+                                setSelectedTime(time);
+                                onTimeChange?.(time);
+                            }}
                             className={`py-2 px-3 rounded-lg text-sm transition ${
                                 selectedTime === time 
                                     ? 'bg-purple-600 text-white' 
