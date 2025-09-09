@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { MdLocationOn, MdStar } from 'react-icons/md'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import MobileReview from '../reviews/MobileReview'
 import MostPopularServices from './MostPopularServices'
 import Servicedeatilbanner from './Servicedeatilbanner'
@@ -20,13 +20,8 @@ type PackageType = {
   percentage: { inr: number; usd: number };
   type: string;
 };
-interface ScheduleServiceProps {
-
-  id: string;
-  
-}
-
-function ServiceContent({ id }: ScheduleServiceProps) {
+function ServiceContent() {
+  const { id } = useParams<{ id: string }>()
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
