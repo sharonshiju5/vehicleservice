@@ -41,7 +41,7 @@ const createAxiosInstance = (): AxiosInstance => {
         config.headers["userLon"] = encodeHeader(
           location.coordinates.longitude?.toString() ?? ""
         );
-        } catch (error) {}
+        } catch (_error) {}
       }
 
       return config;
