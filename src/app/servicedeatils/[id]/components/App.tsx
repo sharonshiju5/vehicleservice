@@ -15,7 +15,11 @@ const images = [
     "/assets/banner/slider.png",
 ];
 
-function App() {
+interface AppProps {
+  id: string;
+}
+
+function App({ id }: AppProps) {
     const router = useRouter()
     const [current, setCurrent] = useState(0);
 

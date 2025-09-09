@@ -77,3 +77,13 @@ export const partnerSearch = async (data: PartnerSearchData) => {
     throw error;
   }
 }
+ 
+export const getPackages =async()=>{
+  try {
+    const response = await AxiosConfig.get('/v1/seclobServiceCustomer/package/list');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

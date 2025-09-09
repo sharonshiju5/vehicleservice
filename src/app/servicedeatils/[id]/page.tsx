@@ -3,8 +3,19 @@ import React, { useState, useEffect } from 'react'
 import App from './components/App'
 import Desktop from './components/Desktop'
 
-function Page() {
+interface PageProps {
+  params: Promise<{ id: string }>
+}
+
+function Page({ params }: PageProps) {
   const [isMobile, setIsMobile] = useState(false)
+  const [id, setId] = useState<string>('')
+  
+  useEffect(() => {
+    params.then(resolvedParams => {
+      setId(resolvedParams.id)
+    })
+  }, [params])
         
   useEffect(() => {
     const checkMobile = () => {
@@ -19,7 +30,7 @@ function Page() {
   
   return (
     <div>
-      {isMobile ? <App /> : <Desktop />}
+      {isMobile ? <App id={id} /> : <Desktop id={id} />}
     </div>
   )
 }

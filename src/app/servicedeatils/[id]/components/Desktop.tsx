@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import Slider from "react-slick";
 import { MdLocationOn, MdStar } from 'react-icons/md';
@@ -8,11 +8,25 @@ import MostPopular from '@/components/desktop/MostPopular';
 import Faq from '@/components/desktop/Faq';
 import ScheduleService from '@/components/desktop/ScheduleService';
 import { useRouter } from 'next/navigation'
+import { getPackages } from '@/services/commonapi/commonApi';
 
 type Banner = {
   id: number;
   src: string;
   alt: string;
+};
+
+type PackageType = {
+  id: string;
+  tittle: string;
+  description: string;
+  durationType: string;
+  features: string[];
+  amount: { inr: number; usd: number };
+  offerPrice: { inr: number; usd: number };
+  gst: { inr: number; usd: number };
+  percentage: { inr: number; usd: number };
+  type: string;
 };
 
 const banners: Banner[] = [
@@ -32,9 +46,16 @@ const banners: Banner[] = [
     alt: "Cashback Banner",
   },
 ];
-function Desktop() {
+
+
+interface DesktopProps {
+  id: string;
+}
+
+function Desktop({ id }: DesktopProps) {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
+  const [packages, setPackages] = useState<PackageType[]>([])
   const router = useRouter()
 
   const settings = {
@@ -47,6 +68,19 @@ function Desktop() {
     slidesToScroll: 1,
     arrows: true,
   };
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const res = await getPackages();
+        if (res?.success && res?.data?.packages) {
+          setPackages(res.data.packages);
+        }
+      } catch (error) {
+        console.error("Error fetching packages:", error);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   return (
     <div className='w-full mt-2'>
@@ -107,85 +141,41 @@ function Desktop() {
                 />
               ) : (
               <>
-              <div className="bg-white p-3  rounded-tl-3xl rounded-tr-3xl w-full h-full pt-6">
-                <p className='text-[16px] leading-[24px] font-medium text-left tracking-[0px] pb-1'>Select plan</p>
-                {/* bidding plan */}
-                <div
-                  onClick={() => setSelectedPlan('bidding')}
-                  className={`w-full h-[140px] mt-2 border rounded-xl p-3 cursor-pointer transition-all duration-300 
-                 ${selectedPlan === 'bidding' ? "border-purple-500 shadow-md" : "border-gray-200"}`}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h2 className={`font-medium text-sm transition-colors duration-300 ${selectedPlan === 'bidding' ? "text-purple-500" : "text-gray-800"}`}>
-                      Bidding Plan
-                    </h2>
-                    <span className={`text-white text-xs w-[50px] text-center px-2 py-1 rounded-full transition-colors duration-300 bg-[#8948F9]`}>
-                      1/4
-                    </span>
-                  </div>
-                  <ul className="space-y-1 text-gray-600 text-sm">
-                    <li className="flex items-center gap-2">
-                      <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'bidding' ? "text-purple-500" : ""}`}>•</span>
-                      <span className={selectedPlan === 'bidding' ? "text-purple-500" : ""}>Monthly performance report</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'bidding' ? "text-purple-500" : ""}`}>•</span>
-                      <span className={selectedPlan === 'bidding' ? "text-purple-500" : ""}>Basic profile customization</span>
-                    </li>
-                  </ul>
-                </div>
-                {/* normal plan */}
-                <div
-                  onClick={() => setSelectedPlan('normal')}
-                  className={`w-full h-[140px] mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
-                 ${selectedPlan === 'normal' ? "border-purple-500 shadow-md" : "border-gray-200"}`}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h2 className={`font-medium text-sm transition-colors duration-300 ${selectedPlan === 'normal' ? "text-purple-500" : "text-gray-800"}`}>
-                      Normal plan
-                    </h2>
-                    <span className={`text-white text-xs px-2 w-[50px] text-center py-1 rounded-full transition-colors duration-300 bg-[#8948F9]`}>
-                      free
-                    </span>
-                  </div>
-                  <ul className="space-y-1 text-gray-600 text-sm">
-                    <li className="flex items-center gap-2">
-                      <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'normal' ? "text-purple-500" : ""}`}>•</span>
-                      <span className={selectedPlan === 'normal' ? "text-purple-500" : ""}>Monthly performance report</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'normal' ? "text-purple-500" : ""}`}>•</span>
-                      <span className={selectedPlan === 'normal' ? "text-purple-500" : ""}>Basic profile customization</span>
-                    </li>
-                  </ul>
-                </div>
-                {/* premium plan */}
-                <div
-                  onClick={() => setSelectedPlan('premium')}
-                  className={`w-full h-[140px] mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
-                 ${selectedPlan === 'premium' ? "border-purple-500 shadow-md" : "border-gray-200"}`}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h2 className={`font-medium text-sm transition-colors duration-300 ${selectedPlan === 'premium' ? "text-purple-500" : "text-gray-800"}`}>
-                      Premium plan
-                    </h2>
-                    <span className={`text-white text-xs px-2 w-[70px] text-center py-1 rounded-full transition-colors duration-300 bg-[#8948F9]`}>
-                      Pro plan
-                    </span>
-                  </div>
-                  <ul className="space-y-1 text-gray-600 text-sm">
-                    <li className="flex items-center gap-2">
-                      <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'premium' ? "text-purple-500" : ""}`}>•</span>
-                      <span className={selectedPlan === 'premium' ? "text-purple-500" : ""}>Monthly performance report</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'premium' ? "text-purple-500" : ""}`}>•</span>
-                      <span className={selectedPlan === 'premium' ? "text-purple-500" : ""}>Basic profile customization</span>
-                    </li>
-                  </ul>
-                </div>
+              <div className="bg-white p-3 rounded-t-3xl w-full h-full pt-6">
+                  <p className='text-[16px] font-medium pb-1'>Select plan</p>
 
-              </div>
+                  {packages.length > 0 ? (
+                    packages.map((pkg) => (
+                      <div
+                        key={pkg.id}
+                        onClick={() => setSelectedPlan(pkg.id)}
+                        className={`w-full mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
+                          ${selectedPlan === pkg.id ? "border-purple-500 shadow-md" : "border-gray-200"}`}
+                      >
+                        <div className="flex justify-between items-center mb-2">
+                          <h2 className={`font-medium text-sm ${selectedPlan === pkg.id ? "text-purple-500" : "text-gray-800"}`}>
+                            {pkg.tittle}
+                          </h2>
+                          <span className="text-white text-xs px-2 py-1 rounded-full bg-[#8948F9]">
+                            ₹{pkg.offerPrice.inr} / {pkg.durationType}
+                          </span>
+                        </div>
+                        <ul className="space-y-1 text-gray-600 text-sm">
+                          {pkg.features.map((feature, i) => (
+                            <li key={i} className="flex items-center gap-2">
+                              <span className={`text-sm ${selectedPlan === pkg.id ? "text-purple-500" : ""}`}>•</span>
+                              <span className={selectedPlan === pkg.id ? "text-purple-500" : ""}>
+                                {feature}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-400 text-sm">Loading plans...</p>
+                  )}
+                </div>
               <div className="bg-white w-full flex justify-center items-center p-3 rounded-bl-3xl rounded-br-3xl">
                 <button
                   disabled={!selectedPlan}

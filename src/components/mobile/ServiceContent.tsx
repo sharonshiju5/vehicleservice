@@ -1,16 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { MdLocationOn, MdStar } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
 import MobileReview from '../reviews/MobileReview'
 import MostPopularServices from './MostPopularServices'
 import Servicedeatilbanner from './Servicedeatilbanner'
 import Faq from './Faq'
+import { getPackages } from '@/services/commonapi/commonApi'
+import ScheduleService from '../desktop/ScheduleService'
+
+type PackageType = {
+  id: string;
+  tittle: string;
+  description: string;
+  durationType: string;
+  features: string[];
+  amount: { inr: number; usd: number };
+  offerPrice: { inr: number; usd: number };
+  gst: { inr: number; usd: number };
+  percentage: { inr: number; usd: number };
+  type: string;
+};
 
 
 function ServiceContent() {
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+  const [showSchedule, setShowSchedule] = useState(false)
+  const [packages, setPackages] = useState<PackageType[]>([])
   const router = useRouter()
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const res = await getPackages();
+        if (res?.success && res?.data?.packages) {
+          setPackages(res.data.packages);
+        }
+      } catch (error) {
+        console.error("Error fetching packages:", error);
+      }
+    };
+    fetchPackages();
+  }, []);
   return (
     <div>
       <div className="flex-1 px-4 py-6 bg-white rounded-t-3xl">
@@ -47,96 +78,61 @@ function ServiceContent() {
         </button>
       </div>
 
-      {showDropdown && (
+      {showSchedule && (
+        <div className="fixed inset-0 z-50 bg-white">
+          <ScheduleService 
+            selectedPlan={selectedPlan!} 
+            onBack={() => setShowSchedule(false)} 
+          />
+        </div>
+      )}
+
+      {showDropdown && !showSchedule && (
         <>
           <div
             className="fixed inset-0 z-40 backdrop-blur-sm"
             onClick={() => setShowDropdown(false)}
           />
-          <div className="fixed bottom-0 left-0 w-full z-50 animate-slide-up  ">
-            <div className="bg-white   p-3 shadow-lg rounded-tl-3xl rounded-tr-3xl pt-6">
+          <div className="fixed bottom-0 left-0 w-full z-50 animate-slide-up">
+            <div className="bg-white p-3 shadow-lg rounded-tl-3xl rounded-tr-3xl pt-6">
               <p className='text-[16px] leading-[24px] font-medium text-left tracking-[0px] pb-1'>Select plan</p>
-              {/* bidding plan */}
-              <div
-                onClick={() => setSelectedPlan('bidding')}
-                className={`w-90 mt-2 border rounded-xl p-3 cursor-pointer transition-all duration-300 
-                 ${selectedPlan === 'bidding' ? "border-purple-500 shadow-md" : "border-gray-200"}`}
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className={`font-medium text-sm transition-colors duration-300 ${selectedPlan === 'bidding' ? "text-purple-500" : "text-gray-800"}`}>
-                    Bidding Plan
-                  </h2>
-                  <span className={`text-white text-xs w-[50px] text-center px-2 py-1 rounded-full transition-colors duration-300 bg-[#8948F9]`}>
-                    1/4
-                  </span>
-                </div>
-                <ul className="space-y-1 text-gray-600 text-sm">
-                  <li className="flex items-center gap-2">
-                    <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'bidding' ? "text-purple-500" : ""}`}>•</span>
-                    <span className={selectedPlan === 'bidding' ? "text-purple-500" : ""}>Monthly performance report</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'bidding' ? "text-purple-500" : ""}`}>•</span>
-                    <span className={selectedPlan === 'bidding' ? "text-purple-500" : ""}>Basic profile customization</span>
-                  </li>
-                </ul>
-              </div>
-              {/* normal plan */}
-              <div
-                onClick={() => setSelectedPlan('normal')}
-                className={`w-90 mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
-                 ${selectedPlan === 'normal' ? "border-purple-500 shadow-md" : "border-gray-200"}`}
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className={`font-medium text-sm transition-colors duration-300 ${selectedPlan === 'normal' ? "text-purple-500" : "text-gray-800"}`}>
-                    Normal plan
-                  </h2>
-                  <span className={`text-white text-xs px-2 w-[50px] text-center py-1 rounded-full transition-colors duration-300 bg-[#8948F9]`}>
-                    free
-                  </span>
-                </div>
-                <ul className="space-y-1 text-gray-600 text-sm">
-                  <li className="flex items-center gap-2">
-                    <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'normal' ? "text-purple-500" : ""}`}>•</span>
-                    <span className={selectedPlan === 'normal' ? "text-purple-500" : ""}>Monthly performance report</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'normal' ? "text-purple-500" : ""}`}>•</span>
-                    <span className={selectedPlan === 'normal' ? "text-purple-500" : ""}>Basic profile customization</span>
-                  </li>
-                </ul>
-              </div>
-              {/* premium plan */}
-              <div
-                onClick={() => setSelectedPlan('premium')}
-                className={`w-90 mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
-                 ${selectedPlan === 'premium' ? "border-purple-500 shadow-md" : "border-gray-200"}`}
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className={`font-medium text-sm transition-colors duration-300 ${selectedPlan === 'premium' ? "text-purple-500" : "text-gray-800"}`}>
-                    Premium plan
-                  </h2>
-                  <span className={`text-white text-xs px-2 w-[70px] text-center py-1 rounded-full transition-colors duration-300 bg-[#8948F9]`}>
-                    Pro plan
-                  </span>
-                </div>
-                <ul className="space-y-1 text-gray-600 text-sm">
-                  <li className="flex items-center gap-2">
-                    <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'premium' ? "text-purple-500" : ""}`}>•</span>
-                    <span className={selectedPlan === 'premium' ? "text-purple-500" : ""}>Monthly performance report</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className={`text-sm transition-colors duration-300 ${selectedPlan === 'premium' ? "text-purple-500" : ""}`}>•</span>
-                    <span className={selectedPlan === 'premium' ? "text-purple-500" : ""}>Basic profile customization</span>
-                  </li>
-                </ul>
-              </div>
-
+              
+              {packages.length > 0 ? (
+                packages.map((pkg) => (
+                  <div
+                    key={pkg.id}
+                    onClick={() => setSelectedPlan(pkg.id)}
+                    className={`w-90 mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
+                     ${selectedPlan === pkg.id ? "border-purple-500 shadow-md" : "border-gray-200"}`}
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <h2 className={`font-medium text-sm transition-colors duration-300 ${selectedPlan === pkg.id ? "text-purple-500" : "text-gray-800"}`}>
+                        {pkg.tittle}
+                      </h2>
+                      <span className="text-white text-xs px-2 py-1 rounded-full bg-[#8948F9]">
+                        ₹{pkg.offerPrice.inr} / {pkg.durationType}
+                      </span>
+                    </div>
+                    <ul className="space-y-1 text-gray-600 text-sm">
+                      {pkg.features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <span className={`text-sm transition-colors duration-300 ${selectedPlan === pkg.id ? "text-purple-500" : ""}`}>•</span>
+                          <span className={selectedPlan === pkg.id ? "text-purple-500" : ""}>
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-400 text-sm">Loading plans...</p>
+              )}
             </div>
             <div className="bg-white w-full flex justify-center items-center p-3">
               <button 
                 disabled={!selectedPlan}
-                onClick={() => selectedPlan && router.push('/scheduleservice')}
+                onClick={() => selectedPlan && setShowSchedule(true)}
                 className={`w-[90%] h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 ${selectedPlan ? 'bg-[#7722FF]' : 'bg-gray-400 cursor-not-allowed'}`}
               >
                 Next
