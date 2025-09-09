@@ -136,9 +136,10 @@ function Desktop({ id }: DesktopProps) {
             <div className="w-full h-fit  mx-auto sticky top-20 p-2">
               {showSchedule ? (
                 <ScheduleService 
-                  selectedPlan={selectedPlan!} 
+                  selectedPlan={selectedPlan!}
+                  subCategoryId={id} 
                   onBack={() => setShowSchedule(false)} 
-                  subCategoryId={id}
+                  
                 />
               ) : (
               <>
