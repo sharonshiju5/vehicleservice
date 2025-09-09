@@ -4,12 +4,18 @@ import App from './components/App'
 import DeskTop from './components/Desktop'
 
 interface PageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 function Page({ params }: PageProps) {
   const [isMobile, setIsMobile] = useState(false)
-  const { id } = params
+  const [id, setId] = useState<string>('')
+  
+  useEffect(() => {
+    params.then(resolvedParams => {
+      setId(resolvedParams.id)
+    })
+  }, [params])
         
   useEffect(() => {
     const checkMobile = () => {
