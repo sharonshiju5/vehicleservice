@@ -148,7 +148,7 @@ function Partnersearch() {
               onClick={handleSubmit}
               className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 shadow-lg mt-6"
             >
-              Save
+              Get in touch
             </button>
           </div>
         </div>

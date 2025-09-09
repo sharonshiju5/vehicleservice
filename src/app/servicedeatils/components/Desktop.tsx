@@ -6,6 +6,7 @@ import MobileReview from '@/components/reviews/MobileReview';
 import DesktopReview from '@/components/reviews/DesktopReview';
 import MostPopular from '@/components/desktop/MostPopular';
 import Faq from '@/components/desktop/Faq';
+import ScheduleService from '@/components/desktop/ScheduleService';
 import { useRouter } from 'next/navigation'
 
 type Banner = {
@@ -33,6 +34,7 @@ const banners: Banner[] = [
 ];
 function Desktop() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+  const [showSchedule, setShowSchedule] = useState(false)
   const router = useRouter()
 
   const settings = {
@@ -98,6 +100,13 @@ function Desktop() {
           </div>
           <div className="w-[50%] ">
             <div className="w-full h-fit  mx-auto sticky top-20 p-2">
+              {showSchedule ? (
+                <ScheduleService 
+                  selectedPlan={selectedPlan!} 
+                  onBack={() => setShowSchedule(false)} 
+                />
+              ) : (
+              <>
               <div className="bg-white p-3  rounded-tl-3xl rounded-tr-3xl w-full h-full pt-6">
                 <p className='text-[16px] leading-[24px] font-medium text-left tracking-[0px] pb-1'>Select plan</p>
                 {/* bidding plan */}
@@ -180,12 +189,13 @@ function Desktop() {
               <div className="bg-white w-full flex justify-center items-center p-3 rounded-bl-3xl rounded-br-3xl">
                 <button
                   disabled={!selectedPlan}
-                  onClick={() => selectedPlan && router.push('/scheduleservice')}
+                  onClick={() => selectedPlan && setShowSchedule(true)}
                   className={`w-[90%] h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 ${selectedPlan ? 'bg-[#7722FF]' : 'bg-gray-400 cursor-not-allowed'}`}
                 >
                   Next
                 </button>
               </div>
+              </>)}
             </div>
           </div>
         </div>
