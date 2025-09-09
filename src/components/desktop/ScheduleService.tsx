@@ -27,7 +27,7 @@ interface ScheduleServiceProps {
   onBack?: () => void;
 }
 
-function ScheduleService({ selectedPlan, onBack,subCategoryId }: ScheduleServiceProps) {
+function ScheduleService({ selectedPlan, subCategoryId, onBack }: ScheduleServiceProps) {
   const router = useRouter()
   const planId=selectedPlan;
   

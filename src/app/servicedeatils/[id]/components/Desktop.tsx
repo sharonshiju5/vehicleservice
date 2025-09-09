@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import Slider from "react-slick";
 import { MdLocationOn, MdStar } from 'react-icons/md';
-import MobileReview from '@/components/reviews/MobileReview';
 import DesktopReview from '@/components/reviews/DesktopReview';
 import MostPopular from '@/components/desktop/MostPopular';
 import Faq from '@/components/desktop/Faq';
 import ScheduleService from '@/components/desktop/ScheduleService';
-import { useRouter } from 'next/navigation'
 import { getPackages } from '@/services/commonapi/commonApi';
 
 type Banner = {
@@ -56,7 +54,6 @@ function Desktop({ id }: DesktopProps) {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
   const [packages, setPackages] = useState<PackageType[]>([])
-  const router = useRouter()
 
   const settings = {
     dots: true,
