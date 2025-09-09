@@ -1,8 +1,7 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -33,9 +32,7 @@ const recentCards = [
 ]
 
 const RecentlyUsed = () => {
-  const router = useRouter()
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [bottomBanner, setBottomBanner] = useState<unknown[]>([])
+
 
   const gradientColors = [
     ['#0073C3', '#00375D'],

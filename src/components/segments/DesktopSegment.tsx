@@ -22,13 +22,12 @@ function DesktopSegment() {
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [searchInput, setSearchInput] = useState('')
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [slidesToShow, setSlidesToShow] = useState(6)
+
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(12)
   const sliderRef = useRef<Slider>(null)
-  const services = Array(12).fill('Bathroom clean')
+
 
   const fetchCategories = async (search: string = '') => {
     setLoading(true)
