@@ -50,7 +50,7 @@ interface DesktopProps {
   id: string;
 }
 
-function Desktop({ id }: DesktopProps) {
+function DeskTop({ id }: DesktopProps) {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
   const [packages, setPackages] = useState<PackageType[]>([])
@@ -136,7 +136,6 @@ function Desktop({ id }: DesktopProps) {
                   selectedPlan={selectedPlan!}
                   subCategoryId={id} 
                   onBack={() => setShowSchedule(false)} 
-                  
                 />
               ) : (
               <>
@@ -220,4 +219,4 @@ function Desktop({ id }: DesktopProps) {
   )
 }
 
-export default Desktop
+export default DeskTop

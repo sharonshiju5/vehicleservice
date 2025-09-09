@@ -1,7 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import App from './components/App'
-import Desktop from './components/Desktop'
+import DeskTop from './components/Desktop'
+
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -30,7 +31,7 @@ function Page({ params }: PageProps) {
   
   return (
     <div>
-      {isMobile ? <App id={id} /> : <Desktop id={id} />}
+      {isMobile ? <App id={id} /> : <DeskTop id={id} />}
     </div>
   )
 }
