@@ -104,3 +104,13 @@ export const requestProvider =async(data:requestProviderData)=>{
     throw error;
   }
 }
+
+export const deatiledService =async(data:requestProviderData)=>{
+  try {
+    const response = await AxiosConfig.post('/v1/seclobServiceCustomer/service/req',data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

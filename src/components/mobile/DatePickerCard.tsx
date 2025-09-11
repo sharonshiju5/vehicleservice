@@ -9,6 +9,36 @@ interface DatePickerCardProps {
 const DatePickerCard: React.FC<DatePickerCardProps> = ({ onDateChange }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
   // Get current month & year
   const monthYear = format(currentMonth, "MMMM, yyyy");
@@ -28,36 +58,14 @@ const DatePickerCard: React.FC<DatePickerCardProps> = ({ onDateChange }) => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
 
-  // Touch handlers for month swipe
-  const handleTouchStart = (e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    (e.currentTarget as HTMLElement).dataset.startX = touch.clientX.toString();
-  };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const startX = parseFloat((e.currentTarget as HTMLElement).dataset.startX || '0');
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-
-    if (Math.abs(diff) > 80) {
-      if (diff > 0) {
-        goToNextMonth();
-      } else {
-        goToPreviousMonth();
-      }
-    }
-  };
 
   return (
     <div className="w-[90%]  rounded-xl mt-2  mx-auto">
       <h2 className="font-medium mb-3">Set Date</h2>
 
       {/* Month Header with navigation */}
-      <div 
-        className="flex justify-between items-center bg-gray-100 py-2 px-3 rounded-lg mb-3"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
+      <div className="flex justify-between items-center bg-gray-100 py-2 px-3 rounded-lg mb-3">
         <button onClick={goToPreviousMonth} className="p-1 rounded hover:bg-gray-200">
           <ChevronLeft size={18} className="text-purple-600 " />
         </button>
@@ -69,8 +77,23 @@ const DatePickerCard: React.FC<DatePickerCardProps> = ({ onDateChange }) => {
 
       {/* Scrollable Dates Container */}
       <div className="relative">
-        <div className="overflow-x-auto scrollbar-thin rounded-lg scrollbar-track-transparent scrollbar-thumb-white/30 scrollbar-thumb-rounded-full backdrop-blur-sm">
-          <div className="flex gap-2 p-3 bg-gray-100 rounded-lg min-w-max">
+        <div 
+          ref={scrollRef}
+          onWheel={handleWheel}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          className={`overflow-x-auto overflow-y-hidden rounded-lg select-none ${
+            isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          }`} 
+          style={{ 
+            scrollbarWidth: 'thin', 
+            scrollbarColor: 'rgba(255,255,255,0.3) transparent',
+            scrollBehavior: 'smooth'
+          }}
+        >
+          <div className="flex gap-2 p-3 bg-gray-100 rounded-lg" style={{ width: 'max-content' }}>
             {days.map((day, index) => {
               const isSelected =
                 format(day, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");

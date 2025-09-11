@@ -20,7 +20,7 @@ function IssueDescribe({ onDescriptionChange }: IssueDescribeProps) {
     }
 
     return (
-        <div className="w-[90%] rounded-xl mt-2 mx-auto pb-18">
+        <div className="w-[90%] rounded-xl mt-2 mx-auto ">
             <h2 className="font-medium mb-3">Describe the issue</h2>
 
             <textarea
@@ -65,7 +65,7 @@ function IssueDescribe({ onDescriptionChange }: IssueDescribeProps) {
 
             <label
                 htmlFor="file-upload"
-                className="flex items-center justify-center mt-2 mb-4 gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-lg border border-gray-300 shadow-sm transition"
+                className="flex items-center justify-center mt-2 gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-lg border border-gray-300 shadow-sm transition"
             >
                 <AiOutlineCamera className="text-gray-600 text-lg" />
                 <span className="text-gray-700 font-medium">Upload Photos</span>
