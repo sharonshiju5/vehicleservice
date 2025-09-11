@@ -20,8 +20,12 @@ type PackageType = {
   percentage: { inr: number; usd: number };
   type: string;
 };
-function ServiceContent() {
-  const { id } = useParams<{ id: string }>()
+
+interface AppProps {
+  id: string;
+}
+function ServiceContent({ id }: AppProps) {
+  
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)

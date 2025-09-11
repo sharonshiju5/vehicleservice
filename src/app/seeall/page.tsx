@@ -10,6 +10,7 @@ interface Category {
   id: string
   name: string
   image?: string
+  unique_id?: string
 }
 
 function Page() {
@@ -99,7 +100,7 @@ function Page() {
         {/* Bottom Grid */}
         <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
           {subcategories.map((subcat) => (
-            <Link key={subcat.id} href={`/oneservicedeatils/${subcat.id}`}>
+            <Link key={subcat.id} href={`${localStorage.getItem('city')}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id }`}>
               <div className="flex flex-col items-center justify-center p-2 bg-gray-50 rounded-lg hover:shadow">
                 <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-[58px] h-[58px] object-contain mb-2 rounded-lg" />
                 <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>

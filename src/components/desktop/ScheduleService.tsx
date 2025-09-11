@@ -57,8 +57,14 @@ function ScheduleService({ selectedPlan, subCategoryId, onBack }: ScheduleServic
         if (res.success) {
             router.push('/timecountdown');
         }
-    } catch (error) {
-        
+    } catch (error: unknown) {
+        const axiosError = error as { response?: { status?: number; data?: unknown } };
+        console.error('Request Provider Error:', {
+            message: error instanceof Error ? error.message : 'Unknown error',
+            status: axiosError.response?.status,
+            data: axiosError.response?.data,
+            requestData: data
+        });
     }
   }
   

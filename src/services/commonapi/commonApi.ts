@@ -105,9 +105,9 @@ export const requestProvider =async(data:requestProviderData)=>{
   }
 }
 
-export const deatiledService =async(data:requestProviderData)=>{
+export const deatiledService =async(search:string)=>{
   try {
-    const response = await AxiosConfig.post('/v1/seclobServiceCustomer/service/req',data);
+    const response = await AxiosConfig.get(`/v1/seclobService-no/subcategories/list?page=1&limit=1&search=${search}`);
     return response.data;
   } catch (error) {
     console.error(error);

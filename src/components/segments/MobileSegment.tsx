@@ -9,6 +9,7 @@ interface Category {
     id: string
     name: string
     image?: string
+    unique_id?: string
 }
 
 function MobileSegment() {
@@ -122,14 +123,19 @@ function MobileSegment() {
                     <SubcategorySkeleton />
                 ) : (
                     <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
-                        {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => (
-                            <Link key={subcat.id} href={`/oneservicedeatils/${subcat.id}`}>
-                                <div className="flex flex-col items-center justify-center p-2  rounded-lg hover:shadow">
-                                    <Image src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} width={58} height={58} className="w-[58px] h-[58px] object-contain mb-2 rounded-lg" />
-                                    <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
-                                </div>
-                            </Link>
-                        ))}
+                        {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => {
+                            const city = localStorage.getItem('city') ;
+                            const href = `/${city}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id }`;
+                            
+                            return (
+                                <Link key={subcat.id} href={href}>
+                                    <div className="flex flex-col items-center justify-center p-2  rounded-lg hover:shadow">
+                                        <Image src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} width={58} height={58} className="w-[58px] h-[58px] object-contain mb-2 rounded-lg" />
+                                        <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
+                                    </div>
+                                </Link>
+                            );
+                        })}
                     </div>
                 )}
 

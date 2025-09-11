@@ -13,6 +13,7 @@ interface Category {
   id: string
   name: string
   image?: string
+  unique_id?: string
 }
 
 function DesktopSegment() {
@@ -261,7 +262,7 @@ function DesktopSegment() {
           ))
         ) : subcategories.length > 0 ? (
           subcategories.map((subcat, index) => (
-            <Link key={subcat.id} href={`/oneservicedeatils/${subcat.id}`}>
+            <Link key={subcat.id} href={`${localStorage.getItem('city')}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id }`}>
               <motion.div
                 className="bg-white rounded-xl shadow-sm flex items-center gap-4 p-4 h-24 hover:shadow-md transition-shadow cursor-pointer"
                 initial={{ opacity: 0, scale: 0.9 }}
