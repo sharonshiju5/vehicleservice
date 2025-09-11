@@ -1,9 +1,30 @@
 import React, { useEffect, useState } from "react";
+import config from '@/services/socketio/config'
+import socketService from "@/services/socketio/SocketService";
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setAcceptedRequest } from '@/redux/acceptedRequestSlice';
+interface AcceptedRequest {
+  providerId: string;
+  requestId: string;
+  timestamp: string;
+}
 
+interface Notification {
+  type: string;
+  providerId: string;
+  requestId: string;
+  timestamp: Date;
+}
 function App() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const totalTime = 40;
   const [timeLeft, setTimeLeft] = useState(totalTime);
   const [smoothProgress, setSmoothProgress] = useState(0);
+  const [connectionStatus, setConnectionStatus] = React.useState('Disconnected');
+    const [acceptedRequests, setAcceptedRequests] = React.useState<AcceptedRequest[]>([]);
+    const [notifications, setNotifications] = React.useState<Notification[]>([]);
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -44,6 +65,45 @@ function App() {
     .toString()
     .padStart(2, "0");
   const seconds = (timeLeft % 60).toString().padStart(2, "0");
+
+  useEffect(() => {
+    // Connect to Socket.IO server
+    console.log('App.js config.SOCKET_URL:', config.SOCKET_URL);
+    const socket = socketService.connect(config.SOCKET_URL);
+
+
+    socket.on('connect', () => {
+      console.log('Connected');
+      setConnectionStatus('Connected');
+      const customerId = localStorage.getItem('userId');
+      socket.emit('joinCustomerRoom', customerId);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected');
+      setConnectionStatus('Disconnected');
+    });
+
+
+    // Listen for request acceptance
+     socket.on('requestAccepted', (data: AcceptedRequest) => {
+          console.log('requestAccepted time:', data);
+          dispatch(setAcceptedRequest(data));
+          setAcceptedRequests(prev => [...prev, data]);
+          const notification = {
+            type: 'Request Accepted',
+            providerId: data.providerId,
+            requestId: data.requestId,
+            timestamp: new Date(data.timestamp)
+          };
+          setNotifications(prev => [notification, ...prev]);
+          router.push('/foundservicer');
+        });
+
+    return () => {
+      socketService.disconnect();
+    };
+  }, []);
   return (
     <div className='w-full bg-white h-screen'>
        <div 

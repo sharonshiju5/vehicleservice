@@ -1,64 +1,130 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setAcceptedRequest } from '@/redux/acceptedRequestSlice';
+import config from '@/services/socketio/config'
+import socketService from "@/services/socketio/SocketService";
+
+
+
+interface AcceptedRequest {
+  providerId: string;
+  requestId: string;
+  timestamp: string;
+}
+
+interface Notification {
+  type: string;
+  providerId: string;
+  requestId: string;
+  timestamp: Date;
+}
 
 function Desktop() {
-    const totalTime = 40;
-    const [timeLeft, setTimeLeft] = useState(totalTime);
-    const [smoothProgress, setSmoothProgress] = useState(0);
-  
-    useEffect(() => {
-      if (timeLeft <= 0) return;
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    }, [timeLeft]);
-  
-    useEffect(() => {
-      const smoothTimer = setInterval(() => {
-        setSmoothProgress((prev) => {
-          const target = ((totalTime - timeLeft) / totalTime) * 100;
-          return prev + (target - prev) * 0.1;
-        });
-      }, 50);
-      return () => clearInterval(smoothTimer);
-    }, [timeLeft, totalTime]);
-  
-    // Circle settings
-    const radius = 110;
-    const circumference = 2 * Math.PI * radius;
-    const progress = (smoothProgress / 100) * circumference;
-  
-    // Timer color change logic
-    let strokeColor = "url(#purpleGradient)"; // purple gradient
-    let gradientColor = "rgba(139, 92, 246, 0.1)"; // very light purple
-    if (timeLeft <= 10) {
-      strokeColor = "#ef4444"; // red
-      gradientColor = "rgba(239, 68, 68, 0.1)"; // very light red
-    } else if (timeLeft <= 30) {
-      strokeColor = "#facc15"; // yellow
-      gradientColor = "rgba(250, 204, 21, 0.1)"; // very light yellow
-    }
-  
-    // Format time (MM:SS)
-    const minutes = Math.floor(timeLeft / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = (timeLeft % 60).toString().padStart(2, "0");
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const totalTime = 40;
+  const [timeLeft, setTimeLeft] = useState(totalTime);
+  const [smoothProgress, setSmoothProgress] = useState(0);
+  const [connectionStatus, setConnectionStatus] = React.useState('Disconnected');
+  const [acceptedRequests, setAcceptedRequests] = React.useState<AcceptedRequest[]>([]);
+  const [notifications, setNotifications] = React.useState<Notification[]>([]);
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  useEffect(() => {
+    const smoothTimer = setInterval(() => {
+      setSmoothProgress((prev) => {
+        const target = ((totalTime - timeLeft) / totalTime) * 100;
+        return prev + (target - prev) * 0.1;
+      });
+    }, 50);
+    return () => clearInterval(smoothTimer);
+  }, [timeLeft, totalTime]);
+
+  // Circle settings
+  const radius = 110;
+  const circumference = 2 * Math.PI * radius;
+  const progress = (smoothProgress / 100) * circumference;
+
+  // Timer color change logic
+  let strokeColor = "url(#purpleGradient)"; // purple gradient
+  let gradientColor = "rgba(139, 92, 246, 0.1)"; // very light purple
+  if (timeLeft <= 10) {
+    strokeColor = "#ef4444"; // red
+    gradientColor = "rgba(239, 68, 68, 0.1)"; // very light red
+  } else if (timeLeft <= 30) {
+    strokeColor = "#facc15"; // yellow
+    gradientColor = "rgba(250, 204, 21, 0.1)"; // very light yellow
+  }
+
+  // Format time (MM:SS)
+  const minutes = Math.floor(timeLeft / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (timeLeft % 60).toString().padStart(2, "0");
+
+  useEffect(() => {
+    // Connect to Socket.IO server
+    console.log('App.js config.SOCKET_URL:', config.SOCKET_URL);
+    const socket = socketService.connect(config.SOCKET_URL);
+
+
+    socket.on('connect', () => {
+      console.log('Connected');
+      setConnectionStatus('Connected');
+      const customerId = localStorage.getItem('userId');
+      socket.emit('joinCustomerRoom', customerId);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected');
+      setConnectionStatus('Disconnected');
+    });
+
+
+    // Listen for request acceptance
+    socket.on('requestAccepted', (data: AcceptedRequest) => {
+      console.log('requestAccepted time:', data);
+      dispatch(setAcceptedRequest(data));
+      setAcceptedRequests(prev => [...prev, data]);
+      const notification = {
+        type: 'Request Accepted',
+        providerId: data.providerId,
+        requestId: data.requestId,
+        timestamp: new Date(data.timestamp)
+      };
+      setNotifications(prev => [notification, ...prev]);
+      router.push('/foundservicer');
+    });
+
+    return () => {
+      socketService.disconnect();
+    };
+  }, []);
+
+
   return (
     <div className='w-full bg-white min-h-screen'>
-       <div 
-         className="w-full h-[120px] transition-all duration-500"
-         style={{
-           background: `linear-gradient(180deg, ${gradientColor} 0%, transparent 100%)`
-         }}
-       ></div>
-       
-       {/* Timer Circle */}
+      <div
+        className="w-full h-[120px] transition-all duration-500"
+        style={{
+          background: `linear-gradient(180deg, ${gradientColor} 0%, transparent 100%)`
+        }}
+      ></div>
+
+      {/* Timer Circle */}
       <div className="flex flex-col items-center mt-16 relative">
         <div className="relative">
           {/* Outer glow effect */}
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-200/30 to-purple-300/20 blur-xl scale-110"></div>
-          
+
           <svg width="250" height="250" className="rotate-[-90deg] relative z-10 drop-shadow-lg">
             {/* Gradient definitions */}
             <defs>
@@ -67,7 +133,7 @@ function Desktop() {
                 <stop offset="100%" stopColor="#a855f7" />
               </linearGradient>
             </defs>
-            
+
             {/* Background circle */}
             <circle
               cx="125"
@@ -78,7 +144,7 @@ function Desktop() {
               fill="none"
               strokeLinecap="round"
             />
-            
+
             {/* Progress circle */}
             <circle
               cx="125"
