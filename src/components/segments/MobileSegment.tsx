@@ -1,7 +1,7 @@
 import { getCategories, getSubCategories } from '@/services/commonapi/commonApi';
 import Link from 'next/link';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { CiShop } from "react-icons/ci";
 import { CategorySkeleton, SubcategorySkeleton } from '@/components/ui/SkeletonLoader';
 
@@ -12,7 +12,11 @@ interface Category {
     unique_id?: string
 }
 
-function MobileSegment() {
+interface MobileSegmentProps {
+    selectedCategoryId?: string | null
+}
+
+function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
     const [active, setActive] = useState<string>("");
     const [categories, setCategories] = useState<Category[]>([])
     const [subcategories, setSubCategories] = useState<Category[]>([])
@@ -21,6 +25,7 @@ function MobileSegment() {
     const [totalPages, setTotalPages] = useState(1)
     const [isLoading, setIsLoading] = useState(true)
     const [isSubcatLoading, setIsSubcatLoading] = useState(false)
+    const categoryScrollRef = useRef<HTMLDivElement>(null)
 
     const fetchCategories = async (search: string = '') => {
         try {
@@ -73,11 +78,30 @@ function MobileSegment() {
         const loadData = async () => {
             const cats = await fetchCategories()
             if (cats && cats.length > 0) {
-                await handleGetSubCategories(cats[0].id, '', 1)
+                const categoryToSelect = selectedCategoryId || cats[0].id
+                setActive(categoryToSelect)
+                await handleGetSubCategories(categoryToSelect, '', 1)
             }
         }
         loadData()
     }, [])
+
+    useEffect(() => {
+        if (selectedCategoryId && selectedCategoryId !== active) {
+            setActive(selectedCategoryId)
+            setShowAll(false)
+            setCurrentPage(1)
+            handleGetSubCategories(selectedCategoryId, '', 1)
+            
+            // Scroll to selected category
+            setTimeout(() => {
+                const categoryElement = document.querySelector(`[data-category-id="${selectedCategoryId}"]`)
+                if (categoryElement && categoryScrollRef.current) {
+                    categoryElement.scrollIntoView({ behavior: 'smooth', inline: 'center' })
+                }
+            }, 100)
+        }
+    }, [selectedCategoryId])
 
     useEffect(() => {
         if (active) {
@@ -100,10 +124,11 @@ function MobileSegment() {
                 {isLoading ? (
                     <CategorySkeleton />
                 ) : (
-                    <div className="flex gap-3 overflow-x-auto no-scrollbar mb-6">
+                    <div ref={categoryScrollRef} className="flex gap-3 overflow-x-auto no-scrollbar mb-6">
                         {categories.map((cat, index) => (
                             <button
                                 key={cat.id}
+                                data-category-id={cat.id}
                                 onClick={() => handleCategoryClick(cat.id)}
                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition
                                 ${active === cat.id

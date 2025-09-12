@@ -30,6 +30,7 @@ function ServiceContent({ id }: AppProps) {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
   const [packages, setPackages] = useState<PackageType[]>([])
+  const [expandedPackages, setExpandedPackages] = useState<Set<string>>(new Set())
   const router = useRouter()
 
   useEffect(() => {
@@ -98,15 +99,16 @@ function ServiceContent({ id }: AppProps) {
             onClick={() => setShowDropdown(false)}
           />
           <div className="fixed bottom-0 left-0 w-full z-50 animate-slide-up">
-            <div className="bg-white p-3 shadow-lg rounded-tl-3xl rounded-tr-3xl pt-6">
-              <p className='text-[16px] leading-[24px] font-medium text-left tracking-[0px] pb-1'>Select plan</p>
-              
-              {packages.length > 0 ? (
-                packages.map((pkg) => (
+            <div className="bg-white shadow-lg rounded-tl-3xl rounded-tr-3xl">
+              <div className="p-3 pt-6 max-h-[70vh] overflow-y-auto overflow-x-hidden">
+                <p className='text-[16px] leading-[24px] font-medium text-left tracking-[0px] pb-1'>Select plan</p>
+                
+                {packages.length > 0 ? (
+                  packages.map((pkg) => (
                   <div
                     key={pkg.id}
                     onClick={() => setSelectedPlan(pkg.id)}
-                    className={`w-90 mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
+                    className={`w-full mt-3 border rounded-xl p-3 cursor-pointer transition-all duration-300 
                      ${selectedPlan === pkg.id ? "border-purple-500 shadow-md" : "border-gray-200"}`}
                   >
                     <div className="flex justify-between items-center mb-2">
@@ -118,7 +120,7 @@ function ServiceContent({ id }: AppProps) {
                       </span>
                     </div>
                     <ul className="space-y-1 text-gray-600 text-sm">
-                      {pkg.features.map((feature, i) => (
+                      {(expandedPackages.has(pkg.id) ? pkg.features : pkg.features.slice(0, 3)).map((feature, i) => (
                         <li key={i} className="flex items-center gap-2">
                           <span className={`text-sm transition-colors duration-300 ${selectedPlan === pkg.id ? "text-purple-500" : ""}`}>•</span>
                           <span className={selectedPlan === pkg.id ? "text-purple-500" : ""}>
@@ -126,13 +128,36 @@ function ServiceContent({ id }: AppProps) {
                           </span>
                         </li>
                       ))}
+                      {pkg.features.length > 3 && (
+                        <li className="flex justify-start mt-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setExpandedPackages(prev => {
+                                const newSet = new Set(prev);
+                                if (newSet.has(pkg.id)) {
+                                  newSet.delete(pkg.id);
+                                } else {
+                                  newSet.add(pkg.id);
+                                }
+                                return newSet;
+                              });
+                            }}
+                            className={`text-xs font-medium underline hover:no-underline transition-all duration-200 ${
+                              selectedPlan === pkg.id ? "text-purple-500 hover:text-purple-600" : "text-gray-500 hover:text-gray-700"
+                            }`}
+                          >
+                            {expandedPackages.has(pkg.id) ? "Show less ↑" : "Show more ↓"}
+                          </button>
+                        </li>
+                      )}
                     </ul>
                   </div>
-                ))
-              ) : (
-                <p className="text-gray-400 text-sm">Loading plans...</p>
-              )}
-            </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400 text-sm">Loading plans...</p>
+                )}
+              </div>
             <div className="bg-white w-full flex justify-center items-center p-3">
               <button 
                 disabled={!selectedPlan}
@@ -141,6 +166,7 @@ function ServiceContent({ id }: AppProps) {
               >
                 Next
               </button>
+            </div>
             </div>
           </div>
         </>

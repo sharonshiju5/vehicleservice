@@ -4,7 +4,7 @@ import { CiSearch } from 'react-icons/ci'
 import { motion } from 'framer-motion'
 import Link from 'next/link';
 import Image from 'next/image';
-import { getCategories, getSubCategories } from '@/services/commonapi/commonApi'
+import { getCategories, getSubCategories, onSearch } from '@/services/commonapi/commonApi'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -16,6 +16,25 @@ interface Category {
   unique_id?: string
 }
 
+interface SearchCategory {
+  id: string;
+  name: string;
+  image?: string;
+}
+
+interface SearchSubcategory {
+  id: string;
+  name: string;
+  image?: string;
+  unique_id: string;
+  category?: { name: string };
+}
+
+interface SearchResults {
+  category?: { categories: SearchCategory[] };
+  subcategory?: { subCategories: SearchSubcategory[] };
+}
+
 function DesktopSegment() {
   const [categories, setCategories] = useState<Category[]>([])
   const [subcategories, setSubCategories] = useState<Category[]>([])
@@ -23,11 +42,25 @@ function DesktopSegment() {
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [searchInput, setSearchInput] = useState('')
+  const [searchResults, setSearchResults] = useState<SearchResults | null>(null)
+  const [showDropdown, setShowDropdown] = useState(false)
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(12)
   const sliderRef = useRef<Slider>(null)
+  const searchRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
 
   const fetchCategories = async (search: string = '') => {
@@ -60,12 +93,72 @@ function DesktopSegment() {
 
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value)
+
+
+  
+
+  const handleSearchButtonClick = async() => {
+    setSearchTerm(searchInput)
+    setShowDropdown(false)
+    const params = {
+      search: searchInput,
+      page: 1,
+      limit: 12
+    };
+    try {
+      const res = await onSearch(params);
+      setSearchResults(res.data)
+      setShowDropdown(true)
+    } catch (error) {
+      console.error('Search error:', error)
+    }
   }
 
-  const handleSearchButtonClick = () => {
-    setSearchTerm(searchInput)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearchInput(value)
+    if (value.trim()) {
+      handleSearch(value)
+    } else {
+      setShowDropdown(false)
+    }
+  }
+
+  const handleSearch = async (query: string) => {
+    const params = {
+      search: query,
+      page: 1,
+      limit: 12
+    };
+    try {
+      const res = await onSearch(params);
+      setSearchResults(res.data)
+      setShowDropdown(true)
+    } catch (error) {
+      console.error('Search error:', error)
+    }
+  }
+
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategoryId(categoryId)
+    setCurrentPage(1)
+    handleGetSubCategories(categoryId, '', 1)
+    setShowDropdown(false)
+    
+    // Scroll to selected category in slider
+    setTimeout(() => {
+      const categoryIndex = categories.findIndex(cat => cat.id === categoryId)
+      if (categoryIndex !== -1 && sliderRef.current) {
+        sliderRef.current.slickGoTo(categoryIndex)
+      }
+    }, 100)
+  }
+
+  const handleSubcategoryClick = (subcategory: SearchSubcategory) => {
+    const city = localStorage.getItem('city') || ''
+    const url = `${city}/${subcategory.name.replace(/\s+/g, '-').toUpperCase()}/${subcategory.unique_id}`
+    window.location.href = url
+    setShowDropdown(false)
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -134,7 +227,7 @@ function DesktopSegment() {
       </div>
 
       {/* Search Bar */}
-      <div className="lg:w-[50%] md:w-[60%] flex mx-auto mb-6 sm:mb-8">
+      <div ref={searchRef} className="lg:w-[50%] md:w-[60%] flex mx-auto mb-6 sm:mb-8 relative">
         <div className="relative flex-1">
           <CiSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-[var(--primary-color)] text-base" />
           <input
@@ -144,11 +237,72 @@ function DesktopSegment() {
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
             placeholder="Search anything..."
+            onFocus={() => searchInput.trim() && setShowDropdown(true)}
           />
+          
+          {/* Search Dropdown */}
+          {showDropdown && searchResults && (
+            <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+              {/* Categories */}
+              {searchResults.category?.categories && searchResults.category.categories.length > 0 && (
+                <div className="p-3">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Categories</h3>
+                  {searchResults.category.categories.map((category: SearchCategory) => (
+                    <div
+                      key={category.id}
+                      className="flex items-center p-2 hover:bg-gray-50 cursor-pointer rounded"
+                      onClick={() => handleCategoryClick(category.id)}
+                    >
+                      <Image
+                        src={category.image || "/assets/logo/seg.png"}
+                        alt={category.name}
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 object-cover rounded mr-3"
+                      />
+                      <span className="text-sm text-gray-800">{category.name}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {/* Subcategories */}
+              {searchResults.subcategory?.subCategories && searchResults.subcategory.subCategories.length > 0 && (
+                <div className="p-3 border-t border-gray-100">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Services</h3>
+                  {searchResults.subcategory.subCategories.map((subcategory: SearchSubcategory) => (
+                    <div
+                      key={subcategory.id}
+                      className="flex items-center p-2 hover:bg-gray-50 cursor-pointer rounded"
+                      onClick={() => handleSubcategoryClick(subcategory)}
+                    >
+                      <Image
+                        src={subcategory.image || "/assets/logo/seg.png"}
+                        alt={subcategory.name}
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 object-cover rounded mr-3"
+                      />
+                      <div>
+                        <span className="text-sm text-gray-800 block">{subcategory.name}</span>
+                        <span className="text-xs text-gray-500">{subcategory.category?.name}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {(!searchResults.category?.categories?.length && !searchResults.subcategory?.subCategories?.length) && (
+                <div className="p-4 text-center text-gray-500 text-sm">
+                  No results found
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <button
-          className="px-10 text-sm rounded-lg text-white  ml-2 bg-[#5818BF] hover:from-purple-600 hover:to-purple-700 transition-colors h-12"
+          className="px-10 text-sm rounded-lg text-white ml-2 bg-[#5818BF] hover:from-purple-600 hover:to-purple-700 transition-colors h-12"
           onClick={handleSearchButtonClick}
         >
           Search
@@ -224,10 +378,10 @@ function DesktopSegment() {
                         {/* Category Name */}
                         <div className="mt-2" style={{ height: '40px' }}>
                           <span
-                            className={`text-sm font-medium text-center block truncate ${index === 0 ? 'text-purple-600' : 'text-gray-700'
+                            className={`text-sm font-medium text-center block truncate ${selectedCategoryId === category.id ? 'text-purple-600' : 'text-gray-700'
                               }`}
                             style={{
-                              color: '#374151',
+                              color: selectedCategoryId === category.id ? '#9333ea' : '#374151',
                               width: '180px'
                             }}
                           >

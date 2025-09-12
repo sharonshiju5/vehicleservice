@@ -54,6 +54,7 @@ function DeskTop({ id }: DesktopProps) {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showSchedule, setShowSchedule] = useState(false)
   const [packages, setPackages] = useState<PackageType[]>([])
+  const [expandedPackages, setExpandedPackages] = useState<Set<string>>(new Set())
 
   const settings = {
     dots: true,
@@ -159,7 +160,7 @@ function DeskTop({ id }: DesktopProps) {
                           </span>
                         </div>
                         <ul className="space-y-1 text-gray-600 text-sm">
-                          {pkg.features.map((feature, i) => (
+                          {(expandedPackages.has(pkg.id) ? pkg.features : pkg.features.slice(0, 3)).map((feature, i) => (
                             <li key={i} className="flex items-center gap-2">
                               <span className={`text-sm ${selectedPlan === pkg.id ? "text-purple-500" : ""}`}>•</span>
                               <span className={selectedPlan === pkg.id ? "text-purple-500" : ""}>
@@ -167,6 +168,29 @@ function DeskTop({ id }: DesktopProps) {
                               </span>
                             </li>
                           ))}
+                          {pkg.features.length > 3 && (
+                            <li className="flex justify-start mt-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedPackages(prev => {
+                                    const newSet = new Set(prev);
+                                    if (newSet.has(pkg.id)) {
+                                      newSet.delete(pkg.id);
+                                    } else {
+                                      newSet.add(pkg.id);
+                                    }
+                                    return newSet;
+                                  });
+                                }}
+                                className={`text-xs pl-2 font-medium underline hover:no-underline transition-all duration-200 ${
+                                  selectedPlan === pkg.id ? "text-purple-500 hover:text-purple-600" : "text-gray-500 hover:text-gray-700"
+                                }`}
+                              >
+                                {expandedPackages.has(pkg.id) ? "Show less ↑" : "Show more ↓"}
+                              </button>
+                            </li>
+                          )}
                         </ul>
                       </div>
                     ))

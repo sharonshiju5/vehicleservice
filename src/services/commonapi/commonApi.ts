@@ -114,3 +114,18 @@ export const deatiledService =async(search:string)=>{
     throw error;
   }
 }
+
+interface searchData {
+  search: string;
+  page: number;
+  limit: number;
+}
+export const onSearch =async(data:searchData)=>{
+  try {
+    const response = await AxiosConfig.get(`/v1/seclobService-no/categories/serch-all?page=${data.page}&limit=${data.limit}&search=${data.search}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
