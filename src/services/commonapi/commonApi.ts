@@ -115,6 +115,16 @@ export const deatiledService =async(search:string)=>{
   }
 }
 
+export const serviceDeatil =async(uniqueId:string)=>{
+  try {
+    const response = await AxiosConfig.get(`/v1/seclobService-no/subcategories/list?page=1&limit=1&search=${uniqueId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 interface searchData {
   search: string;
   page: number;

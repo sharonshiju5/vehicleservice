@@ -6,7 +6,8 @@ import DesktopReview from '@/components/reviews/DesktopReview';
 import MostPopular from '@/components/desktop/MostPopular';
 import Faq from '@/components/desktop/Faq';
 import ScheduleService from '@/components/desktop/ScheduleService';
-import { getPackages } from '@/services/commonapi/commonApi';
+import {  getPackages, serviceDeatil } from '@/services/commonapi/commonApi';
+import { useParams } from "next/navigation";
 
 type Banner = {
   id: number;
@@ -27,10 +28,21 @@ type PackageType = {
   type: string;
 };
 
+type ServiceType = {
+  success: boolean;
+  data: {
+    subCategories: {
+      name: string;
+      description: string;
+      image?: string;
+    }[];
+  };
+};
+
 const banners: Banner[] = [
   {
     id: 1,
-    src: "/assets/banner/banner.png", // replace with your uploaded banner
+    src: "/assets/banner/banner.png",  // replace with your uploaded banner
     alt: "Cashon Postpaid Zomato Banner",
   },
   {
@@ -55,6 +67,11 @@ function DeskTop({ id }: DesktopProps) {
   const [showSchedule, setShowSchedule] = useState(false)
   const [packages, setPackages] = useState<PackageType[]>([])
   const [expandedPackages, setExpandedPackages] = useState<Set<string>>(new Set())
+  const [service, setService]= useState<ServiceType | null>(null)
+
+  const params = useParams();
+  const uniqueId = params.subcategoryId ;
+
 
   const settings = {
     dots: true,
@@ -80,15 +97,39 @@ function DeskTop({ id }: DesktopProps) {
     fetchPackages();
   }, []);
 
+  const handleGetDetails=async()=>{
+   try {
+    if (typeof uniqueId === 'string') {
+      const res= await serviceDeatil(uniqueId);
+      console.log("Service Details:", res);
+        if(res?.success ){
+          setService(res)
+        }
+    }
+   } catch (error) {
+    console.error("Error fetching package details:", error);
+   }
+  }
+  useEffect(()=>{
+    handleGetDetails()
+  },[uniqueId])
+
+  useEffect(() => {
+    if (service) {
+      console.log("Service state updated:", service);
+      console.log("Service name:", service.data.subCategories[0].name);
+    }
+  }, [service])
+
   return (
     <div className='w-full mt-2'>
       <div className="w-[80%]  mx-auto pt-12 ">
-        <h1 className='font-medium text-[28px] leading-[40px] tracking-[0px] pb-2'>GreenThumb Gardens</h1>
+        <h1 className='font-medium text-[28px] leading-[40px] tracking-[0px] pb-2'>{service?.data?.subCategories?.[0]?.name || 'Loading...'}</h1>
         <div className="grid grid-cols-2 gap-4 rounded-lg overflow-hidden">
           {/* Video Frame */}
           <div className="relative h-full">
             <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ" // replace with your video link
+              src="https://youtu.be/hipB2vhwj_Y?si=YKWEYo31UkVO4VZn" // replace with your video link
               title="Video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -98,24 +139,26 @@ function DeskTop({ id }: DesktopProps) {
 
           {/* Right side with images */}
           <div className="grid grid-rows-2 gap-4">
-            <Image
-              src="/assets/service/s1.png"
-              alt="Cleaning Service"
-              width={618}
-              height={220}
-              className="rounded-lg w-full h-full object-cover"
-            />
-            <Image
-              src="/assets/service/s2.png"
-              alt="Laundry Service"
-              width={618}
-              height={220}
-              className="rounded-lg w-full object-cover"
-            />
+            <div className="relative h-[220px]">
+              <Image
+                src={service?.data?.subCategories?.[0]?.image || "/assets/service/s1.png"}
+                alt="Cleaning Service"
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
+            <div className="relative h-[220px]">
+              <Image
+                src="/assets/service/s2.png"
+                alt="Laundry Service"
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
           </div>
         </div>
 
-        <h2 className="font-medium text-[28px] leading-[40px] tracking-[0px] pt-4">GreenThumb Gardens</h2>
+        <h2 className="font-medium text-[28px] leading-[40px] tracking-[0px] pt-4">{service?.data?.subCategories?.[0]?.name || 'GreenThumb Gardens'}</h2>
         <div className="flex  items-center  ">
           <MdLocationOn className="text-black-500 w-5 h-5" />
           <p className="text-[24px] text-gray-500">Thiruvananthapuram </p>
@@ -125,8 +168,8 @@ function DeskTop({ id }: DesktopProps) {
         <div className="w-full  flex">
           <div className="w-[50%] ">
             <h3 className="mt-4 font-medium text-[28px] leading-[40px] tracking-[0px]">About us</h3>
-            <p className="font-normal text-[18px] leading-[28px] tracking-[0px] mt-2 pb-8">
-              Sparkling Clean offers top-notch cleaning services tailored to your needs. Our standard clean includes dusting, vacuuming, mopping, and bathroom sanitization.Sparkling Clean offers top-notch cleaning services tailored to your needs. Our standard clean includes dusting, vacuuming, mopping, and bathroom sanitization.Sparkling Clean offers top-notch cleaning services tailored to your needs. Our standard clean includes dusting, vacuuming, mopping, and bathroom sanitization.Sparkling Clean offers top-notch cleaning services tailored to your needs. Our standard clean includes dusting, vacuuming, mopping, and bathroom sanitization.
+            <p className="font-normal text-[18px] leading-[28px] tracking-[0px] mt-2 pb-8 text-justify">
+             {service?.data?.subCategories?.[0]?.description }
             </p>
             <DesktopReview />
           </div>
