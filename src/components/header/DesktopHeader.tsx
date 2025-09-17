@@ -7,9 +7,10 @@ import { IoLocationOutline, IoChevronDown } from 'react-icons/io5'
 import { FiUser } from 'react-icons/fi'
 import { getUser } from '@/services/auth/auth'
 import DownloadAppModal from '@/components/DownloadAppModal'
+import LocationModal from '@/components/desktop/LocationModal'
 import { createPortal } from 'react-dom'
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store"; 
+import { RootState } from "@/redux/store";
 
 interface User {
   name?: string;
@@ -60,11 +61,19 @@ function DesktopHeader() {
           <div className="flex items-center gap-2 sm:gap-4">
             <Link href="/service" className="hidden md:block text-black font-medium hover:text-gray-600">Services</Link>
             <Link href="/channelpartner" className="hidden md:block text-black font-medium hover:text-gray-600">Partner</Link>
-            <button className="hidden lg:flex h-10 bg-white/40 backdrop-blur-md border border-white/30 rounded-lg px-4 items-center hover:bg-white/60">
-              <IoLocationOutline className="text-gray-600 text-sm" />
-              <span className="text-gray-700 text-sm">{city ?? regionName}, {country}</span>
-              {/* <IoChevronDown className="text-gray-600 text-xs" /> */}
-            </button>
+            <LocationModal 
+              selectedLocation={city || regionName || country
+                ? `${city ?? regionName}, ${country ?? ""}`
+                : "choose location"}
+              onLocationSelect={(location) => {
+                setcity(location.name)
+                setCountry(location.country || '')
+                if (typeof window !== 'undefined') {
+                  localStorage.setItem('city', location.name)
+                  localStorage.setItem('country', location.country || '')
+                }
+              }}
+            />
             <button className="h-8 bg-[#5818BF] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]">
               <FiUser className="text-sm" />
               {loading ? (
@@ -73,7 +82,7 @@ function DesktopHeader() {
                 <span className="hidden sm:block text-sm font-medium ml-1">{name || 'Login/Sign Up'}</span>
               )}
             </button>
-            <button 
+            <button
               onClick={() => setShowModal(true)}
               className="hidden sm:flex h-8 bg-yellow-400 text-white px-4 rounded-lg hover:bg-yellow-500 items-center justify-center"
             >

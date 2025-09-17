@@ -139,3 +139,21 @@ export const onSearch =async(data:searchData)=>{
     throw error;
   }
 }
+
+export const getCurrentlocation = async (latlng: string) => {
+  try {
+    const response = await AxiosConfig.get(`/v1/recharge-no/location/current-location?latlng=${latlng}`);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getSearchlocation = async (query: string) => {
+  try {
+    const response = await AxiosConfig.get(`/v1/recharge-no/location/search-location?query=${query}`);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
