@@ -35,6 +35,15 @@ type ServiceType = {
       name: string;
       description: string;
       image?: string;
+      detailsImage?: {
+        filePath: string;
+        key: string;
+        _id: string;
+      }[];
+      detailsVideo?: {
+        filePath: string;
+        key: string;
+      };
     }[];
   };
 };
@@ -128,20 +137,18 @@ function DeskTop({ id }: DesktopProps) {
         <div className="grid grid-cols-2 gap-4 rounded-lg overflow-hidden">
           {/* Video Frame */}
           <div className="relative h-full">
-            <iframe
-              src="https://youtu.be/hipB2vhwj_Y?si=YKWEYo31UkVO4VZn" // replace with your video link
-              title="Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full rounded-lg"
-            ></iframe>
+            <video
+              src={service?.data?.subCategories?.[0]?.detailsVideo?.filePath}
+              controls
+              className="w-full h-full rounded-lg object-cover"
+            />
           </div>
 
           {/* Right side with images */}
           <div className="grid grid-rows-2 gap-4">
             <div className="relative h-[220px]">
               <Image
-                src={service?.data?.subCategories?.[0]?.image || "/assets/service/s1.png"}
+                src={service?.data?.subCategories?.[0]?.detailsImage?.[0]?.filePath || "/assets/service/s1.png"}
                 alt="Cleaning Service"
                 fill
                 className="rounded-lg object-cover"
@@ -149,7 +156,7 @@ function DeskTop({ id }: DesktopProps) {
             </div>
             <div className="relative h-[220px]">
               <Image
-                src="/assets/service/s2.png"
+                src={service?.data?.subCategories?.[0]?.detailsImage?.[1]?.filePath || "/assets/service/s1.png"}
                 alt="Laundry Service"
                 fill
                 className="rounded-lg object-cover"

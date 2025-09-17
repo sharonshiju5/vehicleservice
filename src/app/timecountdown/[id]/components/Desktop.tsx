@@ -20,7 +20,12 @@ interface Notification {
   timestamp: Date;
 }
 
-function Desktop() {
+interface DesktopProps {
+  id: string;
+}
+
+function Desktop({ id }: DesktopProps) {
+  // console.log('Desktop component - Booking ID:', id)
   const router = useRouter();
   const dispatch = useDispatch();
   const totalTime = 40;

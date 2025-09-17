@@ -54,8 +54,10 @@ function ScheduleService({ selectedPlan, subCategoryId, onBack }: ScheduleServic
     try {
         const res= await requestProvider(data);
         console.log('Request Provider Response:', res);
+        const id=res.data.bookingId;
+         console.log('Request Provider Response book id:', id);
         if (res.success) {
-            router.push('/timecountdown');
+            router.push(`/timecountdown/${id}`);
         }
     } catch (error: unknown) {
         const axiosError = error as { response?: { status?: number; data?: unknown } };

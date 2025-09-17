@@ -16,7 +16,13 @@ interface Notification {
   requestId: string;
   timestamp: Date;
 }
-function App() {
+
+interface AppProps {
+  id: string;
+}
+
+function App({ id }: AppProps) {
+  // console.log('App component - Booking ID:', id)
   const router = useRouter();
   const dispatch = useDispatch();
   const totalTime = 40;
