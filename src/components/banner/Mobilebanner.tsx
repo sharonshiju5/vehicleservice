@@ -30,7 +30,7 @@ function Mobilebanner() {
             className="min-w-[299px] sm:min-w-[299px] md:min-w-[299px] rounded-xl overflow-hidden shadow-md"
           >
             <Image
-              src={banner.img}
+              src={banner.img || "/assets/banner/banner.png"}
               alt="Cashback Banner"
               width={299}
               height={156}

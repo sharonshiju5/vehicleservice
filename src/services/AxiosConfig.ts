@@ -55,13 +55,13 @@ const createAxiosInstance = (): AxiosInstance => {
     (response) => response,
     async (error) => {
       if (process.env.NODE_ENV === 'development') {
-        console.error('Axios error:', {
-          message: error?.message,
-          status: error?.response?.status,
-          data: error?.response?.data,
-          url: error?.config?.url,
-          baseURL: error?.config?.baseURL
-        });
+        // console.error('Axios error:', {
+        //   message: error?.message,
+        //   status: error?.response?.status,
+        //   data: error?.response?.data,
+        //   url: error?.config?.url,
+        //   baseURL: error?.config?.baseURL
+        // });
       }
       
       const originalRequest = error?.config;

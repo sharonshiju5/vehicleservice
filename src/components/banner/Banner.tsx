@@ -113,7 +113,7 @@ const Banner: React.FC<BannerProps> = ({
                   className="block w-full h-full rounded-lg"
                 >
                   <Image
-                    src={src}
+                    src={src || "/assets/banner/banner.png"}
                     alt={`Banner ${index + 1}`}
                     width={800}
                     height={264}
@@ -123,7 +123,7 @@ const Banner: React.FC<BannerProps> = ({
                 </a>
               ) : (
                 <Image 
-                  src={src} 
+                  src={src || "/assets/banner/banner.png"} 
                   alt={`Banner ${index + 1}`} 
                   width={800}
                   height={264}
