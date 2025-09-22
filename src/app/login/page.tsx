@@ -61,8 +61,11 @@ export default function LoginPage() {
                 })
                 router.push('/auths')
             }
-        } catch (error: any) {
-            toast.error(error?.message || 'Login failed', {
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error && 'response' in error 
+                ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message 
+                : error instanceof Error ? error.message : 'Login failed';
+            toast.error(errorMessage || 'Login failed', {
                 style: {
                     background: "rgba(255, 0, 0, 0.15)",
                     backdropFilter: "blur(12px)",
@@ -138,7 +141,7 @@ export default function LoginPage() {
                             <div className="space-y-3">
                                 <h2 className="text-2xl md:text-3xl font-semibold text-black">Login</h2>
                                 <p className="text-gray-800 font-semibold text-sm md:text-base">
-                                    Don't have an account?{' '}
+                                    Don&apos;t have an account?{' '}
                                     <a
                                         className="cursor-pointer text-sm font-bold"
                                         style={{ color: 'var(--primary-color, #3D155F)' }}

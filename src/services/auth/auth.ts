@@ -26,8 +26,11 @@ export const loginUser = async (values: { email?: string; phone?: string; passwo
       localStorage?.setItem("refreshtoken", data?.refreshToken);
     }
     return data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error);
-    throw new Error(error?.response?.data?.message ?? 'Login failed');
+    const errorMessage = error instanceof Error && 'response' in error 
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message 
+      : 'Login failed';
+    throw new Error(errorMessage ?? 'Login failed');
   }
 };
