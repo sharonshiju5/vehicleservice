@@ -34,3 +34,16 @@ export const loginUser = async (values: { email?: string; phone?: string; passwo
     throw new Error(errorMessage ?? 'Login failed');
   }
 };
+
+export const loginWith3rdUser = async (values: { credential?: string }) => {
+  try {
+    const { data } = await AxiosConfig.post("/v1/user-no/auth/google", values);
+    return data;
+  } catch (error: unknown) {
+    console.log(error);
+    const errorMessage = error instanceof Error && 'response' in error 
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message 
+      : 'Login failed';
+    throw new Error(errorMessage ?? 'Login failed');
+  }
+};

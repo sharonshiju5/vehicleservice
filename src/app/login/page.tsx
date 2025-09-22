@@ -5,10 +5,12 @@ import { LuUser, LuLockKeyhole } from 'react-icons/lu'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import { ImCheckmark } from 'react-icons/im'
 import { SiApple } from 'react-icons/si'
-import { useState, FormEvent } from 'react'
-import { loginUser } from '@/services/auth/auth'
+import { useState, FormEvent, useEffect } from 'react'
+import { loginUser, loginWith3rdUser } from '@/services/auth/auth'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 
 export default function LoginPage() {
@@ -16,8 +18,16 @@ export default function LoginPage() {
     const [isChecked, setIsChecked] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+    const [screenWidth, setScreenWidth] = useState(0)
 
     const router = useRouter()
+
+    useEffect(() => {
+        const handleResize = () => setScreenWidth(window.innerWidth)
+        handleResize()
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -34,15 +44,15 @@ export default function LoginPage() {
             setIsLoading(true)
             setIsButtonDisabled(true)
             setTimeout(() => setIsButtonDisabled(false), 3000)
-            
+
             // Determine if input is email or phone
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
             const isEmail = emailRegex.test(emailOrPhone)
-            
-            const payload = isEmail 
+
+            const payload = isEmail
                 ? { email: emailOrPhone, password }
                 : { phone: emailOrPhone, password }
-            
+
             const result = await loginUser(payload)
 
             if (result) {
@@ -62,8 +72,8 @@ export default function LoginPage() {
                 router.push('/auths')
             }
         } catch (error: unknown) {
-            const errorMessage = error instanceof Error && 'response' in error 
-                ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message 
+            const errorMessage = error instanceof Error && 'response' in error
+                ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
                 : error instanceof Error ? error.message : 'Login failed';
             toast.error(errorMessage || 'Login failed', {
                 style: {
@@ -81,6 +91,39 @@ export default function LoginPage() {
             setIsLoading(false)
         }
     }
+
+
+    const handleGoogleSignUp = async (data: { credential?: string }) => {
+        try {
+            setIsLoading(true)
+            const result = await loginWith3rdUser(data)
+
+            if (result?.payload?.success) {
+                 localStorage.setItem('refreshtoken', result?.payload?.refreshToken)
+                toast.success(result?.payload?.message || 'Loged!', {
+                    style: {
+                        background: "rgba(0, 255, 0, 0.15)",
+                        backdropFilter: "blur(12px)",
+                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                        color: "#4ade80",
+                        padding: "16px 24px",
+                        borderRadius: "16px",
+                        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                        fontWeight: "500",
+                    },
+                })
+                router.push('/auths')
+            } else {
+                toast.error(result?.payload || 'Login failed')
+            }
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Login failed'
+            toast.error(errorMessage)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
 
     return (
         <div className=" min-h-screen w-full flex xl:items-center xl:justify-center bg-white lg:bg-transparent">
@@ -251,21 +294,36 @@ export default function LoginPage() {
                                 </span>
                             </div>
 
-                            <div className="w-full flex justify-center md:gap-4 gap-3 mt-4 px-2">
-                                <button className="flex border py-[19px] justify-center cursor-pointer items-center w-10 md:h-10 h-8 md:w-1/3 gap-3 text-lg border-gray-300 rounded-md">
-                                    <span className="text-[#4285f4] md:text-xl text-xl">G</span>
-                                    <span className="hidden md:inline text-sm font-semibold text-gray-700">
-                                        Google
-                                    </span>
-                                </button>
+                            <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+                                <div className="w-full flex justify-center md:gap-4 gap-3 mt-4 px-2">
+                                    <GoogleLogin
+                                        type={screenWidth < 786 ? 'icon' : 'standard'}
+                                        width={screenWidth < 786 ? undefined : 200}
+                                        onSuccess={(credentialResponse) => {
+                                            if (credentialResponse?.credential) {
+                                                const decodedToken = jwtDecode(credentialResponse.credential) as { sub?: string; email?: string }
+                                                const userDetails = {
+                                                    password: decodedToken?.sub,
+                                                    email: decodedToken?.email,
+                                                    app: 'google',
+                                                    credential: credentialResponse.credential
+                                                }
+                                                handleGoogleSignUp(userDetails)
+                                            }
+                                        }}
+                                        onError={() => {
+                                            console.error('Google Login Failed')
+                                        }}
+                                    />
 
-                                <button className="flex py-[19px] border justify-center cursor-pointer items-center w-10 md:h-10 h-8 md:w-1/3 gap-3 text-lg border-gray-300 rounded-md">
-                                    <span className="md:text-xl text-2xl">
-                                        <SiApple />
-                                    </span>
-                                    <span className="hidden md:inline text-sm font-semibold text-gray-700">Apple</span>
-                                </button>
-                            </div>
+                                    <button className="flex py-[19px] border justify-center cursor-pointer items-center w-10 md:h-10 h-8 md:w-1/3 gap-3 text-lg border-gray-300 rounded-md">
+                                        <span className="md:text-xl text-2xl">
+                                            <SiApple />
+                                        </span>
+                                        <span className="hidden md:inline text-sm font-semibold text-gray-700">Apple</span>
+                                    </button>
+                                </div>
+                            </GoogleOAuthProvider>
 
                             {/* Forgot Password Link */}
                             <div className="flex justify-center items-center mt-4 mb-8">
