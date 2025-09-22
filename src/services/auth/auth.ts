@@ -17,3 +17,17 @@ export const getUser = async (values: RefreshTokenRequest) =>{
         
     }
 }
+
+export const loginUser = async (values: { email?: string; phone?: string; password: string }) => {
+  try {
+    const { data } = await AxiosConfig.post("v1/user-no/auth/login", values);
+    if (data?.refreshToken) {
+      console.log("Login successful, storing token:", data?.refreshToken);
+      localStorage?.setItem("refreshtoken", data?.refreshToken);
+    }
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error?.response?.data?.message ?? 'Login failed');
+  }
+};

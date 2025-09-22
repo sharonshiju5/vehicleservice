@@ -2,17 +2,20 @@
 
 import { useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
+import Cookies from "js-cookie"
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
 
 function AuthContent() {
     const searchParams = useSearchParams()
-    const refreshToken = searchParams.get('refreshtoken')
+    const refreshToken = searchParams.get('refreshtoken')||localStorage.getItem('refreshtoken')
+    // const refreshToken = 'ad23e2396af4ae7e80a4a10bcbea5ff483d315782dc1dc23f05b48d163119fc3c116dc33ef5d788f'
     const country = searchParams.get('country')
     const lat = searchParams.get('lat')
     const lon = searchParams.get('lon')
     const city = searchParams.get('city')
+    // const city = 'kozhikode'
     const regionName = searchParams.get('regionName')
 
     useEffect(() => {
@@ -41,15 +44,20 @@ function AuthContent() {
                 const data = await response.json()
 
                 if (data.success) {
-                    // Store all data in localStorage
+                    // Store all data in localStorage and cookies
                     if (typeof window !== 'undefined') {
                         localStorage.setItem('accessToken', data.accessToken)
+                        localStorage.setItem('token', data.accessToken)
                         localStorage.setItem('refreshtoken', data.refreshToken)
                         localStorage.setItem('unique_id', data.unique_id)
                         localStorage.setItem('email', data.email)
                         localStorage.setItem('phone', data.phone)
                         localStorage.setItem('userId', data.userId)
                         localStorage.setItem('name', data.name)
+                        
+                        // Set cookies for AxiosConfig
+                        Cookies.set('token', data.accessToken, { path: '/' })
+                        Cookies.set('refreshtoken', data.refreshToken, { path: '/' })
                         
                         // Navigate to home on success
                         window.location.href = '/'
@@ -75,7 +83,7 @@ function AuthContent() {
         <div className="flex items-center justify-center min-h-screen">
             <div className="text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-                <p className="mt-4">Authenticating...</p>
+                {/* <p className="mt-4">Authenticating...</p> */}
             </div>
         </div>
     )
@@ -87,7 +95,7 @@ export default function AuthPage() {
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-                    <p className="mt-4">Loading...</p>
+                    {/* <p className="mt-4">Loading...</p> */}
                 </div>
             </div>
         }>

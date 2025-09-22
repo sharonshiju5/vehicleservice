@@ -11,6 +11,7 @@ import LocationModal from '@/components/desktop/LocationModal'
 import { createPortal } from 'react-dom'
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useRouter } from 'next/navigation'
 
 interface User {
   name?: string;
@@ -25,21 +26,32 @@ function DesktopHeader() {
   const [regionName, setRegionName] = React.useState<string | null>(null);
   const [city, setcity] = React.useState<string | null>(null);
   const [country, setCountry] = React.useState<string | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+  const [showLogoutPopup, setShowLogoutPopup] = React.useState(false);
   const location = useSelector((state: RootState) => state.location);
 
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedName = localStorage.getItem('name');
-      const storedRegionName = localStorage.getItem('regionName');
-      const storedcity = localStorage.getItem('city');
-      const storedCountry = localStorage.getItem('country');
-      setName(storedName);
-      setRegionName(storedRegionName);
-      setCountry(storedCountry);
-      setcity(storedcity);
-      setLoading(false);
-    }
-  }, []);
+    setMounted(true);
+    const storedName = localStorage.getItem('name');
+    const storedRegionName = localStorage.getItem('regionName');
+    const storedcity = localStorage.getItem('city');
+    const storedCountry = localStorage.getItem('country');
+    setName(storedName);
+    setRegionName(storedRegionName);
+    setCountry(storedCountry);
+    setcity(storedcity);
+    setLoading(false);
+
+    // Close popup when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showLogoutPopup) {
+        setShowLogoutPopup(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [showLogoutPopup]);
+  const router = useRouter()
 
   return (
     <div className="sticky top-0 z-50 bg-white/40 backdrop-blur-md border-b border-white/30 shadow-md header-container">
@@ -74,14 +86,32 @@ function DesktopHeader() {
                 }
               }}
             />
-            <button className="h-8 bg-[#5818BF] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]">
-              <FiUser className="text-sm" />
-              {loading ? (
-                <div className="hidden sm:block w-4 h-4 ml-1 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <span className="hidden sm:block text-sm font-medium ml-1">{name || 'Login/Sign Up'}</span>
+            <div className="relative">
+              <button className="h-8 bg-[#5818BF] text-white px-2 sm:px-4 rounded-lg flex items-center hover:bg-[#2d0f47]"
+               onClick={() => name ? setShowLogoutPopup(!showLogoutPopup) : router.push('/login')}>
+                <FiUser className="text-sm" />
+                {!mounted || loading ? (
+                  <div className="hidden sm:block w-4 h-4 ml-1 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <span className="hidden sm:block text-sm font-medium ml-1">{name || 'Login/Sign Up'}</span>
+                )}
+              </button>
+              {showLogoutPopup && name && (
+                <div className="absolute top-10 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50">
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('name')
+                      localStorage.removeItem('refreshtoken')
+                      setName(null)
+                      setShowLogoutPopup(false)
+                    }}
+                    className="text-red-600 hover:bg-red-50 px-3 py-1 rounded text-sm font-medium"
+                  >
+                    Logout
+                  </button>
+                </div>
               )}
-            </button>
+            </div>
             <button
               onClick={() => setShowModal(true)}
               className="hidden sm:flex h-8 bg-yellow-400 text-white px-4 rounded-lg hover:bg-yellow-500 items-center justify-center"
