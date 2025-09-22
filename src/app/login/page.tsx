@@ -11,6 +11,7 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 import { jwtDecode } from 'jwt-decode'
+import Link from 'next/link'
 
 
 export default function LoginPage() {
@@ -126,10 +127,10 @@ export default function LoginPage() {
 
 
     return (
-        <div className=" min-h-screen w-full flex xl:items-center xl:justify-center bg-white lg:bg-transparent">
-            <div className="w-full max-w-screen-xl md:grid grid-cols-1 lg:grid-cols-2">
+        <div className="min-h-screen pt-8 w-full flex xl:items-center xl:justify-center bg-white lg:bg-transparent">
+            <div className="w-full max-w-screen-xl md:grid grid-cols-1 lg:grid-cols-2 min-h-screen">
                 {/* Left Section (Hidden on Mobile) */}
-                <div className="relative hidden lg:block p-10 overflow-hidden" style={{ backgroundColor: 'var(--primary-color, #3D155F)' }}>
+                <div className="relative hidden lg:flex p-10 overflow-hidden bg-[#3D155F] flex-col min-h-screen" style={{ backgroundColor: '#3D155F', minHeight: '100vh' }}>
                     <div className="absolute w-16 h-16 left-8 top-4">
                         <button
                             className="h-full w-full cursor-pointer focus:outline-none flex gap-4 items-center"
@@ -174,7 +175,7 @@ export default function LoginPage() {
                                 >
                                     <img
                                         loading="lazy"
-                                        src="/assets/logo/Layer_1 (7).webp"
+                                        src="/logo/logo.webp"
                                         className="h-10 w-10"
                                         alt="MP"
                                     />
@@ -185,12 +186,13 @@ export default function LoginPage() {
                                 <h2 className="text-2xl md:text-3xl font-semibold text-black">Login</h2>
                                 <p className="text-gray-800 font-semibold text-sm md:text-base">
                                     Don&apos;t have an account?{' '}
-                                    <a
+                                    <Link
+                                        href='/signup'
                                         className="cursor-pointer text-sm font-bold"
                                         style={{ color: 'var(--primary-color, #3D155F)' }}
                                     >
                                         Sign up
-                                    </a>
+                                    </Link>
                                 </p>
                             </div>
                         </div>

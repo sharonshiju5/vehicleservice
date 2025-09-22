@@ -47,3 +47,63 @@ export const loginWith3rdUser = async (values: { credential?: string }) => {
     throw new Error(errorMessage ?? 'Login failed');
   }
 };
+
+
+export const sendOtp = async (values: { email: string; countryCode?: string; phone?: string }) => {
+  try {
+    const { data } = await AxiosConfig.post("v1/user-no/auth/send-otp", values);
+    return data;
+  } catch (error: unknown) {
+    console.log(error);
+    const errorMessage = error instanceof Error && 'response' in error
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
+      : 'Failed to send OTP';
+    throw new Error(errorMessage ?? 'Failed to send OTP');
+  }
+};
+
+export const resendOtp = async (values: { email: string; countryCode?: string; phone?: string }) => {
+  try {
+    const { data } = await AxiosConfig.post("v1/user-no/auth/send-otp", values);
+    return data;
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error && 'response' in error
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
+      : 'Failed to send OTP';
+    throw new Error(errorMessage ?? 'Failed to send OTP');
+  }
+};
+
+interface RegisterUserValues {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  countryCode?: string;
+  country?: string;
+  OTP: string;
+  id?: string;
+}
+
+export const registerUser = async (values: RegisterUserValues) => {
+  const id = values.id ?? '';
+
+  // Exclude id from request body
+  const { id: _, ...bodyWithoutId } = values;
+
+  try {
+    const { data } = await AxiosConfig.post(
+      `v1/user-no/auth/register?id=${id}`,
+      bodyWithoutId
+    );
+    console.log("Registration successful777777", data);
+    return data;
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error && 'response' in error
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
+      : 'Registration failed';
+    throw new Error(errorMessage ?? 'Registration failed');
+  }
+};
+
+
