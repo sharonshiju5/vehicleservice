@@ -142,9 +142,9 @@ function DeskTop({ id }: DesktopProps) {
          <h2 className="font-medium text-[28px] leading-[40px] tracking-[0px] ">{service?.data?.subCategories?.[0]?.name || 'GreenThumb Gardens'}</h2>
           <div className="flex  items-center pb-2 ">
             <MdLocationOn className="text-black-500 w-5 h-5" />
-            <p className="text-[24px] text-gray-500">Thiruvananthapuram </p>
+            <p className="text-[20px] text-gray-500">Thiruvananthapuram </p>
             <MdStar className="text-yellow-500 w-5 h-5 ml-6" />
-            <p className="text-[24px] text-yellow-500 mt-1"> 4.5 Rating</p>
+            <p className="text-[20px] text-yellow-500 mt-1"> 4.5 Rating</p>
           </div>
           <div className="grid grid-cols-2 gap-4 rounded-lg overflow-hidden">
             {/* Video Frame */}
@@ -188,7 +188,10 @@ function DeskTop({ id }: DesktopProps) {
             </div>
             <div className="w-[50%] pt-12">
               <div className="w-[90%] h-fit  mx-auto sticky top-20 p-2 bg-white rounded-2xl shadow-lg ">
-                <h1 className='font-medium text-[18px] leading-[28px] pl-2 tracking-[0px] text-center"'>{service?.data?.subCategories?.[0]?.name || 'GreenThumb Gardens'}</h1>
+                <div className="flex  items-center">
+                  <h1 className='font-medium text-[18px] leading-[28px] pl-2 tracking-[0px] text-center"'>{service?.data?.subCategories?.[0]?.name || 'GreenThumb Gardens'}</h1>
+                <p className="w-auto h-[32px] ml-4 top-[18px] left-[216px]  opacity-100 rounded-full border border-[#059D20] bg-[#1FC16B1A] pt-[2px] pr-[8px] pb-[2px] pl-[8px]  gap-[4px]">1,250+ bookings</p>
+                </div>
                 <div className="bg-white rounded-3xl w-full h-full pt-6">
                   <div className="w-full flex justify-center items-center">
                     <button
@@ -203,8 +206,9 @@ function DeskTop({ id }: DesktopProps) {
             </div>
           </div>
           <DesktopReview />
-          <hr className="my-4 border-gray-200 " />
-          <MostPopular />
+          <hr className="my-4 border-gray-200 "/>
+          {/* <MostPopular /> */}
+          <Faq />
           {/* Banner Slider */}
           <div className="w-full h-[350px]  rounded-xl overflow-hidden mt-8">
             <Slider {...settings}>
@@ -222,7 +226,7 @@ function DeskTop({ id }: DesktopProps) {
             </Slider>
           </div>
 
-          <Faq />
+          
 
         </div>
 
