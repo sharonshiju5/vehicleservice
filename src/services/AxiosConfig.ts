@@ -19,7 +19,7 @@ const createAxiosInstance = (): AxiosInstance => {
 
   instance.interceptors.request.use(
     (config) => {
-      const accessToken = Cookies.get("token");
+      const accessToken = (typeof window !== 'undefined' ? localStorage?.getItem('accessToken') : null) ?? Cookies.get('accessToken');
       if (accessToken) {
         config.headers["Authorization"] = `Bearer ${accessToken}`;
       }

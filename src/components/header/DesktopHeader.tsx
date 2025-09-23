@@ -102,6 +102,7 @@ function DesktopHeader() {
                     onClick={() => {
                       localStorage.removeItem('name')
                       localStorage.removeItem('refreshtoken')
+                      localStorage.removeItem('accessToken')
                       setName(null)
                       setShowLogoutPopup(false)
                     }}

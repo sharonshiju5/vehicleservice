@@ -41,7 +41,7 @@ const SignUpValidations = Yup.object().shape({
     .required('Email is required'),
   phone: Yup.string()
     .required('Phone number is required')
-    .test('phone-valid', 'Invalid number', function(value) {
+    .test('phone-valid', 'Invalid number', function (value) {
       const error = validatePhoneNumber(value)
       return error === '' ? true : this.createError({ message: error })
     }),
@@ -83,6 +83,15 @@ function SignupPageContent() {
   const [referralid, setreferralid] = useState('')
   const [isOtpLoading, setIsOtpLoading] = useState(false)
   const [isResendLoading, setIsResendLoading] = useState(false)
+  const [screenWidth, setScreenWidth] = useState(0)
+
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     const params = searchParams
@@ -124,7 +133,7 @@ function SignupPageContent() {
         countryCode,
         phone: nationalNumber,
       })
-      
+
       if (send.success) {
         toast.success(`${send.message}`)
         setShowOtpSection(true)
@@ -178,7 +187,7 @@ function SignupPageContent() {
         countryCode,
         phone: nationalNumber,
       })
-      
+
       if (send.success) {
         toast.success('OTP resent successfully!')
         setTimeLeft(180)
@@ -196,7 +205,7 @@ function SignupPageContent() {
   const handleOtpSubmit = async () => {
     try {
       setIsOtpLoading(true)
-      
+
       if (!otp || otp.length === 0) {
         toast.error('OTP cannot be empty.')
         return
@@ -217,7 +226,7 @@ function SignupPageContent() {
 
       const countryCode = phoneNumber.countryCallingCode
       const nationalNumber = phoneNumber.nationalNumber
-      
+
       const payload = {
         name: uploadingData.name || '',
         email: uploadingData.email || '',
@@ -232,7 +241,7 @@ function SignupPageContent() {
       const result = await registerUser(payload)
 
       if (result?.success) {
-         localStorage.setItem('refreshtoken', result?.refreshToken)
+        localStorage.setItem('refreshtoken', result?.refreshToken)
         toast.success(`${result.message}`)
         router.push('/auths')
       } else {
@@ -253,27 +262,37 @@ function SignupPageContent() {
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`
   }
 
-  const handleThirdPartySignup = async (data: { credential?: string }) => {
+
+
+  const handleGoogleSignUp = async (data: { credential?: string }) => {
     try {
       setIsLoading(true)
-      const result = await loginWith3rdUser({ credential: data.credential })
-      
-      if (result?.success) {
-        toast.success(result.message || 'Signup successful!')
-        router.push('/')
+      const result = await loginWith3rdUser(data)
+
+      if (result?.payload?.success) {
+        localStorage.setItem('refreshtoken', result?.payload?.refreshToken)
+        toast.success(result?.payload?.message || 'Loged!', {
+          style: {
+            background: "rgba(0, 255, 0, 0.15)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            color: "#4ade80",
+            padding: "16px 24px",
+            borderRadius: "16px",
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            fontWeight: "500",
+          },
+        })
+        router.push('/auths')
       } else {
-        toast.error(result?.message || 'Signup failed')
+        toast.error(result?.payload || 'Login failed')
       }
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Signup failed'
+      const errorMessage = error instanceof Error ? error.message : 'Login failed'
       toast.error(errorMessage)
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const handleGoogleSignup = async (userDetails: { credential?: string }) => {
-    await handleThirdPartySignup(userDetails)
   }
 
   return (
@@ -306,9 +325,8 @@ function SignupPageContent() {
           <div className="flex h-full items-center justify-center bg-white p-4 md:p-8 relative overflow-hidden">
             {/* OTP Section */}
             <div
-              className={`absolute top-0 right-0 h-full w-full bg-white transition-all duration-500 ease-in-out ${
-                showOtpSec ? 'translate-x-0' : 'translate-x-full'
-              }`}
+              className={`absolute top-0 right-0 h-full w-full bg-white transition-all duration-500 ease-in-out ${showOtpSec ? 'translate-x-0' : 'translate-x-full'
+                }`}
             >
               <div className="w-full h-full flex flex-col justify-center items-center">
                 <div className="w-fit">
@@ -358,9 +376,8 @@ function SignupPageContent() {
 
             {/* Signup Form */}
             <div
-              className={`w-full flex flex-col justify-center max-w-lg space-y-4 transition-all duration-500 ease-in-out ${
-                showOtpSec ? 'opacity-0 pointer-events-none' : 'opacity-100'
-              }`}
+              className={`w-full flex flex-col justify-center max-w-lg space-y-4 transition-all duration-500 ease-in-out ${showOtpSec ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
             >
               <div className="md:flex md:flex-col space-y-5">
                 <div className="lg:hidden space-y-3">
@@ -411,7 +428,7 @@ function SignupPageContent() {
                       return
                     }
                   }
-                  
+
                   const phoneError = validatePhoneNumber(values.phone)
                   if (phoneError) {
                     setFieldError('phone', phoneError)
@@ -419,7 +436,7 @@ function SignupPageContent() {
                     setSubmitting(false)
                     return
                   }
-                  
+
                   await handleSubmit(values)
                   setSubmitting(false)
                 }}
@@ -624,47 +641,38 @@ function SignupPageContent() {
               </Formik>
 
               <div className="w-full flex justify-center md:gap-4 gap-3 px-2">
-                <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
-                  <div className={`${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+                <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
+                  <div className="w-full flex justify-center md:gap-4 gap-3 mt-4 px-2">
                     <GoogleLogin
-                      type="standard"
-                      width={200}
+                      type={screenWidth < 786 ? 'icon' : 'standard'}
+                      width={screenWidth < 786 ? undefined : 200}
                       onSuccess={(credentialResponse) => {
-                        try {
-                          if (!credentialResponse.credential) {
-                            throw new Error('No credential received from Google')
-                          }
-                          const decodedToken = jwtDecode(credentialResponse.credential) as {
-                            sub?: string;
-                            name?: string;
-                            email?: string;
-                          }
+                        if (credentialResponse?.credential) {
+                          const decodedToken = jwtDecode(credentialResponse.credential) as { sub?: string; email?: string }
                           const userDetails = {
-                            password: decodedToken.sub,
-                            name: decodedToken.name,
-                            email: decodedToken.email,
+                            password: decodedToken?.sub,
+                            email: decodedToken?.email,
                             app: 'google',
                             credential: credentialResponse.credential
                           }
-                          handleGoogleSignup(userDetails)
-                        } catch (error: unknown) {
-                          const errorMessage = error instanceof Error ? error.message : 'Google signup failed'
-                          toast.error(errorMessage)
+                          handleGoogleSignUp(userDetails)
                         }
                       }}
                       onError={() => {
-                        toast.error('Google signup failed')
+                        console.error('Google Login Failed')
                       }}
                     />
+
+                    <button className="flex py-[19px] border justify-center cursor-pointer items-center w-10 md:h-10 h-8 md:w-1/3 gap-3 text-lg border-gray-300 rounded-md">
+                      <span className="md:text-xl text-2xl">
+                        <SiApple />
+                      </span>
+                      <span className="hidden md:inline text-sm font-semibold text-gray-700">Apple</span>
+                    </button>
                   </div>
                 </GoogleOAuthProvider>
 
-                <button className="flex justify-center border py-[19px] cursor-pointer items-center w-10 md:h-10 h-8 md:w-1/3 gap-3 text-lg md:border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                  <span className="md:text-base text-2xl">
-                    <SiApple />
-                  </span>
-                  <span className="hidden md:inline text-sm font-semibold text-gray-700">Apple</span>
-                </button>
+                
               </div>
 
               <div className="flex justify-center pt-3">

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import AddressCard from '../mobile/AddressCard'
 import DatePickerCard from '../mobile/DatePickerCard'
 import TimePicker from '../mobile/TimePicker'
 import IssueDescribe from '../mobile/IssueDescribe'
 import SocketService from '@/services/socketio/SocketService'
 import config from '@/services/socketio/config'
-import { requestProvider } from '@/services/commonapi/commonApi'
 
 interface AcceptedRequest {
   providerId: string;
@@ -29,7 +27,6 @@ interface ScheduleServiceProps {
 }
 
 function ScheduleService({ selectedPlan, subCategoryId, onNext, onBack }: ScheduleServiceProps) {
-  const router = useRouter();
   const [bookingDate, setBookingDate] = React.useState('');
   const [bookingTime, setBookingTime] = React.useState('');
   const [description, setDescription] = React.useState('');
@@ -39,34 +36,16 @@ function ScheduleService({ selectedPlan, subCategoryId, onNext, onBack }: Schedu
 
   const isFormValid = bookingDate && bookingTime && description.trim();
 
-  const handleRequestProvider = async () => {
+  const handleNext = () => {
     if (!isFormValid) return;
     
     const data = {
-      planId: selectedPlan,
-      subCategoryId,
       bookingDate,
       bookingTime,
       description
     };
     
-    try {
-      const res = await requestProvider(data);
-      console.log('Request Provider Response:', res);
-      const id = res.data.bookingId;
-      console.log('Request Provider Response book id:', id);
-      if (res.success) {
-        router.push(`/timecountdown/${id}`);
-      }
-    } catch (error: unknown) {
-      const axiosError = error as { response?: { status?: number; data?: unknown } };
-      console.error('Request Provider Error:', {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        status: axiosError.response?.status,
-        data: axiosError.response?.data,
-        requestData: data
-      });
-    }
+    onNext(data);
   };
 
   useEffect(() => {
@@ -122,7 +101,7 @@ function ScheduleService({ selectedPlan, subCategoryId, onNext, onBack }: Schedu
           Back
         </button>
         <button
-          onClick={handleRequestProvider}
+          onClick={handleNext}
           disabled={!isFormValid}
           className={`w-[70%] h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 ${
             isFormValid ? 'bg-[#7722FF] hover:bg-[#6611EE]' : 'bg-gray-300 cursor-not-allowed'

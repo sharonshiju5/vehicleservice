@@ -2,11 +2,28 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { clearAcceptedRequest } from '@/redux/acceptedRequestSlice'
-import { FaStar } from "react-icons/fa"
+import { FaCalendarAlt, FaFileAlt, FaMapMarkerAlt, FaStar } from "react-icons/fa"
+import { getUserDeatils } from '@/services/commonapi/commonApi'
 
 function Desktop() {
   const dispatch = useDispatch()
   const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
+
+  const refreskToken = typeof window !== 'undefined' ? localStorage.getItem('refreshtoken') : null
+  console.log("Refresk Token:", refreskToken)
+
+  const handleUserDeatils = async () => {
+    try {
+      const res = await getUserDeatils();
+      console.log("User Details:", res);
+    } catch (error) {
+
+    }
+  }
+  useEffect(() => {
+    handleUserDeatils()
+  }, [])
+
 
   useEffect(() => {
     const handlePopState = () => {
@@ -14,59 +31,80 @@ function Desktop() {
     }
 
     window.addEventListener('popstate', handlePopState)
-    
+
     return () => {
       window.removeEventListener('popstate', handlePopState)
     }
   }, [dispatch])
 
   return (
-    <div className='w-full bg-white h-screen flex items-center justify-center'>
-      <div className="fixed top-0 left-0 w-full h-[500px] bg-[linear-gradient(180deg,#e6d9ff_0%,#ffffff_100%)] z-10">  </div>
-      <div className=" w-[90%] max-w-md bg-white rounded-2xl shadow p-4 relative z-20 ">
-        {/* Header */}
-        <div className="flex items-center gap-3 z-100 ">
-          <img
-            src="https://i.pravatar.cc/50"
-            alt="profile"
-            className="w-12 h-12 rounded-full"
-          />
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold">Service Partner</h2>
-            <p className="text-sm text-gray-500">Request Accepted</p>
-          </div>
-          <span className="text-xs bg-green-100 text-green-600 font-medium px-2 py-1 rounded">
-            Confirmed
-          </span>
-        </div>
+    <div className='w-full bg-white h-screen flex flex-col items-center justify-center p-4'>
+     
+      <div className="w-[760px] h-100vh"> 
+        <div className="w-[765px] h-[200px] bg-red-200 bg-cover bg-center rounded-2xl"
+        style={{ backgroundImage: "url('/assets/service/normal.png')" }}>jj</div>
+        <h1 className='font-medium text-[18px] leading-[28px] tracking-[0px] capitalize mb-4 pt-2'>Normal Service Provider list</h1>
+        <div className="h-[calc(100vh-320px)] overflow-y-auto space-y-2">
+          <div className="w-full h-[210px] bg-white rounded-2xl shadow-lg p-4 relative border border-gray-100 flex flex-col justify-center flex-shrink-0">
 
-        {/* Body */}
-        <div className="mt-4 space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="font-medium text-[14px] leading-[20px] tracking-[0.1px]">Provider ID</span>
-            <span className="font-medium text-gray-600">{acceptedRequestData?.providerId || 'N/A'}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="font-medium text-[14px] leading-[20px] tracking-[0.1px]">Request ID</span>
-            <span className="font-medium text-gray-600">{acceptedRequestData?.requestId || 'N/A'}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="font-medium text-[14px] leading-[20px] tracking-[0.1px]">Accepted Time</span>
-            <span className="font-medium text-gray-600">{acceptedRequestData?.timestamp || 'N/A'}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="font-medium text-[14px] leading-[20px] tracking-[0.1px]">Status</span>
-            <span className="flex items-center gap-1 text-green-500">
-              <FaStar className="text-green-400" /> Accepted
-            </span>
-          </div>
-        </div>
+            {/* Header with Profile */}
+            <div className="flex items-start gap-3 mb-4">
+              <img
+                src="https://i.pravatar.cc/50?img=12"
+                alt="Vimal tk"
+                className="w-12 h-12 rounded-full object-cover"
+              />
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold text-gray-900">{acceptedRequestData?.name || 'john'}</h2>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="flex items-center gap-1">
+                    <FaStar className="w-4 h-4 text-yellow-400 fill-current" />
+                    <span className="text-sm font-medium text-gray-700">{acceptedRequestData?.rating || '4.5'}</span>
+                    <span className="text-xs text-gray-500">{acceptedRequestData?.reviews?.toLocaleString() || '5478'} reviews</span>
+                    <div className="flex items-center gap-1">
+                      <FaMapMarkerAlt className="w-3 h-3 text-gray-400" />
+                      <span className="text-xs text-gray-600">{acceptedRequestData?.location || 'kozhikode'}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <FaCalendarAlt className="w-3 h-3 text-gray-400" />
+                      <span className="text-xs text-gray-600">{acceptedRequestData?.experience || '1.5 yrs'}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        {/* Footer Button */}
-        <div className="flex gap-3 mt-4">
-          <button className="flex-1 py-2 bg-[#1FC16B] text-white rounded-lg hover:bg-green-600">
-            Continue
-          </button>
+            {/* Job Description */}
+            <div className="flex items-start gap-2 mb-4">
+              <FaFileAlt className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+              <div>
+                <span className="text-sm font-medium text-gray-700">Job Description: </span>
+                <span className="text-sm text-gray-600">{acceptedRequestData?.jobDescription || 'Job Description: blueprints and building specifications to determine the layout ........ '}</span>
+              </div>
+            </div>
+
+            {/* Pricing Pills */}
+            <div className="flex flex-wrap gap-2 mb-4 relative">
+              <div className="px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full">
+                <span className="text-sm text-orange-600 font-medium">Basic pay: {acceptedRequestData?.basicPay || '1000'}</span>
+              </div>
+              <div className="px-3 py-1.5 bg-green-50 border border-green-200 rounded-full">
+                <span className="text-sm text-green-600 font-medium">Add on pay: {acceptedRequestData?.addOnPay || '200'}</span>
+              </div>
+              <div className="px-3 py-1.5 bg-yellow-50 border border-yellow-200 rounded-full">
+                <span className="text-sm text-yellow-600 font-medium">Hourly pay: {acceptedRequestData?.hourlyPay || '1000'}</span>
+              </div>
+              <div className="absolute right-0 flex gap-2">
+                <button className="px-3 py-1.5 text-xs font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors">
+                  More Details
+                </button>
+                <button className="px-3 py-1.5 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                  Book now
+                </button>
+              </div>
+            </div>
+          </div>
+         
         </div>
       </div>
     </div>

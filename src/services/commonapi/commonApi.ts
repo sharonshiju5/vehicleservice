@@ -157,3 +157,21 @@ export const getSearchlocation = async (query: string) => {
     console.log(error);
   }
 }
+
+export const getUserDeatils = async () => {
+  try {
+    const response = await AxiosConfig.get(`/v1/user/user/details`);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getUserAddress = async () => {
+  try {
+    const response = await AxiosConfig.get(`/v1/user/address`);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

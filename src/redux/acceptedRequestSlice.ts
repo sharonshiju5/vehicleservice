@@ -4,6 +4,15 @@ interface AcceptedRequest {
   providerId: string;
   requestId: string;
   timestamp: string;
+  name?: string;
+  rating?: number;
+  reviews?: number;
+  location?: string;
+  experience?: string;
+  jobDescription?: string;
+  basicPay?: string;
+  addOnPay?: string;
+  hourlyPay?: string;
 }
 
 interface AcceptedRequestState {

@@ -144,7 +144,15 @@ function Plans({ onNext }: PlansProps) {
                 <p className="text-gray-400 text-sm">Loading plans...</p>
             )}
             <button
-                onClick={() => selectedPlan && onNext(selectedPlan)}
+                onClick={() => {
+                    if (selectedPlan) {
+                        const selectedPackage = packages.find(pkg => pkg.id === selectedPlan);
+                        if (selectedPackage) {
+                            localStorage.setItem('PlanPriority', selectedPackage.priority.toString());
+                        }
+                        onNext(selectedPlan);
+                    }
+                }}
                 disabled={!selectedPlan}
                 className={`w-[100%] mt-8 h-[42px] p-2 text-white rounded-xl font-medium text-sm transition-all duration-300 ${selectedPlan ? 'bg-[#7722FF] hover:bg-[#6611EE]' : 'bg-gray-300 cursor-not-allowed'
                     }`}

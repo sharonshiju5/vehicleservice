@@ -4,10 +4,13 @@ import Banner from "../banner/Banner";
 import DesktopSegment from "../segments/DesktopSegment";
 import Review from "../reviews/Review";
 import RecentlyUsed from "../segments/RecentlyUsed";
+import { useRouter } from "next/navigation";
 
 const DesktopLanding = () => {
     const [openIndex, setOpenIndex] = useState(0); // First item open by default
     const [scrollPosition, setScrollPosition] = useState(0);
+
+    const router=useRouter();
 
     const reviewData = {
         name: "Rahul K.",
@@ -386,8 +389,9 @@ const DesktopLanding = () => {
                                     channel partner, you&apos;ll get exclusive access to our tools, support, and
                                     revenue-sharing programs tailored for your success.
                                 </p>
-                                <button className="bg-white text-purple-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200">
-                                    Join Now
+                                <button className="bg-white text-purple-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200"
+                                onClick={()=>{router.push('/channelpartner')}}>
+                                    Join Now 
                                 </button>
                             </div>
 

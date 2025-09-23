@@ -86,7 +86,7 @@ function DesktopBookingModal({ subCategoryId = '' }: DesktopBookingModalProps) {
     };
 
     const handleAddressNext = () => {
-        // Handle final booking submission
+        // This will be handled by AddressStep component
         console.log('Final booking data:', { selectedPlan, ...bookingData });
     };
 
@@ -106,6 +106,9 @@ function DesktopBookingModal({ subCategoryId = '' }: DesktopBookingModalProps) {
             case 3:
                 return (
                     <AddressStep 
+                        selectedPlan={selectedPlan!}
+                        subCategoryId={subCategoryId}
+                        bookingData={bookingData!}
                         onNext={handleAddressNext}
                         onBack={handleAddressBack}
                     />

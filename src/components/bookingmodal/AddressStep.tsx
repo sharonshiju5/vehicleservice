@@ -1,38 +1,99 @@
-import React from 'react'
+import React, { useState } from 'react'
+import AddressCard from '../mobile/AddressCard';
+import { useRouter } from 'next/navigation'
+import { requestProvider } from '@/services/commonapi/commonApi'
 
 interface AddressStepProps {
+  selectedPlan: string;
+  subCategoryId: string;
+  bookingData: {
+    bookingDate: string;
+    bookingTime: string;
+    description: string;
+  };
   onNext: () => void;
   onBack: () => void;
 }
 
-function AddressStep({ onNext, onBack }: AddressStepProps) {
-  return (
-    <>
-      <h1 className='font-medium text-[16px] leading-[26px] tracking-[0.01px] pt-2'>Add Address</h1>
-      
-      <div className="flex-1 overflow-y-auto">
-        <div className="space-y-4 pb-4">
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <p className="text-sm text-gray-600">Address form will be implemented here</p>
-          </div>
-        </div>
-      </div>
+interface AddressData {
+  name: string;
+  phone: string;
+  country: string;
+  state: string;
+  city: string;
+  zip: string;
+  HouseNo: string;
+  RoadName: string;
+  type: number;
+}
 
+function AddressStep({ selectedPlan, subCategoryId, bookingData, onNext, onBack }: AddressStepProps) {
+  const router = useRouter();
+  const [selectedAddress, setSelectedAddress] = useState<AddressData | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleBookService = async () => {
+    if (!selectedAddress) return;
+    
+    setIsLoading(true);
+    
+    const data = {
+      planId: selectedPlan,
+      subCategoryId,
+      bookingDate: bookingData.bookingDate,
+      bookingTime: bookingData.bookingTime,
+      description: bookingData.description,
+      address: selectedAddress
+    };
+    
+    try {
+      const res = await requestProvider(data);
+      console.log('Request Provider Response:', res);
+      const id = res.data.bookingId;
+      console.log('Request Provider Response book id:', id);
+      if (res.success) {
+        router.push(`/timecountdown/${id}`);
+      }
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { status?: number; data?: unknown } };
+      console.error('Request Provider Error:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        status: axiosError.response?.status,
+        data: axiosError.response?.data,
+        requestData: data
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      <h1 className='font-medium text-[16px] leading-[26px] tracking-[0.01px] pt-2 pb-2'>Add Address</h1>
+       
+      <div className="flex-1 overflow-y-auto">
+        <AddressCard onAddressSelect={setSelectedAddress} />
+      </div>
+      
       <div className="flex gap-2 mt-4">
         <button
           onClick={onBack}
-          className="w-[30%] h-[42px] border border-[#7722FF] text-[#7722FF] rounded-xl font-medium text-sm transition-all duration-300 hover:bg-[#7722FF] hover:text-white"
+          disabled={isLoading}
+          className="w-[30%] h-[42px] border border-[#7722FF] text-[#7722FF] rounded-xl font-medium text-sm transition-all duration-300 hover:bg-[#7722FF] hover:text-white disabled:opacity-50"
         >
           Back
         </button>
         <button
-          onClick={onNext}
-          className="w-[70%] h-[42px] bg-[#7722FF] text-white rounded-xl font-medium text-sm transition-all duration-300 hover:bg-[#6611EE]"
+          onClick={handleBookService}
+          disabled={!selectedAddress || isLoading}
+          className={`w-[70%] h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 ${
+            selectedAddress && !isLoading ? 'bg-[#7722FF] hover:bg-[#6611EE]' : 'bg-gray-300 cursor-not-allowed'
+          }`}
         >
-          Book Service
+          {isLoading ? 'Booking...' : 'Book Service'}
         </button>
       </div>
-    </>
+    </div>
   )
 }
 
