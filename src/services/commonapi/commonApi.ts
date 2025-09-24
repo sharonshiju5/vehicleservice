@@ -175,3 +175,13 @@ export const getUserAddress = async () => {
     console.log(error);
   }
 }
+
+export const getUserCurrentPackage = async () => {
+  try {
+    const response = await AxiosConfig.get(`/v1/seclobServiceCustomer/package/current`);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+

@@ -333,7 +333,9 @@ export default function LoginPage() {
                                     Forgot your password?{' '}
                                     <a
                                         className="text-xs cursor-pointer"
-                                        style={{ color: 'var(--second-primary-blue, #3D155F)' }}
+                                        style={{ color: 'var(--second-primary-blue, #3D155F)' }
+                                    }
+                                    onClick={() => router.push('/forgot-pass')}
                                     >
                                         Reset Password
                                     </a>

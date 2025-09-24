@@ -106,4 +106,50 @@ export const registerUser = async (values: RegisterUserValues) => {
   }
 };
 
+export const forgetPassword = async (payload: { phone: string; countryCode: string }) => {
+  try {
+    const { data } = await AxiosConfig.post("v1/user-no/auth/forget-password", {
+      phone: payload.phone,
+      countryCode: payload.countryCode
+    });
+    return data;
+  } catch (error: unknown) {
+    console.log(error);
+    const errorMessage = error instanceof Error && 'response' in error
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
+      : 'Failed to send reset SMS';
+    throw new Error(errorMessage ?? 'Failed to send reset SMS');
+  }
+};
 
+export const verifyOtp = async (values: { phone?: string; countryCode?: string; email?: string; OTP: string }) => {
+  try {
+    const { data } = await AxiosConfig.post(
+      "v1/user-no/auth/verify-otp",
+      values
+    );
+    return data;
+  } catch (error: unknown) {
+    console.log(error);
+    const errorMessage = error instanceof Error && 'response' in error
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
+      : 'OTP verification failed';
+    throw new Error(errorMessage ?? 'OTP verification failed');
+  }
+};
+
+export const updatePassword = async (values: { password: string; phone?: string; countryCode?: string; email?: string; OTP: string }) => {
+  try {
+    const { data } = await AxiosConfig.post(
+      "v1/user-no/auth/change-password",
+      values
+    );
+    return data;
+  } catch (error: unknown) {
+    console.log(error);
+    const errorMessage = error instanceof Error && 'response' in error
+      ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
+      : 'Failed to update password';
+    throw new Error(errorMessage ?? 'Failed to update password');
+  }
+};

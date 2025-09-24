@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { CheckCircle2 } from "lucide-react";
-import { getPackages } from '@/services/commonapi/commonApi';
+import { getPackages, getUserCurrentPackage } from '@/services/commonapi/commonApi';
 
 type PackageType = {
     id: string;
@@ -62,6 +62,7 @@ interface PlansProps {
 function Plans({ onNext }: PlansProps) {
     const [packages, setPackages] = useState<PackageType[]>([])
     const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+    const [currentplan, setCurrentplan] = useState<string | null>(null)
 
     const truncateText = (text: string[], maxWords: number = 16) => {
         const joinedText = text.join(' ');
@@ -101,6 +102,22 @@ function Plans({ onNext }: PlansProps) {
         };
         fetchPackages();
     }, []);
+
+    useEffect(() => {
+        const fetchCurrentPackages = async () => {
+            try {
+                const res = await getUserCurrentPackage();
+                if (res?.success ) {
+                    setCurrentplan(res.data.id);
+                    setSelectedPlan(res.data.id);
+                }
+            } catch (error) {
+                console.error("Error fetching packages:", error);
+            }
+        };
+        fetchCurrentPackages();
+    }, []);
+
     return (
         <>
             <h1 className='font-medium text-[16px] leading-[26px] tracking-[0.01px] pt-2'>Select Plan</h1>
@@ -136,6 +153,12 @@ function Plans({ onNext }: PlansProps) {
                             {selectedPlan === pkg.id && (
                                 <div className="absolute left-2 top-2 ">
                                     <CheckCircle2 className="w-6 h-6 text-purple-800" />
+                                </div>
+                            )}
+                            {/* Purchased Tag (if this is current plan) */}
+                            {currentplan === pkg.id && (
+                                <div className="absolute bottom-2 right-4 text-xs font-semibold text-green-600">
+                                    Purchased
                                 </div>
                             )}
                         </div>
