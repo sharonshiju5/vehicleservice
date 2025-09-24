@@ -100,7 +100,7 @@ function ScheduleService({ selectedPlan, subCategoryId, onNext, onBack }: Schedu
         >
           Back
         </button>
-        <button
+        <button 
           onClick={handleNext}
           disabled={!isFormValid}
           className={`w-[70%] h-[42px] text-white rounded-xl font-medium text-sm transition-all duration-300 ${

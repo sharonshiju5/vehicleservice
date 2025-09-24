@@ -8,21 +8,22 @@ import { getUserDeatils } from '@/services/commonapi/commonApi'
 function Desktop() {
   const dispatch = useDispatch()
   const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
+  console.log("Accepted Request Data:", acceptedRequestData)
 
   const refreskToken = typeof window !== 'undefined' ? localStorage.getItem('refreshtoken') : null
   console.log("Refresk Token:", refreskToken)
 
-  const handleUserDeatils = async () => {
-    try {
-      const res = await getUserDeatils();
-      console.log("User Details:", res);
-    } catch (error) {
+  // const handleUserDeatils = async () => {
+  //   try {
+  //     const res = await getUserDeatils();
+  //     console.log("User Details:", res);
+  //   } catch (error) {
 
-    }
-  }
-  useEffect(() => {
-    handleUserDeatils()
-  }, [])
+  //   }
+  // }
+  // useEffect(() => {
+  //   handleUserDeatils()
+  // }, [])
 
 
   useEffect(() => {

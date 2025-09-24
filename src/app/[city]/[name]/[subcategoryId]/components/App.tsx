@@ -22,6 +22,7 @@ interface AppProps {
 function App({ id }: AppProps) {
     const router = useRouter()
     const [current, setCurrent] = useState(0);
+    const [isBookingActive, setIsBookingActive] = useState(false);
 
     const settings = {
         dots: false,
@@ -37,14 +38,16 @@ function App({ id }: AppProps) {
     return (
         <div>
             {/* Fixed Header - Highest z-index */}
-            <div className='fixed top-0 left-0 right-0 z-30 w-full'>
-                <div className="w-full bg-white shadow-sm px-4 py-4 flex items-center gap-3 text-center ">
-                    <button onClick={() => router.back()} className="p-2 -ml-2">
-                        <ArrowLeft className="w-5 h-5 text-gray-600" />
-                    </button>
-                    <p className='font-medium text-[16px] leading-[18px] tracking-[-0.36px] text-center'>Service book</p>
+            {!isBookingActive && (
+                <div className='fixed top-0 left-0 right-0 z-30 w-full'>
+                    <div className="w-full bg-white shadow-sm px-4 py-4 flex items-center gap-3 text-center ">
+                        <button onClick={() => router.back()} className="p-2 -ml-2">
+                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                        </button>
+                        <p className='font-medium text-[16px] leading-[18px] tracking-[-0.36px] text-center'>Service book</p>
+                    </div>
                 </div>
-            </div>
+            )}
             
             {/* Fixed Slider - Background layer */}
             <div className="fixed top-[66px] left-0 right-0 z-10 w-full h-[337px] overflow-hidden rounded-lg shadow shrink-0">
@@ -79,7 +82,7 @@ function App({ id }: AppProps) {
 
             {/* Content that scrolls over slider */}
             <div className="relative z-20 mt-[363px]">
-                <ServiceContent id={id} />
+                <ServiceContent id={id} onBookingStateChange={setIsBookingActive} />
             </div>
         </div>
     )
