@@ -11,7 +11,7 @@ function Mobilefooter() {
     <footer className="fixed bottom-0 left-0 w-full h-[60px] bg-white  flex items-center justify-around">
       {/* Home */}
        <Link href="https://www.seclob.com/">
-      <div className="flex flex-col items-center ">
+      <div className="flex flex-col items-center text-gray-400">
         <FaHome size={20} />
         <span className="text-xs mt-1">Home</span>
       </div>
