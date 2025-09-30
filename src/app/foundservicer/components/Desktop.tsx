@@ -3,12 +3,40 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { clearAcceptedRequest } from '@/redux/acceptedRequestSlice'
 import { FaCalendarAlt, FaFileAlt, FaMapMarkerAlt, FaStar } from "react-icons/fa"
-import { getUserDeatils } from '@/services/commonapi/commonApi'
+import { getPartnerDeatils, getUserDeatils } from '@/services/commonapi/commonApi'
+import DeaktopDeatils from '@/components/chanelpartnerdeatils/DeaktopDeatils'
 
 function Desktop() {
   const dispatch = useDispatch()
+  const [Partner, setPartner] = React.useState<{data?: {name?: string}} | null>(null)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+
   const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
   console.log("Accepted Request Data:", acceptedRequestData)
+
+  useEffect(() => {
+    if (acceptedRequestData?.providerId) {
+      getpartnerDetails(acceptedRequestData?.providerId)
+    }
+  }, [acceptedRequestData])
+
+  const getpartnerDetails = async (id: string) => {
+    try {
+      const res = await getPartnerDeatils(id);
+
+      setPartner(res)
+
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    if (Partner) {
+      console.log("Partner Details (from state):", Partner);
+    }
+  }, [Partner]);
+
 
   const refreskToken = typeof window !== 'undefined' ? localStorage.getItem('refreshtoken') : null
   console.log("Refresk Token:", refreskToken)
@@ -40,10 +68,10 @@ function Desktop() {
 
   return (
     <div className='w-full bg-white h-screen flex flex-col items-center justify-center p-4'>
-     
-      <div className="w-[760px] h-100vh"> 
+
+      <div className="w-[760px] h-100vh">
         <div className="w-[765px] h-[200px] bg-red-200 bg-cover bg-center rounded-2xl  p-8 "
-        style={{ backgroundImage: "url('/assets/service/normal.png')" }}>
+          style={{ backgroundImage: "url('/assets/service/normal.png')" }}>
           <h1 className='text-[16px] leading-[26px] tracking-[0.01px]  text-white'>Normal Service</h1>
           <h1 className='font-medium text-[28px] leading-[40px] tracking-[0px] pt-2'>Your Daily Service Partner</h1>
           <h1 className='font-normal text-[18px] leading-[28px] tracking-[0px] pt-2'>From cleaning to repairs  find the right expert near you.</h1>
@@ -60,7 +88,7 @@ function Desktop() {
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div className="flex-1">
-                <h2 className="text-lg font-semibold text-gray-900">{acceptedRequestData?.name || 'john'}</h2>
+                <h2 className="text-lg font-semibold text-gray-900">{Partner?.data?.name}</h2>
                 <div className="flex items-center gap-2 mt-1">
                   <div className="flex items-center gap-1">
                     <FaStar className="w-4 h-4 text-yellow-400 fill-current" />
@@ -100,18 +128,33 @@ function Desktop() {
                 <span className="text-sm text-yellow-600 font-medium">Hourly pay: {acceptedRequestData?.hourlyPay || '1000'}</span>
               </div>
               <div className="absolute right-0 flex gap-2">
-                <button className="px-3 py-1.5 text-xs font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="px-3 py-1.5 text-xs font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors"
+                >
                   More Details
                 </button>
+
                 <button className="px-3 py-1.5 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                   Book now
                 </button>
               </div>
             </div>
           </div>
-         
+
         </div>
       </div>
+      {/* Modal should be here */}
+      {isModalOpen && (
+        <DeaktopDeatils
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          data={{
+            partner: Partner?.data,
+            request: acceptedRequestData
+          }}
+        />
+      )}
     </div>
   )
 }

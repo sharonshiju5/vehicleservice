@@ -25,7 +25,7 @@ function App({ id }: AppProps) {
   // console.log('App component - Booking ID:', id)
   const router = useRouter();
   const dispatch = useDispatch();
-  const totalTime = 40;
+  const totalTime = 180;
   const [timeLeft, setTimeLeft] = useState(totalTime);
   const [smoothProgress, setSmoothProgress] = useState(0);
   const [connectionStatus, setConnectionStatus] = React.useState('Disconnected');

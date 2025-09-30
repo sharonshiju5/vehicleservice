@@ -94,16 +94,37 @@ interface requestProviderData {
   description: string;
   bookingTime: string;
   bookingDate: string;
+  // distance:string | number; 
+  // packagePriority:string | number;
 }
-export const requestProvider =async(data:requestProviderData)=>{
+export const requestProvider = async (data: requestProviderData) => {
   try {
-    const response = await AxiosConfig.post('/v1/seclobServiceCustomer/service/req',data);
+    const formData = new FormData();
+    formData.append('bookingDate', data.bookingDate);
+    formData.append('bookingTime', data.bookingTime);
+    formData.append('description', data.description);
+    formData.append('planId', data.planId);
+    formData.append('subCategoryId', data.subCategoryId);
+    // formData.append('distance', data.distance.toString());
+    // formData.append('packagePriority', data.packagePriority.toString());
+
+    const response = await AxiosConfig.post(
+      '/v2/seclobServiceCustomer/service/req',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
-}
+};
+
 
 export const deatiledService =async(search:string)=>{
   try {
@@ -185,3 +206,12 @@ export const getUserCurrentPackage = async () => {
   }
 }
 
+
+export const getPartnerDeatils = async (id :string) => {
+  try {
+    const response = await AxiosConfig.get(`/v1/servicepartner/user/details-partner?_id=${id}`);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
