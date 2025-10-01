@@ -12,7 +12,7 @@ export default function WebFooter() {
       <div className="mx-auto max-w-screen-xl py-3 px-6 lg:px-12 md:px-6">
         <div className="flex justify-between lg:gap-8 md:gap-3">
           <div className="col-span-1">
-            <a
+            <Link
               href="/"
               className="flex gap-3 lg:flex-row flex-col text-4xl items-center justify-center"
             >
@@ -26,17 +26,17 @@ export default function WebFooter() {
                 />
               </div>
               <p className="font-bold">Seclob</p>
-            </a>
+            </Link>
           </div>
           <div className="col-span-1">
             <h3 className="font-medium text-base mb-2">Company</h3>
             <ul className="space-y-1 text-sm">
               <li>
-                <a href="/about" className="cursor-not-allowed pointer-events-none ">About</a>
+                <Link href="/about" className="cursor-not-allowed pointer-events-none ">About</Link>
               </li>
               <li>
                 <div className="flex items-center gap-2">
-                  <a href="/careers">Careers</a>
+                  <Link href="/careers">Careers</Link>
                   <span className="bg-blue-500 text-white text-xs px-2 py-0.5 rounded">
                     NEW
                   </span>
@@ -68,7 +68,7 @@ export default function WebFooter() {
             <h3 className="font-medium text-base mb-2">Product</h3>
             <ul className="space-y-1 text-sm">
               <li>
-                <a href="/" className="">Service</a>
+                <Link href="/" className="">Service</Link>
               </li>
               <li>
                 <a href="https://www.seclob.com/e-card">Ecard</a>
