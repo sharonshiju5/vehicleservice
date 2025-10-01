@@ -5,6 +5,7 @@ import DesktopSegment from "../segments/DesktopSegment";
 import Review from "../reviews/Review";
 import RecentlyUsed from "../segments/RecentlyUsed";
 import { useRouter } from "next/navigation";
+import WebFooter from "../footer/WebFooter";
 
 const DesktopLanding = () => {
     const [openIndex, setOpenIndex] = useState(0); // First item open by default
@@ -95,7 +96,7 @@ const DesktopLanding = () => {
     return (
         <div>
            
-            <div className="bg-white h-auto w-[80%] mx-auto">
+            <div className="bg-white h-auto w-[80%] mx-auto pb-4">
                 {/* Banner*/}
                 <Banner />
                 {/* Segment */}
@@ -531,8 +532,9 @@ const DesktopLanding = () => {
                 </div>
 
                  <RecentlyUsed/>
-                <h1>Desktop Landing</h1>
+                
             </div>
+           <WebFooter/> 
         </div>
     );
 }
