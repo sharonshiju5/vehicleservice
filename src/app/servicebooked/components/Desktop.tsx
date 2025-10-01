@@ -4,7 +4,8 @@ import React from 'react'
 function Desktop() {
   return (
     <div>
-      <DesktopBookingModal />
+      {/* <DesktopBookingModal /> */}
+      fff
     </div>
   )
 }

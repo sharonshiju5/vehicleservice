@@ -4,10 +4,12 @@ import { RootState } from '@/redux/store'
 import { clearAcceptedRequest } from '@/redux/acceptedRequestSlice'
 import { FaCalendarAlt, FaFileAlt, FaMapMarkerAlt, FaStar } from "react-icons/fa"
 import { getPartnerDeatils } from '@/services/commonapi/commonApi'
+import MobileDeatils from '@/components/chanelpartnerdeatils/MobileDeatils'
 
 function App() {
     const dispatch = useDispatch()
     const [Partner, setPartner] = React.useState<{data?: {name?: string}} | null>(null)
+    const [showDetails, setShowDetails] = React.useState(false)
     const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
     
      useEffect(() => {
@@ -111,7 +113,10 @@ function App() {
                         </div>
                       </div> */}
                       <div className="flex w-full gap-2 justify-between ">
-                        <button className="text-xs font-medium text-blue-600  rounded-lg hover:bg-blue-50 transition-colors">
+                        <button 
+                          onClick={() => setShowDetails(true)}
+                          className="text-xs font-medium text-blue-600  rounded-lg hover:bg-blue-50 transition-colors"
+                        >
                           More Details
                         </button>
                         <button className="px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium bg-[#5818BF] text-white rounded-lg hover:bg-blue-700 transition-colors">
@@ -123,6 +128,15 @@ function App() {
                  
                 </div>
               </div>
+              
+              <MobileDeatils 
+                isOpen={showDetails}
+                onClose={() => setShowDetails(false)}
+                data={{
+                  partner: Partner?.data,
+                  request: acceptedRequestData
+                }}
+              />
             </div>
     )
 }

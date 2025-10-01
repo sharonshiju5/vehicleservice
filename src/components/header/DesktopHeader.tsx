@@ -125,7 +125,7 @@ function DesktopHeader() {
       <div className="mx-auto max-w-screen-xl">
         <div className="py-4 flex items-center justify-between px-2 sm:px-6 lg:px-20">
           {/* Left Logo Section */}
-          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+          <Link href="https://www.seclob.com" className="flex items-center gap-2 cursor-pointer">
             <Image
               src="/assets/logo/Layer_1 (7).png"
               className="h-9 w-9"
