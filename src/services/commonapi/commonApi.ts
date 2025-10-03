@@ -215,3 +215,19 @@ export const getPartnerDeatils = async (id :string) => {
     console.log(error);
   }
 }
+
+interface Data {
+  subCategoryId: string;
+  distance: number;
+  packagePriority: number;
+}
+export const getAllProviders =async(data:Data)=>{
+  try {
+    const response = await AxiosConfig.post(`/v2/seclobServiceCustomer/service/get-providers`,data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+

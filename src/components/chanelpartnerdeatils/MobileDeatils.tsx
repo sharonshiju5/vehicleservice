@@ -36,7 +36,7 @@ function MobileDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
             onClick={handleClose}
         >
             <div 
-                className={`w-full h-[90vh] bg-white rounded-t-2xl p-6 relative shadow-lg transform transition-transform duration-300 ease-out ${
+                className={`w-full h-auto pb-4 bg-white rounded-t-2xl p-6 relative shadow-lg transform transition-transform duration-300 ease-out ${
                     isAnimating ? 'translate-y-0' : 'translate-y-full'
                 }`}
                 onClick={(e) => e.stopPropagation()}

@@ -46,6 +46,15 @@ function AddressStep({ selectedPlan, subCategoryId, bookingData, onNext, onBack 
       address: selectedAddress
     };
     
+    const planPriority = localStorage.getItem('PlanPriority');
+    
+    if (planPriority === '1') {
+      const encodedData = encodeURIComponent(JSON.stringify(data));
+      router.push(`/premiumplanbook?data=${encodedData}`);
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       const res = await requestProvider(data);
       console.log('Request Provider Response:', res);
