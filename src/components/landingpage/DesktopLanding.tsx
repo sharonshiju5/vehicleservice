@@ -68,24 +68,28 @@ const DesktopLanding = () => {
 
     const faqs = [
         {
-            question: "How do I book a service on Seclob?",
-            answer: "Booking is easy! Just select your service category, choose your location, pick a date and time, and confirm the booking — all in just a few taps."
+            question: "What are some of the services offered by Seclob?",
+            answer: "Seclob has varied home maintenance services that have been verified."
         },
         {
-            question: "Are the service professionals verified?",
-            answer: "Yes, all our service professionals go through a rigorous verification process including background checks and skill assessments."
+            question: "Do the service professionals have been verified?",
+            answer: "All the Seclob staffs are, yes, verified and trained professionals."
         },
         {
-            question: "Are the service professionals verified?",
-            answer: "Yes, all our service professionals go through a rigorous verification process including background checks and skill assessments."
+            question: "How can I book a service?",
+            answer: "reservation is easy through the Seclob mobile application or web site."
         },
         {
-            question: "Are the service professionals verified?",
-            answer: "Yes, all our service professionals go through a rigorous verification process including background checks and skill assessments."
+            question: "Does it have a satisfaction guarantee?",
+            answer: "Yes, Seclob does quality work and satisfies customers every time."
         },
         {
-            question: "Are the service professionals verified?",
-            answer: "Yes, all our service professionals go through a rigorous verification process including background checks and skill assessments."
+            question: "Is it possible to book a service when it is convenient?",
+            answer: "Of course, you can select date and time that fits you."
+        },
+        {
+            question: "Do we have the services there?",
+            answer: "Seclob has services in various branches, check balances on the internet."
         }
     ];
 
@@ -110,13 +114,12 @@ const DesktopLanding = () => {
                         {/* Left Side: Text */}
                         <div className="flex flex-col justify-center flex-1 max-lg:mb-6">
                             <h2 className="text-[42px] max-lg:text-[28px] font-semibold text-[#1E1E1E] leading-[42px] max-lg:leading-[32px] mb-[16px] absolute max-lg:relative top-8 max-lg:top-0 max-lg:mb-4">
-                                Absolute Home Services: Home <br />
-                                Improvements Contractor Serving
+                                Reliable Professionals for  <br />
+                                Every Home Need
 
                             </h2>
                             <p className="text-[#8B8B8B] text-[18px] max-lg:text-[16px] max-w-[600px] absolute max-lg:relative top-[140px] max-lg:top-0 max-lg:mb-6">
-                                Need home maintenance, repair, or renovation help? Turn your house into a home with
-                                Absolute Home Services. We provide exceptional service, every time.
+                                Want to make your home look and feel its best? Our team takes care of everything from cleaning to repairs with expert precision. We make every service simple, seamless, and completely stress-free for you.
                             </p>
 
                             {/* Purple Stats Section */}
@@ -163,11 +166,11 @@ const DesktopLanding = () => {
                     {/* Main heading */}
                     <div className="mb-6">
                         <h1 className="text-4xl font-bold text-gray-900 leading-tight">
-                            Why Thousands Trust Seclob<br />
-                            for Their Home
+                            Why Seclob Is the Go-To Choice<br />
+                            for Every Home
                         </h1>
                         <p className="text-gray-500 mt-4 text-lg">
-                            Discover the most booked and trusted home services in your area
+                            Your go-to choice for dependable and expert home services nearby
                         </p>
                     </div>
 
@@ -182,7 +185,7 @@ const DesktopLanding = () => {
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-3">Verified Professionals</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">
-                                Every Seclob professional completes a rigorous multi-stage vetting process—police-verified background checks, in-person skill assessments
+                            All service providers are well vetted to guarantee safety, reliability and professional quality work.
                             </p>
                         </div>
 
@@ -193,9 +196,9 @@ const DesktopLanding = () => {
                                     <Image src="/assets/landing/medal-star.png" alt="Icon" width={48} height={48} className="w-12 h-12" />
                                 </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-900 mb-3">Verified Professionals</h3>
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">On-Time Service</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">
-                                Every Seclob professional completes a rigorous multi-stage vetting process—police-verified background checks, in-person skill assessments
+                             Our team appreciates your time and that is why whenever you visit us, we provide prompt, punctual and efficient services.
                             </p>
                         </div>
 
@@ -206,9 +209,9 @@ const DesktopLanding = () => {
                                     <Image src="/assets/landing/like.png" alt="Icon" width={48} height={48} className="w-12 h-12" />
                                 </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-900 mb-3">Verified Professionals</h3>
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">Transparent Pricing</h3>
                             <p className="text-gray-600 text-sm leading-relaxed">
-                                Every Seclob professional completes a rigorous multi-stage vetting process—police-verified background checks, in-person skill assessments
+                              There is no hidden price or cost, and it is always clear, which guarantees full trust and affordable services
                             </p>
                         </div>
                     </div>
@@ -229,11 +232,11 @@ const DesktopLanding = () => {
                         {/* Main heading */}
                         <div className="mb-12 max-lg:mb-8">
                             <h1 className="text-5xl max-lg:text-3xl font-bold text-gray-900 leading-tight mb-4">
-                                Home Improvement & Repair<br />
-                                Simplified
+                                Professional Repairs and Home <br />
+                                Solutions at Doorstep
                             </h1>
                             <p className="text-gray-500 text-lg max-lg:text-base max-w-md">
-                                Every Seclob professional completes a rigorous multi-stage vetting process office-verified
+                                Home repairs and upgrades done efficiently by verified experts you can trust.
                             </p>
                         </div>
 
@@ -244,52 +247,52 @@ const DesktopLanding = () => {
                             <div className="space-y-8 max-lg:space-y-6">
                                 {/* Category 1 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
-                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB] flex-shrink-0">
+                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px] object-contain" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Reliable Experts in every part of your house</h3>
                                         <p className="text-gray-500 text-sm">
-                                            Every Seclob professional completes a rigorous multi-stage vetting process office-verified
+                                           Experienced professionals who offer safe, verified and reliable services throughout the country.
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* Category 2 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
-                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB] flex-shrink-0">
+                                        <Image src="/assets/landing/verify.png" alt="Home Solutions Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px] object-contain" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Home Solutions That are in-Your-Finger-Tips</h3>
                                         <p className="text-gray-500 text-sm">
-                                            Every Seclob professional completes a rigorous multi-stage vetting process office-verified
+                                            One-stop-shop with checked services of any home requirement.
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* Category 3 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
-                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB] flex-shrink-0">
+                                        <Image src="/assets/landing/verify.png" alt="Proven Pros Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px] object-contain" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Proven Pros in any Job, Large or Small</h3>
                                         <p className="text-gray-500 text-sm">
-                                            Every Seclob professional completes a rigorous multi-stage vetting process office-verified
+                                           Skilled, reliable employees who make sure that there are smooth solutions to your requirements at home.
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* Category 4 */}
                                 <div className="flex items-start gap-4 max-lg:gap-3">
-                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB]">
-                                        <Image src="/assets/landing/verify.png" alt="Verify Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px]" />
+                                    <div className="w-[80px] h-[75px] max-lg:w-[60px] max-lg:h-[55px] bg-[#F9FAFB] rounded-[10px] flex items-center justify-center shadow-sm border border-[#E5E7EB] flex-shrink-0">
+                                        <Image src="/assets/landing/verify.png" alt="Home Services Icon" width={40} height={40} className="w-[40px] h-[40px] max-lg:w-[30px] max-lg:h-[30px] object-contain" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Our Most Popular Categories</h3>
+                                        <h3 className="text-xl max-lg:text-lg font-semibold text-gray-900 mb-2">Your Ultimate Home Services Provider</h3>
                                         <p className="text-gray-500 text-sm">
-                                            Every Seclob professional completes a rigorous multi-stage vetting process office-verified
+                                           Making you meet trusted professionals in all the categories of the household services.
                                         </p>
                                     </div>
                                 </div>
@@ -311,10 +314,10 @@ const DesktopLanding = () => {
                         {/* Header */}
                         <div className="text-center mb-16">
                             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                                Our Most Popular Categories
+                               Frequently Asked Questions (FAQ)
                             </h2>
                             <p className="text-gray-500 text-lg">
-                                Discover the most booked and trusted home services in your area.
+                              Experience effortless home services, delivered by reliable, verified experts.
                             </p>
                         </div>
 
@@ -383,12 +386,10 @@ const DesktopLanding = () => {
                             {/* Left Content */}
                             <div className="flex-1 px-12 py-8">
                                 <h1 className="text-white text-4xl font-bold mb-4 leading-tight">
-                                    Become a Channel Partner
+                                    Start Partnering Today!
                                 </h1>
                                 <p className="text-white/90 text-base mb-6 leading-relaxed max-w-lg">
-                                    Join our growing network and unlock new earning opportunities. As a
-                                    channel partner, you&apos;ll get exclusive access to our tools, support, and
-                                    revenue-sharing programs tailored for your success.
+                                    Stop waiting—start earning. Get exclusive training, powerful sales assets, and a guaranteed revenue-share structure that rewards your performance instantly.
                                 </p>
                                 <button className="bg-white text-purple-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200"
                                 onClick={()=>{router.push('/channelpartner')}}>

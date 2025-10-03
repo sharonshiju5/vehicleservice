@@ -2,7 +2,6 @@ import Partnersearch from '@/components/partnersearch/Partnersearch'
 import Review from '@/components/reviews/Review'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 function Desktop() {
     const [openIndex, setOpenIndex] = useState(0);
@@ -57,20 +56,16 @@ function Desktop() {
                             {/* Right Side - Content */}
                             <div className="flex-1 max-w-lg">
                                 <h2 className="text-2xl lg:text-4xl font-bold text-gray-800 mb-6 leading-tight">
-                                    Why Join Us? – Delivery<br />
-                                    Partner Benefits
+                                    Why Partner with Seclob?
                                 </h2>
 
                                 <div className="space-y-4">
                                     <p className="text-gray-600 leading-relaxed">
-                                        Every Deliveo professional completes a rigorous multi-stage vetting
-                                        process after verified.
+                                        As a partner, access our 100+ verified pro community and exclusive revenue programs. Use specialized tools and support to easily scale your home service business.
                                     </p>
 
                                     <p className="text-gray-600 leading-relaxed">
-                                        Need home maintenance, repair, or renovation help? Turn your house into
-                                        a home with Absolute House Services. We provide exceptional service,
-                                        every time.
+                                        Get continuous business growth and customer trust.
                                     </p>
                                 </div>
                             </div>

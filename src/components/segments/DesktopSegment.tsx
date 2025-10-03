@@ -222,8 +222,8 @@ function DesktopSegment() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Our Most Popular Categories</h1>
-        <p className="text-sm sm:text-base text-gray-600">Discover the most booked and trusted home services in your area.</p>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Our Premier Service Categories</h1>
+        <p className="text-sm sm:text-base text-gray-600">Discover excellence in every service — designed for reliability, quality, and satisfaction.</p>
       </div>
 
       {/* Search Bar */}
