@@ -81,20 +81,16 @@ function Desktop() {
                             {/* Left Side - Content */}
                             <div className="flex-1 max-w-lg">
                                 <h2 className="text-2xl lg:text-4xl font-bold text-gray-800 mb-6 leading-tight">
-                                    Home Improvement &<br />
-                                    Repair Simplified
+                                    Need a Trusted Partner?
                                 </h2>
 
                                 <div className="space-y-4">
                                     <p className="text-gray-600 leading-relaxed">
-                                        Every Sectolo professional completes a rigorous multi-stage
-                                        vetting process after verified.
+                                       Partner with Seclob to immediately gain certified reliability and customer trust through our multi-stage vetting.
                                     </p>
 
                                     <p className="text-gray-600 leading-relaxed">
-                                        Need home maintenance, repair, or renovation help? Turn your
-                                        house into a home with Absolute Home Services. We provide
-                                        exceptional service, every time.
+                                        Receive exclusive access to specialized tools designed to simplify management, allowing you to focus on delivering exceptional service.
                                     </p>
                                 </div>
                             </div>
@@ -243,20 +239,16 @@ function Desktop() {
                             {/* Left Side - Content */}
                             <div className="flex-1 max-w-lg order-1 lg:order-2">
                                 <h2 className="text-2xl lg:text-4xl font-bold text-gray-800 mb-6 leading-tight">
-                                    Home Improvement &<br />
-                                    Repair Simplified
+                                    Ready to Succeed with Seclob?
                                 </h2>
 
                                 <div className="space-y-4">
                                     <p className="text-gray-600 leading-relaxed">
-                                        Every Sectolo professional completes a rigorous multi-stage
-                                        vetting process after verified.
+                                       Become part of a successful network of trusted professionals and receive round-the-clock business opportunities. 
                                     </p>
 
                                     <p className="text-gray-600 leading-relaxed">
-                                        Need home maintenance, repair, or renovation help? Turn your
-                                        house into a home with Absolute Home Services. We provide
-                                        exceptional service, every time.
+                                       Verified access, flexible working hours, and flawless support to develop faster and smarter.
                                     </p>
                                 </div>
                             </div>

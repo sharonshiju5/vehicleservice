@@ -13,6 +13,7 @@ interface AcceptedRequest {
   basicPay?: string;
   addOnPay?: string;
   hourlyPay?: string;
+  bookingStatus?: string;
 }
 
 interface AcceptedRequestState {

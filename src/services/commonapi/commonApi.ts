@@ -231,3 +231,19 @@ export const getAllProviders =async(data:Data)=>{
   }
 }
 
+
+interface bookservice {
+  bookingStatus: string;
+  requestId: string;
+}
+
+export const bookService = async (data: bookservice) => {
+  try {
+    const response = await AxiosConfig.post('/v1/seclobServiceCustomer/booking/accept', data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+ 

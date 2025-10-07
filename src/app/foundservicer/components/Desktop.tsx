@@ -3,16 +3,35 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { clearAcceptedRequest } from '@/redux/acceptedRequestSlice'
 import { FaCalendarAlt, FaFileAlt, FaMapMarkerAlt, FaStar } from "react-icons/fa"
-import { getPartnerDeatils, getUserDeatils } from '@/services/commonapi/commonApi'
+import { bookService, getPartnerDeatils, getUserDeatils } from '@/services/commonapi/commonApi'
 import DeaktopDeatils from '@/components/chanelpartnerdeatils/DeaktopDeatils'
+import { showToast } from '@/utils/toast'
+import { useRouter } from 'next/navigation'
 
 function Desktop() {
+  const router=useRouter()
   const dispatch = useDispatch()
   const [Partner, setPartner] = React.useState<{data?: {name?: string}} | null>(null)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
   const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
   console.log("Accepted Request Data:", acceptedRequestData)
+
+
+  const handlebookService = async (bookingStatus?: string, requestId?: string) => {
+    if (!bookingStatus || !requestId) return;
+    try {
+      const data = { bookingStatus, requestId };
+      const res = await bookService(data);
+      console.log("Book Service Response:", res);
+      if(res.success){
+        showToast({ type: 'success', title: 'Success', message: 'Service booked successfully!' })
+        router.push('/servicebooked')
+      }
+    } catch (error) {
+      console.error("Book Service Error:", error);
+    }
+  }
 
   useEffect(() => {
     if (acceptedRequestData?.providerId) {
@@ -23,11 +42,9 @@ function Desktop() {
   const getpartnerDetails = async (id: string) => {
     try {
       const res = await getPartnerDeatils(id);
-
-      setPartner(res)
-
+      setPartner(res);
     } catch (error) {
-
+      console.error("Partner Details Error:", error);
     }
   }
 
@@ -135,7 +152,10 @@ function Desktop() {
                   More Details
                 </button>
 
-                <button className="px-3 py-1.5 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <button 
+                  onClick={() => handlebookService(acceptedRequestData?.bookingStatus, acceptedRequestData?.requestId)} 
+                  className="px-3 py-1.5 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
                   Book now
                 </button>
               </div>
