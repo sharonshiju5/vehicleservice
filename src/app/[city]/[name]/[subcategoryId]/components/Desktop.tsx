@@ -139,7 +139,7 @@ function DeskTop({ id }: DesktopProps) {
       )}
       <div className='w-full mt-2'>
         <div className="w-[80%]  mx-auto pt-12 ">
-         <h2 className="font-medium text-[28px] leading-[40px] tracking-[0px] ">{service?.data?.subCategories?.[0]?.name || 'GreenThumb Gardens'}</h2>
+         <h2 className="font-medium text-[25px] leading-[40px] tracking-[0px] ">{service?.data?.subCategories?.[0]?.name || 'GreenThumb Gardens'}</h2>
           <div className="flex  items-center pb-2 ">
             <MdLocationOn className="text-black-500 w-5 h-5" />
             <p className="text-[20px] text-gray-500">Thiruvananthapuram </p>
@@ -180,7 +180,7 @@ function DeskTop({ id }: DesktopProps) {
           
           <div className="w-full  flex">
             <div className="w-[50%] ">
-              <h3 className="mt-4 font-medium text-[28px] leading-[40px] tracking-[0px]">About us</h3>
+              <h3 className="mt-4 font-medium text-[24px] leading-[40px] tracking-[0px]">About us</h3>
               <p className="font-normal text-[18px] leading-[28px] tracking-[0px] mt-2 pb-8 text-justify">
                 {service?.data?.subCategories?.[0]?.description}
               </p>

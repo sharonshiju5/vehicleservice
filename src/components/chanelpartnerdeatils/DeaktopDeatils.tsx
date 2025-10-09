@@ -24,7 +24,7 @@ function DeaktopDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
                         Provider details
                     </h2>
                     <div className="flex items-center gap-4">
-                        <button className="text-sm text-blue-600 hover:underline">Need help ?</button>
+                        <button className="text-[10px] text-blue-600 hover:underline">Need help ?</button>
                         <button
                             onClick={onClose}
                             className="text-gray-500 hover:text-gray-700"
@@ -39,7 +39,7 @@ function DeaktopDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
                 <div className="flex items-center border-b border-gray-200 mb-4">
                     <button 
                         onClick={() => setActiveTab('details')}
-                        className={`text-sm font-medium pb-2 px-4 ${
+                        className={`text-[10px] font-medium pb-2 px-4 ${
                             activeTab === 'details' 
                                 ? 'text-blue-600 border-b-2 border-blue-600' 
                                 : 'text-gray-500 hover:text-gray-700'
@@ -49,7 +49,7 @@ function DeaktopDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
                     </button>
                     <button 
                         onClick={() => setActiveTab('reviews')}
-                        className={`text-sm font-medium pb-2 px-4 ${
+                        className={`text-[10px] font-medium pb-2 px-4 ${
                             activeTab === 'reviews' 
                                 ? 'text-blue-600 border-b-2 border-blue-600' 
                                 : 'text-gray-500 hover:text-gray-700'
@@ -78,7 +78,7 @@ function DeaktopDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
                         </div>
                     </div>
 
-                    <div className="divide-y divide-gray-200 text-sm">
+                    <div className="divide-y divide-gray-200 text-[10px]">
                         <div className="flex justify-between py-2">
                             <span className="text-gray-500">Service name</span>
                             <span className="text-gray-900">Ac service</span>
@@ -116,7 +116,7 @@ function DeaktopDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
                                 <span className="text-gray-500">📄</span>
                                 <span className="font-medium text-gray-800">Job Description</span>
                             </div>
-                            <p className="text-sm text-gray-600 leading-6">
+                            <p className="text-[10px] text-gray-600 leading-6">
                                 Absolutely thrilled with the service! My apartment has never looked better.
                                 The team was punctual, professional, and incredibly thorough. Highly recommend!
                             </p>
@@ -135,11 +135,11 @@ function DeaktopDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
                                     <h4 className="font-medium text-gray-900">Sarah Johnson</h4>
                                     <div className="flex items-center gap-1">
                                         <span className="text-yellow-400">★★★★★</span>
-                                        <span className="text-sm text-gray-500">5.0</span>
+                                        <span className="text-[10px] text-gray-500">5.0</span>
                                     </div>
                                 </div>
                             </div>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-[10px] text-gray-600">
                                 Excellent service! Very professional and thorough. Highly recommend.
                             </p>
                         </div>
@@ -155,11 +155,11 @@ function DeaktopDeatils({ isOpen, onClose, data }: DeaktopDeatilsProps) {
                                     <h4 className="font-medium text-gray-900">Mike Chen</h4>
                                     <div className="flex items-center gap-1">
                                         <span className="text-yellow-400">★★★★☆</span>
-                                        <span className="text-sm text-gray-500">4.0</span>
+                                        <span className="text-[10px] text-gray-500">4.0</span>
                                     </div>
                                 </div>
                             </div>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-[10px] text-gray-600">
                                 Good work, arrived on time and completed the job efficiently.
                             </p>
                         </div>

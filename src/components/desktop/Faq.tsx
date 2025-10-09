@@ -30,7 +30,7 @@ function Faq() {
   };
   return (
     <div className="w-full  mx-auto mt-6 pb-18">
-      <h2 className="font-medium text-[28px] leading-[26px] tracking-[0.01px] mb-4">FAQ</h2>
+      <h2 className="font-medium text-[24px] leading-[26px] tracking-[0.01px] mb-4">FAQ</h2>
       <div className="space-y-3">
         {faqData.map((faq, index) => (
           <div
@@ -42,7 +42,7 @@ function Faq() {
                 onClick={() => toggleFAQ(index)}
                 className="flex justify-between items-center w-full text-left"
               >
-                <span className="font-normal text-[18px] leading-[22px]">{faq.question}</span>
+                <span className="font-normal text-[16px] leading-[22px]">{faq.question}</span>
                 <ChevronDown
                   className={`w-5 h-5 transition-transform duration-300 text-gray-700 ${
                     activeIndex === index ? "rotate-180" : ""
@@ -51,7 +51,7 @@ function Faq() {
               </button>
             </div>
             {activeIndex === index && (
-              <p className="text-gray-500 font-normal text-[16px] leading-[18px] tracking-[0.03px]">{faq.answer}</p>
+              <p className="text-gray-500 font-normal text-[15px] leading-[18px] tracking-[0.03px]">{faq.answer}</p>
             )}
           </div>
         ))}

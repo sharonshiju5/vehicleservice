@@ -18,7 +18,7 @@ function DesktopReview() {
   return (
     <div>
             <div className="">
-                <h2 className="font-medium text-[28px] leading-[40px] tracking-[0px] mb-4">Reviews</h2>
+                <h2 className="font-medium text-[24px] leading-[40px] tracking-[0px] mb-4">Reviews</h2>
 
                 {/* Review 1 */}
                 <div className="mb-6">

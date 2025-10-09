@@ -84,7 +84,7 @@ function Desktop() {
   }, [dispatch])
 
   return (
-    <div className='w-full bg-white h-screen flex flex-col items-center justify-center p-4'>
+    <div className='w-full bg-white h-screen flex flex-col items-center justify-center p-4 '>
 
       <div className="w-[760px] h-100vh">
         <div className="w-[765px] h-[200px] bg-red-200 bg-cover bg-center rounded-2xl  p-8 "
@@ -147,9 +147,15 @@ function Desktop() {
               <div className="absolute right-0 flex gap-2">
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="px-3 py-1.5 text-xs font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors"
+                  className="px-3 py-1.5 text-xs font-medium text-blue-600  rounded-lg hover:bg-blue-50 transition-colors"
                 >
                   More Details
+                </button>
+                <button
+                  
+                  className="px-3 py-1.5 text-xs font-medium text-red-600 border border-red-200 rounded-lg hover:bg-blue-50 transition-colors"
+                >
+                 Reject
                 </button>
 
                 <button 
