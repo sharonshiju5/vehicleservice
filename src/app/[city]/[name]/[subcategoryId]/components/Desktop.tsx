@@ -181,7 +181,7 @@ function DeskTop({ id }: DesktopProps) {
           <div className="w-full  flex">
             <div className="w-[50%] ">
               <h3 className="mt-4 font-medium text-[24px] leading-[40px] tracking-[0px]">About us</h3>
-              <p className="font-normal text-[18px] leading-[28px] tracking-[0px] mt-2 pb-8 text-justify">
+              <p className="font-normal text-[16px] leading-[28px] tracking-[0px] mt-2 pb-8 text-justify">
                 {service?.data?.subCategories?.[0]?.description}
               </p>
 

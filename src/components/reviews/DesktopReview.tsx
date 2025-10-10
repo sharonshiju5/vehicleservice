@@ -29,12 +29,12 @@ function DesktopReview() {
                             className="w-18 h-18 rounded-full"
                         />
                         <div>
-                            <p className="font-normal text-[18px] leading-[28px] tracking-[0px]">Sophia Bennett</p>
+                            <p className="font-normal text-[17px] leading-[28px] tracking-[0px]">Sophia Bennett</p>
                             <p className="text-gray-500 font-normal text-[14px] leading-[22px] tracking-[0px]">2 weeks ago</p>
                         </div>
                     </div>
                     <ReviewStars rating={5} />
-                    <p className="font-normal text-[18px] leading-[28px] tracking-[0px] mt-2">
+                    <p className="font-normal text-[16px] leading-[28px] tracking-[0px] mt-2">
                         Absolutely thrilled with the service! My apartment has never looked
                         better. The team was punctual, professional, and incredibly thorough.
                         Highly recommend!
@@ -49,12 +49,12 @@ function DesktopReview() {
                             className="w-18 h-18 rounded-full"
                         />
                         <div>
-                            <p className="font-normal text-[18px] leading-[28px] tracking-[0px]">Sophia Bennett</p>
+                            <p className="font-normal text-[17px] leading-[28px] tracking-[0px]">Sophia Bennett</p>
                             <p className="text-gray-500 font-normal text-[14px] leading-[22px] tracking-[0px]">2 weeks ago</p>
                         </div>
                     </div>
                     <ReviewStars rating={5} />
-                    <p className="font-normal text-[18px] leading-[28px] tracking-[0px] mt-2">
+                    <p className="font-normal text-[16px] leading-[28px] tracking-[0px] mt-2">
                         Absolutely thrilled with the service! My apartment has never looked
                         better. The team was punctual, professional, and incredibly thorough.
                         Highly recommend!
@@ -69,12 +69,12 @@ function DesktopReview() {
                             className="w-18 h-18 rounded-full"
                         />
                         <div>
-                            <p className="font-normal text-[18px] leading-[28px] tracking-[0px]">Sophia Bennett</p>
+                            <p className="font-normal text-[17px] leading-[28px] tracking-[0px]">Sophia Bennett</p>
                             <p className="text-gray-500 font-normal text-[14px] leading-[22px] tracking-[0px]">2 weeks ago</p>
                         </div>
                     </div>
                     <ReviewStars rating={5} />
-                    <p className="font-normal text-[18px] leading-[28px] tracking-[0px] mt-2">
+                    <p className="font-normal text-[16px] leading-[28px] tracking-[0px] mt-2">
                         Absolutely thrilled with the service! My apartment has never looked
                         better. The team was punctual, professional, and incredibly thorough.
                         Highly recommend!
