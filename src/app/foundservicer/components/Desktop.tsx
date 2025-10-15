@@ -26,7 +26,8 @@ function Desktop() {
       console.log("Book Service Response:", res);
       if(res.success){
         showToast({ type: 'success', title: 'Success', message: 'Service booked successfully!' })
-        router.push('/servicebooked')
+        const bookingid=res?.data?.bookingId;
+        router.push(`/servicebooked?id=${bookingid}`)
       }
     } catch (error) {
       console.error("Book Service Error:", error);

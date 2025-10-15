@@ -54,6 +54,12 @@ function AddressStep({ selectedPlan, subCategoryId, bookingData, onNext, onBack 
       setIsLoading(false);
       return;
     }
+    if (planPriority === '2') {
+      const encodedData = encodeURIComponent(JSON.stringify(data));
+      router.push(`/biddingplanbook?data=${encodedData}`);
+      setIsLoading(false);
+      return;
+    }
     
     try {
       const res = await requestProvider(data);

@@ -1,11 +1,10 @@
 'use client'
 
-
 import React, { useEffect, useState, Suspense } from 'react'
 import App from './components/App'
 import Desktop from './components/Desktop'
 
-function PageContent() {
+function Page() {
     const [isMobile, setIsMobile] = useState(false)
     
       useEffect(() => {
@@ -21,18 +20,12 @@ function PageContent() {
       return(
         <>
           <div>
-          {isMobile ? <App /> : <Desktop />}
-        </div>
+            <Suspense fallback={<div>Loading...</div>}>
+              {isMobile ? <App /> : <Desktop />}
+            </Suspense>
+          </div>
         </>
       )
-}
-
-function Page() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <PageContent />
-    </Suspense>
-  )
 }
 
 export default Page

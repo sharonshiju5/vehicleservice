@@ -3,14 +3,33 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { clearAcceptedRequest } from '@/redux/acceptedRequestSlice'
 import { FaCalendarAlt, FaFileAlt, FaMapMarkerAlt, FaStar } from "react-icons/fa"
-import { getPartnerDeatils } from '@/services/commonapi/commonApi'
+import { bookService, getPartnerDeatils } from '@/services/commonapi/commonApi'
 import MobileDeatils from '@/components/chanelpartnerdeatils/MobileDeatils'
+import { showToast } from '@/utils/toast'
+import { useRouter } from 'next/navigation'
 
 function App() {
+  const router=useRouter()
     const dispatch = useDispatch()
     const [Partner, setPartner] = React.useState<{data?: {name?: string}} | null>(null)
     const [showDetails, setShowDetails] = React.useState(false)
     const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
+    
+    const handlebookService = async (bookingStatus?: string, requestId?: string) => {
+        if (!bookingStatus || !requestId) return;
+        try {
+          const data = { bookingStatus, requestId };
+          const res = await bookService(data);
+          console.log("Book Service Response:", res);
+          if(res.success){
+            showToast({ type: 'success', title: 'Success', message: 'Service booked successfully!' })
+            const bookingid=res?.data?.bookingId;
+            router.push(`/servicebooked?id=${bookingid}`)
+          }
+        } catch (error) {
+          console.error("Book Service Error:", error);
+        }
+      }
     
      useEffect(() => {
         if(acceptedRequestData?.providerId){
@@ -119,7 +138,9 @@ function App() {
                         >
                           More Details
                         </button>
-                        <button className="px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium bg-[#5818BF] text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <button
+                        onClick={() => handlebookService(acceptedRequestData?.bookingStatus, acceptedRequestData?.requestId)} 
+                        className="px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium bg-[#5818BF] text-white rounded-lg hover:bg-blue-700 transition-colors">
                           Book now
                         </button>
                       </div>

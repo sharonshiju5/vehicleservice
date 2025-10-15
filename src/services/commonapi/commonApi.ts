@@ -223,7 +223,7 @@ interface Data {
 }
 export const getAllProviders =async(data:Data)=>{
   try {
-    const response = await AxiosConfig.post(`/v2/seclobServiceCustomer/service/get-providers`,data);
+    const response = await AxiosConfig.post(`/v1/seclobServiceCustomer/service/get-providers`,data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -246,4 +246,26 @@ export const bookService = async (data: bookservice) => {
     throw error;
   }
 }
+
+interface userData {
+  userIds: string[];
+  
+}
+export const getAllProvidersDeatils =async(data:userData)=>{
+  try {
+    const response = await AxiosConfig.post(`/v1/servicepartner/user/all-users`,{userIds:data});
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
  
+export const getBookingDetails = async (id: string)=>{
+    try {
+      const response = await AxiosConfig.get(`/v1/seclobServiceCustomer/booking/status/${id}`);
+    return response.data;
+    } catch (error) {
+      
+    }
+}

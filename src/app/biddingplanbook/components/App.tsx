@@ -3,54 +3,39 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { clearAcceptedRequest } from '@/redux/acceptedRequestSlice'
 import { FaCalendarAlt, FaFileAlt, FaMapMarkerAlt, FaStar } from "react-icons/fa"
-import { getAllProviders, getAllProvidersDeatils, getPartnerDeatils } from '@/services/commonapi/commonApi'
+import { getAllProviders, getPartnerDeatils } from '@/services/commonapi/commonApi'
 import MobileDeatils from '@/components/chanelpartnerdeatils/MobileDeatils'
 import { useSearchParams } from 'next/navigation'
 
 interface Provider {
-  id: string
-  userId: string
-  subCategoryId: string
-  countryStates?: {
-    country: string
-    states: string[]
-  }
-  daily?: { amountINR?: number }
-  addon?: { amountINR?: number }
-  hourly?: { amountINR?: number }
-  status?: string
-  createdAt?: string
-}
-interface BookingData {
-  planId: string
-  subCategoryId: string
-  bookingDate: string
-  bookingTime: string
-  description: string
-  address: {
-    street?: string
-    city?: string
-    state?: string
-    zipCode?: string
-  }
-}
-interface ProviderDetails {
-  _id: string
-  name: string
-  email: string
-  phone: string
-  country: string
-  IDproofVerified?: string
-  packagePriority?: number
+    id: string
+    name?: string
+    rating?: number
+    reviews?: number
+    location?: string
+    experience?: string
+    description?: string
 }
 
-type MergedProvider = Provider & ProviderDetails
+interface BookingData {
+    planId: string
+    subCategoryId: string
+    bookingDate: string
+    bookingTime: string
+    description: string
+    address: {
+        street?: string
+        city?: string
+        state?: string
+        zipCode?: string
+    }
+}
 function App() {
     const dispatch = useDispatch()
     const [Partner, setPartner] = React.useState<{ data?: { name?: string } } | null>(null)
     const [showDetails, setShowDetails] = React.useState(false)
     const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
-    const [providers, setProviders] = useState<MergedProvider[]>([])
+    const [providers, setProviders] = useState<Provider[]>([])
     const searchParams = useSearchParams()
     const [bookingData, setBookingData] = useState<BookingData | null>(null)
 
@@ -65,40 +50,27 @@ function App() {
         }
     }, [searchParams])
 
-     useEffect(() => {
+    useEffect(() => {
         if (bookingData) {
-          const getallProviders = async () => {
-            try {
-              const res = await getAllProviders({
-                subCategoryId: bookingData.subCategoryId,
-                distance: 5,
-                packagePriority: 1
-              })
-              if (res.success) {
-                const providerList: Provider[] = res.data.providers
-                const userIds = res.data.userIds
-                const response = await getAllProvidersDeatils(userIds);
-                if (response) {
-                  const details: ProviderDetails[] = response.data
-                  const mergedData: MergedProvider[] = providerList
-                    .filter((provider) => details.some((u) => u._id === provider.userId)) // only keep matching ones
-                    .map((provider) => ({
-                      ...provider,
-                      ...details.find((u) => u._id === provider.userId)!
-                    })) as MergedProvider[]
-                  console.log('Merged Provider Data:', mergedData)
-                  setProviders(mergedData)
+            const getallProviders = async () => {
+                try {
+                    const res = await getAllProviders({
+                        subCategoryId: bookingData.subCategoryId,
+                        distance: 5,
+                        packagePriority: 1
+                    })
+                    if (res.success) {
+                        setProviders(res.data.providers || [])
+                        console.log("Providers Data Set:", res.data.providers || []);
+                    }
+                    console.log("All Providers:", res);
+                } catch (error) {
+
                 }
-                console.log("Providers Data Set:", res.data.providers || []);
-              }
-              console.log("All Providers:", res);
-            } catch (error) {
-    
             }
-          }
-          getallProviders()
+            getallProviders()
         }
-      }, [bookingData])
+    }, [bookingData])
 
     useEffect(() => {
         if (acceptedRequestData?.providerId) {
@@ -160,7 +132,7 @@ function App() {
                             />
                             <div className="flex-1">
                                 <div className="flex items-center gap-1">
-                                    <h2 className="text-base sm:text-lg font-semibold text-gray-900">{provider.name}</h2>
+                                    <h2 className="text-base sm:text-lg font-semibold text-gray-900">abhi</h2>
                                     <FaStar className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-current" />
                                     <span className="text-xs sm:text-sm font-medium text-gray-700">4.5</span>
                                     <span className="text-xs text-gray-500">5478 reviews</span>
@@ -168,7 +140,7 @@ function App() {
                                 <div className="flex items-center gap-3">
                                     <div className="flex items-center gap-1">
                                         <FaMapMarkerAlt className="w-3 h-3 text-gray-400" />
-                                        <span className="text-xs text-gray-600">{provider?.countryStates?.states[1]}</span>
+                                        <span className="text-xs text-gray-600">kozhikode</span>
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <FaCalendarAlt className="w-3 h-3 text-gray-400" />

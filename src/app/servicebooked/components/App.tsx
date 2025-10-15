@@ -1,6 +1,36 @@
-import React from 'react'
+import { getBookingDetails } from '@/services/commonapi/commonApi'
+import { useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+
+interface BookingStatus {
+  bookingId?: string;
+  booking?: {
+    bookingDate?: string;
+    bookingTime?: string;
+    city?: string;
+  };
+}
 
 function App() {
+  const [bookingstatus, setBookingStatus] = useState<BookingStatus | null>(null)
+    const searchParams = useSearchParams()
+    const bookingId = searchParams.get('id')
+    const handleGetDetails = async () => {
+      try {
+        if (!bookingId) return;
+        const res = await getBookingDetails(bookingId);
+        if (res?.success) {
+          console.log(res)
+          setBookingStatus(res?.data)
+        }
+  
+      } catch (error) {
+  
+      }
+    }
+    useEffect(() => {
+      handleGetDetails()
+    }, [])
   return (
     <div className='w-full bg-white h-screen '>
          <div className="w-full fixed top-0 left-0 h-[550px] bg-[linear-gradient(180deg,#1FC16B_0%,#ffffff_100%)] opacity-40 z-10"></div>
@@ -32,19 +62,19 @@ function App() {
           <hr className="border-gray-200" />
           <div className="flex justify-between p-4 text-sm">
             <span className="text-black text-[14px] font-medium leading-[20px] tracking-[0.1px] ">Booking ID</span>
-            <span className="font-normal leading-[20px] tracking-[0.1px] text-black">DSGDG3445</span>
+            <span className="font-normal leading-[20px] tracking-[0.1px] text-black">{bookingstatus?.bookingId}</span>
           </div>
           <hr className="border-gray-200" />
           <div className="flex justify-between p-4 text-sm">
             <span className="text-black text-[14px] font-medium leading-[20px] tracking-[0.1px] ">Arrival Date & Time</span>
             <span className="font-normal leading-[20px] tracking-[0.1px] text-black">
-              30-2-2024 , 7:00pm
+              {bookingstatus?.booking?.bookingDate ? new Date(bookingstatus.booking.bookingDate).toLocaleDateString('en-GB') : 'N/A'}, {bookingstatus?.booking?.bookingTime || 'N/A'}
             </span>
           </div>
           <hr className="border-gray-200" />
           <div className="flex justify-between p-4 text-sm">
             <span className="text-black text-[14px] font-medium leading-[20px] tracking-[0.1px] ">Location</span>
-            <span className="font-normal leading-[20px] tracking-[0.1px] text-black">Thrissur</span>
+            <span className="font-normal leading-[20px] tracking-[0.1px] text-black">{bookingstatus?.booking?.city}</span>
           </div>
           <hr className="border-gray-200" />
           <div className="flex justify-between p-4 text-sm">
