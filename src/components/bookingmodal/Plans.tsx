@@ -2,6 +2,33 @@ import React, { useEffect, useState } from 'react'
 import { CheckCircle2 } from "lucide-react";
 import { getPackages, getUserCurrentPackage } from '@/services/commonapi/commonApi';
 
+interface RazorpayResponse {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
+}
+
+interface RazorpayOptions {
+    key: string;
+    amount: number;
+    currency: string;
+    name: string;
+    description: string;
+    order_id: string;
+    handler: (response: RazorpayResponse) => void;
+    theme: { color: string };
+}
+
+interface RazorpayInstance {
+    open: () => void;
+}
+
+declare global {
+    interface Window {
+        Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
+    }
+}
+
 type PackageType = {
     id: string;
     tittle: string;
@@ -63,6 +90,9 @@ function Plans({ onNext }: PlansProps) {
     const [packages, setPackages] = useState<PackageType[]>([])
     const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
     const [currentplan, setCurrentplan] = useState<string | null>(null)
+    const [currentPlanPriority, setCurrentPlanPriority] = useState<number | null>(null)
+    const [isProcessing, setIsProcessing] = useState(false)
+    const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false)
 
     const truncateText = (text: string[], maxWords: number = 16) => {
         const joinedText = text.join(' ');
@@ -89,6 +119,107 @@ function Plans({ onNext }: PlansProps) {
         }
     };
 
+    const isSelectablePackage = (packagePriority: number) => {
+        if (!currentPlanPriority) return true;
+        if (currentPlanPriority === 1) return packagePriority === 1;
+        if (currentPlanPriority === 2) return packagePriority <= 2;
+        return true;
+    };
+
+    const loadRazorpay = () => {
+        return new Promise((resolve) => {
+            if (window.Razorpay) {
+                resolve(true);
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.onload = () => {
+                setIsRazorpayLoaded(true);
+                resolve(true);
+            };
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
+    };
+
+    const handlePayment = async (packageId: string) => {
+        setIsProcessing(true);
+
+        const loaded = await loadRazorpay();
+        if (!loaded) {
+            console.error("Failed to load Razorpay SDK");
+            setIsProcessing(false);
+            return;
+        }
+
+        if (typeof window !== "undefined" && window.Razorpay) {
+            try {
+                const token = localStorage.getItem('token') || '';
+
+                const response = await fetch("https://apigateway.seclob.com/v1/seclobServiceCustomer/package/purchase", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ packageId, currency: "INR" }),
+                });
+
+                const data = await response.json();
+                const order = data.data.order;
+
+                const options = {
+                    key: "rzp_test_7IQrfwQtlLyVb0",
+                    amount: order.amount,
+                    currency: order.currency,
+                    name: "SecLob Service",
+                    description: "Plan Purchase",
+                    order_id: order.id,
+                    handler: async function (response: RazorpayResponse) {
+                        const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+
+                        const verifyRes = await fetch("https://apigateway.seclob.com/v1/seclobServiceCustomer/package/verify-payment", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                                "razorpay-signature": razorpay_signature,
+                            },
+                            body: JSON.stringify({
+                                razorpay_order_id,
+                                razorpay_payment_id,
+                            }),
+                        });
+
+                        const result = await verifyRes.json();
+                        if (verifyRes.ok) {
+                            const selectedPackage = packages.find(pkg => pkg.id === packageId);
+                            if (selectedPackage) {
+                                localStorage.setItem('PlanPriority', selectedPackage.priority.toString());
+                            }
+                            onNext(packageId);
+                        } else {
+                            alert("Payment verification failed: " + result.message);
+                        }
+                        setIsProcessing(false);
+                    },
+                    theme: { color: "#7722FF" },
+                };
+
+                const razorpay = new window.Razorpay(options);
+                razorpay.open();
+            } catch (error) {
+                console.error("Payment error:", error);
+                setIsProcessing(false);
+            }
+        } else {
+            console.error("Razorpay SDK not loaded.");
+            setIsProcessing(false);
+        }
+    };
+
     useEffect(() => {
         const fetchPackages = async () => {
             try {
@@ -107,8 +238,9 @@ function Plans({ onNext }: PlansProps) {
         const fetchCurrentPackages = async () => {
             try {
                 const res = await getUserCurrentPackage();
-                if (res?.success ) {
+                if (res?.success) {
                     setCurrentplan(res.data.id);
+                    setCurrentPlanPriority(res.data.priority);
                     setSelectedPlan(res.data.id);
                 }
             } catch (error) {
@@ -120,6 +252,7 @@ function Plans({ onNext }: PlansProps) {
 
     return (
         <>
+
             <h1 className='font-medium text-[16px] leading-[26px] tracking-[0.01px] pt-2'>Select Plan</h1>
             {packages.length > 0 ? (
                 packages.map((pkg) => (
@@ -127,9 +260,14 @@ function Plans({ onNext }: PlansProps) {
 
 
                         <div
-                            onClick={() => setSelectedPlan(pkg.id)}
-                            className={`w-full mt-4 h-[120px] ${getGradientBg(pkg.priority)} rounded-lg relative flex items-center cursor-pointer transition-all duration-300
-                            ${selectedPlan === pkg.id ? 'shadow-lg transform scale-[1.02]' : 'hover:shadow-md'} `}
+                            onClick={() => {
+                                if (isSelectablePackage(pkg.priority)) {
+                                    setSelectedPlan(pkg.id);
+                                }
+                            }}
+                            className={`w-full mt-4 h-[120px] ${getGradientBg(pkg.priority)} rounded-lg relative flex items-center transition-all duration-300
+                            ${!isSelectablePackage(pkg.priority) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                            ${selectedPlan === pkg.id ? 'shadow-lg transform scale-[1.02]' : isSelectablePackage(pkg.priority) ? 'hover:shadow-md' : ''} `}
                         >
                             {/* Inner white card with border */}
                             <div className={`w-[92%] h-full border-2 ${getBorderColor(pkg.priority)} rounded-lg absolute right-0 bg-white flex items-center px-6 transition-all duration-300 ${selectedPlan === pkg.id ? 'border-opacity-100' : 'border-opacity-60'}`}>
@@ -168,19 +306,23 @@ function Plans({ onNext }: PlansProps) {
             )}
             <button
                 onClick={() => {
-                    if (selectedPlan) {
-                        const selectedPackage = packages.find(pkg => pkg.id === selectedPlan);
-                        if (selectedPackage) {
-                            localStorage.setItem('PlanPriority', selectedPackage.priority.toString());
+                    if (selectedPlan && !isProcessing) {
+                        if (selectedPlan === currentplan) {
+                            const selectedPackage = packages.find(pkg => pkg.id === selectedPlan);
+                            if (selectedPackage) {
+                                localStorage.setItem('PlanPriority', selectedPackage.priority.toString());
+                            }
+                            onNext(selectedPlan);
+                        } else {
+                            handlePayment(selectedPlan);
                         }
-                        onNext(selectedPlan);
                     }
                 }}
-                disabled={!selectedPlan}
-                className={`w-[100%] mt-8 h-[42px] p-2 text-white rounded-xl font-medium text-sm transition-all duration-300 ${selectedPlan ? 'bg-[#7722FF] hover:bg-[#6611EE]' : 'bg-gray-300 cursor-not-allowed'
+                disabled={!selectedPlan || isProcessing}
+                className={`w-[100%] mt-8 h-[42px] p-2 text-white rounded-xl font-medium text-sm transition-all duration-300 ${selectedPlan && !isProcessing ? 'bg-[#7722FF] hover:bg-[#6611EE]' : 'bg-gray-300 cursor-not-allowed'
                     }`}
             >
-                Next
+                {isProcessing ? 'Processing...' : selectedPlan === currentplan ? 'Next' : 'Purchase & Next'}
             </button>
         </>
     )

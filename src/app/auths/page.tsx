@@ -9,8 +9,8 @@ export const dynamic = 'force-dynamic'
 
 function AuthContent() {
     const searchParams = useSearchParams()
-    // const refreshToken = searchParams.get('refreshtoken')||localStorage.getItem('refreshtoken')
-    const refreshToken = '08279a84852020db94ecb3916a7c25b44ecff71c83959bc8ab2304ef1169fb0772fb6f99cefcc47f'
+    const refreshToken = searchParams.get('refreshtoken')||localStorage.getItem('refreshtoken')
+    // const refreshToken = '2758a705383db1686c898bbf1d2829db6910dce697392e30a91b377d79328f0efb748c9c78aa5213'
     const country = searchParams.get('country')
     const lat = searchParams.get('lat')
     const lon = searchParams.get('lon')
