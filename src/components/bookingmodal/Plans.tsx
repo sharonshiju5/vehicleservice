@@ -239,9 +239,9 @@ function Plans({ onNext }: PlansProps) {
             try {
                 const res = await getUserCurrentPackage();
                 if (res?.success) {
-                    setCurrentplan(res.data.id);
-                    setCurrentPlanPriority(res.data.priority);
-                    setSelectedPlan(res.data.id);
+                    setCurrentplan(res.data?.id);
+                    setCurrentPlanPriority(res.data?.priority);
+                    setSelectedPlan(res.data?.id);
                 }
             } catch (error) {
                 console.error("Error fetching packages:", error);

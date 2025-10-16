@@ -105,17 +105,18 @@ function Desktop() {
   }
 
   return (
-    <div className='w-full bg-white h-screen flex flex-col items-center justify-center p-4'>
-
-      <div className="w-[760px] h-100vh">
-        <div className="w-[765px] h-[200px] bg-red-200 bg-cover bg-center rounded-2xl  p-8 "
-          style={{ backgroundImage: "url('/assets/service/premium.png')" }}>
-          <h1 className='text-[16px] leading-[26px] tracking-[0.01px]  text-black'>Premium Service</h1>
-          <h1 className='font-medium text-[28px] leading-[40px] tracking-[0px] pt-2'>Your Daily Service Partner</h1>
-          <h1 className='font-normal text-[18px] leading-[28px] tracking-[0px] pt-2'>From cleaning to repairs  find the right expert near you.</h1>
+    <div className='w-full bg-white min-h-[calc(100vh-4rem)] flex flex-col items-center p-4'>
+      <div className="w-full max-w-[760px] flex flex-col h-full">
+        <div className="flex-shrink-0">
+          <div className="w-full h-[200px] bg-red-200 bg-cover bg-center rounded-2xl p-8"
+            style={{ backgroundImage: "url('/assets/service/premium.png')" }}>
+            <h1 className='text-[16px] leading-[26px] tracking-[0.01px] text-black'>Premium Service</h1>
+            <h1 className='font-medium text-[28px] leading-[40px] tracking-[0px] pt-2'>Your Daily Service Partner</h1>
+            <h1 className='font-normal text-[18px] leading-[28px] tracking-[0px] pt-2'>From cleaning to repairs find the right expert near you.</h1>
+          </div>
+          <h1 className='font-medium text-[18px] leading-[28px] tracking-[0px] capitalize mb-4 pt-2'>Service Provider list</h1>
         </div>
-        <h1 className='font-medium text-[18px] leading-[28px] tracking-[0px] capitalize mb-4 pt-2'> Service Provider list</h1>
-        <div className="h-[calc(100vh-320px)] overflow-y-auto space-y-2">
+        <div className="flex-1 overflow-y-auto space-y-2">
           {providers.map((provider) => (
             <div key={provider.id} className="w-full h-[210px] bg-white rounded-2xl shadow-lg p-4 relative border border-gray-100 flex flex-col justify-center flex-shrink-0">
 
