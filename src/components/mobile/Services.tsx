@@ -10,54 +10,54 @@ function Services() {
     {
       id: 1,
       name: "Verified Partners",
-      img: "/assets/landing/verified.png", // replace with your src
+      img: "/assets/landing/service1.png",
     },
     {
       id: 2,
       name: "Now or Later",
-      img: "/assets/landing/now.png",
+      img: "/assets/landing/service2.png",
     },
     {
       id: 3,
       name: "Trusted Experts",
-      img: "/assets/landing/trust.png"
+      img: "/assets/landing/service3.png"
     },
     {
       id: 4,
       name: "Help Desk",
-      img: "/assets/landing/help.png",
+      img: "/assets/landing/service4.png",
     },
     {
       id: 5,
       name: "Easy Payments",
-      img: "/assets/landing/pay.png",
+      img: "/assets/landing/service5.png",
     },
     {
       id: 6,
       name: "Clear Prices",
-      img: "/assets/landing/price.png",
+      img: "/assets/landing/service6.png",
     },
   ];
 
   return (
-    <div className="w-full p-4">
-      <h2 className="font-medium text-[16px] leading-[26px] tracking-[0.01px] text-gray-900 mb-6">Why seclob service?</h2>
+    <div className="w-full px-6 py-6">
+      <h2 className="font-semibold text-[18px]  leading-[30px] tracking-[0.01px] text-gray-900 mb-8">Why seclob service?</h2>
 
-      <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 ">
+      <div className="grid grid-cols-2  gap-6">
         {services.map((s) => (
           <div
             key={s.id}
-            className="flex flex-col items-center justify-center  rounded-xl p-2 hover:shadow-md transition"
+            className="flex flex-col items-center shadow-lg justify-center rounded-xl p-4 hover:shadow-lg transition-all duration-300"
           >
             <Image
               src={s.img}
               alt={s.name}
-              width={77}
-              height={77}
-              className="object-cover mb-3 "
-              style={{ width: '77px', height: '77px' }}
+              width={94}
+              height={94}
+              className="object-cover mb-4"
+              style={{ width: '94px', height: '94px' }}
             />
-            <p className="text-[12px] leading-[18px] tracking-[0.03px] text-center text-gray-700 text-center">
+            <p className="font-poppins font-semibold text-[16px] leading-[21px] tracking-[0px] text-center">
               {s.name}
             </p>
           </div>

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useEffect, useState, useRef } from 'react'
 import { CiShop } from "react-icons/ci";
 import { CategorySkeleton, SubcategorySkeleton } from '@/components/ui/SkeletonLoader';
+import { useLocation } from '@/hooks/useLocation';
 
 interface Category {
     id: string
@@ -17,9 +18,22 @@ interface MobileSegmentProps {
 }
 
 function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
+    const { location } = useLocation()
     const [active, setActive] = useState<string>("");
     const [categories, setCategories] = useState<Category[]>([])
     const [subcategories, setSubCategories] = useState<Category[]>([])
+    
+    const checkLocationAndNavigate = (url: string) => {
+        if (!location?.city) {
+            const locationTrigger = document.querySelector('[data-location-trigger]') as HTMLElement
+            if (locationTrigger) {
+                locationTrigger.click()
+            }
+            return false
+        }
+        window.location.href = url
+        return true
+    }
     const [showAll, setShowAll] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
@@ -93,7 +107,6 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
             setCurrentPage(1)
             handleGetSubCategories(selectedCategoryId, '', 1)
             
-            // Scroll to selected category
             setTimeout(() => {
                 const categoryElement = document.querySelector(`[data-category-id="${selectedCategoryId}"]`)
                 if (categoryElement && categoryScrollRef.current) {
@@ -130,13 +143,13 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
                                 key={cat.id}
                                 data-category-id={cat.id}
                                 onClick={() => handleCategoryClick(cat.id)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition
+                                className={`flex items-center h-[50px] gap-2 px-4 py-2 rounded-[100px] border  transition
                                 ${active === cat.id
                                         ? "border-purple-500 bg-purple-50 text-purple-600"
                                         : "border-gray-200 bg-white text-gray-500"
                                     } ${index === 0 ? "ml-2" : ""}`}
                             >
-                                <CiShop className="w-4 h-4" />
+                                <CiShop className="w-8 h-8" />
                                 <span className="whitespace-nowrap text-sm">{cat.name}</span>
                             </button>
                         ))}
@@ -147,18 +160,28 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
                 {isLoading || isSubcatLoading ? (
                     <SubcategorySkeleton />
                 ) : (
-                    <div className="grid grid-cols-4 sm:grid-cols-4 gap-2">
-                        {subcategories.slice(0, showAll ? subcategories.length : 12).map((subcat) => {
-                            const city = localStorage.getItem('city') ;
-                            const href = `/${city}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id }`;
-                            
+                    <div className="grid grid-cols-4 gap-3 px-2">
+                        {subcategories.slice(0, showAll ? subcategories.length : 8).map((subcat) => {
                             return (
-                                <Link key={subcat.id} href={href}>
-                                    <div className="flex flex-col items-center justify-center p-2  rounded-lg hover:shadow">
-                                        <Image src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} width={58} height={58} className="w-[58px] h-[58px] object-contain mb-2 rounded-lg" />
-                                        <span className="text-gray-500 text-[10px] font-medium text-center leading-tight">{subcat.name}</span>
-                                    </div>
-                                </Link>
+                                <div 
+                                    key={subcat.id} 
+                                    className="flex flex-col items-center justify-start p-3 rounded-lg hover:shadow cursor-pointer min-h-[100px]"
+                                    onClick={() => {
+                                        const cityName = location?.city || localStorage.getItem('city');
+                                        if (!cityName) {
+                                            const locationTrigger = document.querySelector('[data-location-trigger]') as HTMLElement
+                                            if (locationTrigger) {
+                                                locationTrigger.click()
+                                            }
+                                            return
+                                        }
+                                        const href = `/${cityName}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id}`;
+                                        window.location.href = href;
+                                    }}
+                                >
+                                    <Image src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} width={58} height={58} className="w-[64px] h-[64px] object-contain mb-2 rounded-lg" />
+                                    <span className="text-gray-500 text-[10px] font-medium text-center leading-tight w-full">{subcat.name}</span>
+                                </div>
                             );
                         })}
                     </div>

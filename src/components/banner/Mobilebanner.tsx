@@ -19,27 +19,27 @@ function Mobilebanner() {
     },
   ];
   return (
-    <div className="w-full overflow-x-auto no-scrollbar pl-4 ">
-      <div className="flex gap-4">
-        {banners.map((banner) => (
-          <a
-            key={banner.id}
-            href={banner.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-w-[299px] sm:min-w-[299px] md:min-w-[299px] rounded-xl overflow-hidden shadow-md"
-          >
-            <Image
-              src={banner.img || "/assets/banner/banner.png"}
-              alt="Cashback Banner"
-              width={299}
-              height={156}
-              className="w-full h-[156px] object-cover"
-            />
-          </a>
-        ))}
-      </div>
-    </div>
+    <div className="w-full overflow-x-auto no-scrollbar px-6 py-4">
+          <div className="flex gap-4">
+            {banners.map((banner) => (
+              <a
+                key={banner.id}
+                href={banner.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-w-[299px] sm:min-w-[299px] md:min-w-[299px] rounded-md overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Image
+                  src={banner.img || "/assets/banner/banner.png"}
+                  alt="Cashback Banner"
+                  width={299}
+                  height={156}
+                  className="w-full h-[156px] object-cover"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
   )
 }
 
