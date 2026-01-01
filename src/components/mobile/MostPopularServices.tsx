@@ -41,7 +41,7 @@ const MostPopularServices: React.FC = () => {
       <h2 className="font-medium text-[16px] leading-[26px] tracking-[0.01px] mb-4 pb-2">Most Popular Services</h2>
       <div className="flex flex-col gap-4 ">
         <ServiceCard
-          imgSrc="assets/landing/popular.png"
+          imgSrc="/assets/landing/person.jpg"
           title="Lawn Mowing"
           provider="GreenThumb Gardens"
           rating={4.7}
@@ -49,7 +49,7 @@ const MostPopularServices: React.FC = () => {
           price="$60"
         />
         <ServiceCard
-          imgSrc="assets/landing/popular.png"
+          imgSrc="/assets/landing/person.jpg"
           title="Lawn Mowing"
           provider="GreenThumb Gardens"
           rating={4.7}
@@ -57,7 +57,7 @@ const MostPopularServices: React.FC = () => {
           price="$60"
         />
         <ServiceCard
-          imgSrc="assets/landing/popular.png"
+          imgSrc="/assets/landing/person.jpg"
           title="Lawn Mowing"
           provider="GreenThumb Gardens"
           rating={4.7}

@@ -33,12 +33,13 @@ const createAxiosInstance = (): AxiosInstance => {
           const encodeHeader = (value: string) =>
           value ? encodeURIComponent(value) : "";
 
-        config.headers["userCountry"] = encodeHeader(location.country ?? "");
-        config.headers["userState"] = encodeHeader(location.state ?? "");
-        config.headers["userLat"] = encodeHeader(
+        config.headers["country"] = encodeHeader(location.country ?? "");
+        config.headers["city"] = encodeHeader(location?.city ?? "");
+        config.headers["state"] = encodeHeader(location.state ?? "");
+        config.headers["lat"] = encodeHeader(
           location.coordinates.latitude?.toString() ?? ""
         );
-        config.headers["userLon"] = encodeHeader(
+        config.headers["lon"] = encodeHeader(
           location.coordinates.longitude?.toString() ?? ""
         );
         } catch (error) {

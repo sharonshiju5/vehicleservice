@@ -103,7 +103,7 @@ function SeeAllFooter({ toggleCart }: MobileHeaderProps) {
             
             const savedLocationsData = localStorage.getItem('savedLocations');
             const savedLocations = savedLocationsData ? JSON.parse(savedLocationsData) : [];
-            const updatedLocations = [locationData, ...savedLocations.filter((loc: any) => 
+            const updatedLocations = [locationData, ...savedLocations.filter((loc: { city: string; regionName: string }) => 
               loc.city !== locationData.city || loc.regionName !== locationData.regionName
             ).slice(0, 4)];
             

@@ -7,14 +7,26 @@ interface LocationData {
   city?: string;
   coordinates?: { latitude: number; longitude: number };
   timestamp?: string;
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+interface RootState {
+  user?: {
+    userDetails?: {
+      location?: LocationData;
+      token?: string;
+    };
+  };
+  location?: {
+    currentLocation?: LocationData;
+  };
 }
 
 export const useLocation = () => {
   const dispatch = useDispatch();
-  const location = useSelector((state: any) => state.user?.userDetails?.location);
-  const currentLocation = useSelector((state: any) => state.location?.currentLocation);
-  const userToken = useSelector((state: any) => state.user?.userDetails?.token);
+  const location = useSelector((state: RootState) => state.user?.userDetails?.location);
+  const currentLocation = useSelector((state: RootState) => state.location?.currentLocation);
+  const userToken = useSelector((state: RootState) => state.user?.userDetails?.token);
   const [localLocation, setLocalLocation] = useState<LocationData | null>(null);
 
   const setLocation = (locationData: LocationData) => {

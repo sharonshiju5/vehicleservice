@@ -5,6 +5,7 @@ import {
   loginWith3rdUser,
   registerUser,
   registerWith3rdUser,
+  type LoginValues,
 } from "../auth";
 
 
@@ -83,50 +84,58 @@ const initialState: UserState = {
   error: null,
 };
 
+interface UserData {
+  [key: string]: unknown;
+}
+
 export const register = createAsyncThunk(
   "/register",
-  async ({ userData }: { userData: any }, { rejectWithValue }) => {
+  async ({ userData }: { userData: UserData }, { rejectWithValue }) => {
     try {
       const response = await registerUser(userData);
       return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
 export const registerWith3rdParty = createAsyncThunk(
   "/registerwith3rdparty",
-  async ({ userData }: { userData: any }, { rejectWithValue }) => {
+  async ({ userData }: { userData: UserData }, { rejectWithValue }) => {
     try {
       const response = await registerWith3rdUser(userData);
       return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
 export const loginWith3rdParty = createAsyncThunk(
   "/loginWith3rdParty",
-  async ({ userData }: { userData: any }, { rejectWithValue }) => {
+  async ({ userData }: { userData: UserData }, { rejectWithValue }) => {
     try {
       const response = await loginWith3rdUser(userData);
       return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
 export const loginSlice = createAsyncThunk(
   "/login",
-  async ({ userData }: { userData: any }, { rejectWithValue }) => {
+  async ({ userData }: { userData: LoginValues }, { rejectWithValue }) => {
     try {
       const response = await loginUser(userData);
       return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      return rejectWithValue(errorMessage);
     }
   }
 );

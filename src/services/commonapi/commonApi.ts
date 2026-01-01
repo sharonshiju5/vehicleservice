@@ -105,8 +105,8 @@ export const requestProvider = async (data: requestProviderData) => {
     formData.append('description', data.description);
     formData.append('planId', data.planId);
     formData.append('subCategoryId', data.subCategoryId);
-    // formData.append('distance', data.distance.toString());
-    // formData.append('packagePriority', data.packagePriority.toString());
+    formData.append('identifyService', 'seclobService');
+
 
     const response = await AxiosConfig.post(
       '/v2/seclobServiceCustomer/service/req',
@@ -124,6 +124,7 @@ export const requestProvider = async (data: requestProviderData) => {
     throw error;
   }
 };
+
 
 
 export const deatiledService =async(search:string)=>{

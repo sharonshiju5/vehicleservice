@@ -1,7 +1,7 @@
 'use client'
 import { ArrowLeft, XCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { CiSearch, CiShop } from 'react-icons/ci';
 import { getCategories, getSubCategories, onSearch } from '@/services/commonapi/commonApi';
 import Link from 'next/link';
@@ -14,14 +14,18 @@ interface Category {
   unique_id?: string
 }
 
-function Page() {
+function SeeAllContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [active, setActive] = useState<string>("");
   const [categories, setCategories] = useState<Category[]>([])
   const [subcategories, setSubCategories] = useState<Category[]>([])
   const [searchInput, setSearchInput] = useState('')
-  const [searchResults, setSearchResults] = useState<any>(null)
+  const [searchResults, setSearchResults] = useState<{
+    subcategory?: {
+      subCategories?: Category[]
+    }
+  } | null>(null)
   const [currentCity, setCurrentCity] = useState<string>('')
 
   const fetchCategories = async (search: string = '') => {
@@ -164,9 +168,9 @@ function Page() {
         {searchResults ? (
           <div>
             <h3 className="text-gray-800 font-medium mb-4">Search Results</h3>
-            {searchResults.subcategory?.subCategories?.length > 0 ? (
+            {(searchResults?.subcategory?.subCategories?.length ?? 0) > 0 ? (
               <div className="space-y-3   ">
-                {searchResults.subcategory.subCategories.map((subcat: any) => (
+                {searchResults?.subcategory?.subCategories?.map((subcat: Category) => (
                   <Link key={subcat.id} href={`${currentCity}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id}`}>
                     <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-100 hover:shadow-sm">
                       <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-10 h-10 object-contain rounded-lg" />
@@ -177,7 +181,7 @@ function Page() {
               </div>
             ) : (
               <div className="text-center py-8 text-gray-500">
-                No results found for "{searchInput}"
+                No results found for &quot;{searchInput}&quot;
               </div>
             )}
           </div>
@@ -204,6 +208,21 @@ function Page() {
       </div>
      
     </div>
+  )
+}
+
+function Page() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4">Loading...</p>
+        </div>
+      </div>
+    }>
+      <SeeAllContent />
+    </Suspense>
   )
 }
 
