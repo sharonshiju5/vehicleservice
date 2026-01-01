@@ -270,3 +270,11 @@ export const getBookingDetails = async (id: string)=>{
       
     }
 }
+export const getBookingHistory = async ()=>{
+    try {
+      const response = await AxiosConfig.get(`/v1/seclobServiceCustomer/booking/customer`);
+    return response.data;
+    } catch (error) {
+      
+    }
+}

@@ -15,10 +15,16 @@ function App() {
     const [showDetails, setShowDetails] = React.useState(false)
     const acceptedRequestData = useSelector((state: RootState) => state.acceptedRequest.data)
     
-    const handlebookService = async (bookingStatus?: string, requestId?: string) => {
-        if (!bookingStatus || !requestId) return;
+    const handlebookService = async () => {
+        if (!acceptedRequestData?.requestId) {
+          showToast({ type: 'error', title: 'Error', message: 'Request ID not found' })
+          return;
+        }
         try {
-          const data = { bookingStatus, requestId };
+          const data = { 
+            bookingStatus: 'confirmed', 
+            requestId: acceptedRequestData.requestId 
+          };
           const res = await bookService(data);
           console.log("Book Service Response:", res);
           if(res.success){
@@ -28,6 +34,7 @@ function App() {
           }
         } catch (error) {
           console.error("Book Service Error:", error);
+          showToast({ type: 'error', title: 'Error', message: 'Failed to book service' })
         }
       }
     
@@ -139,7 +146,7 @@ function App() {
                           More Details
                         </button>
                         <button
-                        onClick={() => handlebookService(acceptedRequestData?.bookingStatus, acceptedRequestData?.requestId)} 
+                        onClick={handlebookService} 
                         className="px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium bg-[#5818BF] text-white rounded-lg hover:bg-blue-700 transition-colors">
                           Book now
                         </button>
