@@ -9,8 +9,8 @@ export const dynamic = 'force-dynamic'
 
 function AuthContent() {
     const searchParams = useSearchParams()
-    // const refreshToken = searchParams.get('refreshtoken')||localStorage.getItem('refreshtoken')
-    const refreshToken = '095c4a835d8f25af1b067c54944063099a848f2ec45b06ceb78a1c4f07ead46786595173155a8020'
+    const refreshToken = searchParams.get('refreshtoken')||localStorage.getItem('refreshtoken')
+    // const refreshToken = '44708a6e2f3644bc548ba993be70edb9f4965776c3d40ea1477c3b40010069502c83bd013c76f29b'
     const country = searchParams.get('country')
     const lat = searchParams.get('lat')
     const lon = searchParams.get('lon')
@@ -77,7 +77,7 @@ function AuthContent() {
         }
 
         handleAuth()
-    }, [refreshToken, country, lat, lon, regionName])
+    }, [refreshToken, country, lat, lon, city, regionName])
 
     return (
         <div className="flex items-center justify-center min-h-screen">

@@ -2,7 +2,7 @@
 
 import toast from 'react-hot-toast'
 
-type ToastType = 'success' | 'error' | 'info'
+type ToastType = 'success' | 'error' | 'info' | 'warning'
 
 interface ShowToastProps {
   type: ToastType
@@ -32,6 +32,12 @@ export function showToast({ type, title, message }: ShowToastProps) {
       text: 'text-blue-800',
       border: 'border-blue-500',
       icon: 'ℹ️',
+    },
+    warning: {
+      bg: 'bg-yellow-50',
+      text: 'text-yellow-800',
+      border: 'border-yellow-500',
+      icon: '⚠️',
     },
   }
 
