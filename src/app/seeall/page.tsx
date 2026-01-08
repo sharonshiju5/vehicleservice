@@ -6,6 +6,7 @@ import { CiSearch, CiShop } from 'react-icons/ci';
 import { getCategories, getSubCategories, onSearch } from '@/services/commonapi/commonApi';
 import Link from 'next/link';
 import SeeAllFooter from '@/components/mobile/SeeAllFooter';
+import Image from 'next/image';
 
 interface Category {
   id: string
@@ -94,21 +95,21 @@ function SeeAllContent() {
         }
       }
     }
-    
+
     updateCurrentCity()
-    
+
     const handleStorageChange = () => {
       updateCurrentCity()
     }
-    
+
     window.addEventListener('storage', handleStorageChange)
-    
+
     const searchQuery = searchParams.get('search')
     if (searchQuery) {
       setSearchInput(decodeURIComponent(searchQuery))
       handleSearch(decodeURIComponent(searchQuery))
     }
-    
+
     const loadData = async () => {
       const cats = await fetchCategories()
       if (cats && cats.length > 0) {
@@ -116,7 +117,7 @@ function SeeAllContent() {
       }
     }
     loadData()
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange)
     }
@@ -125,88 +126,98 @@ function SeeAllContent() {
   return (
     <div className='w-full pb-8'>
       <div className="w-full bg-white px-4 py-4 flex justify-between items-center gap-3 text-center ">
-        
+
         <p className='font-medium text-[16px] leading-[18px] tracking-[-0.36px] text-center'>Clear All</p>
         <button onClick={() => router.back()} className="">
-         <XCircle className="w-6 h-6 text-gray-600" />
+          <XCircle className="w-6 h-6 text-gray-600" />
         </button>
       </div>
 
-      <div className="w-full px-4 pb-24">
+      <div className="w-full px-4 pb-24 py-2">
         <div className="flex gap-3 overflow-x-auto no-scrollbar mb-6">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleCategoryClick(cat.id)}
-              className={`flex items-center h-[55px]  gap-2 px-4 py-2 rounded-[100px] border transition
-              ${active === cat.id
-                  ? "border-purple-500 bg-purple-50 text-purple-600"
-                  : "border-gray-200 bg-white text-gray-500"
+              className={`flex items-center gap-2 px-4 py-2 rounded-full border transition
+                min-h-[44px] shrink-0
+                ${active === cat.id
+                  ? "border-[#FF5C02] bg-purple-50 text-[#FF5C02]"
+                  : "border-gray-200 bg-white text-gray-600"
                 }`}
             >
-              <CiShop className="w-8 h-8" />
-              <span className="whitespace-nowrap text-sm">{cat.name}</span>
+              <Image
+                src={cat?.image}
+                width={24}
+                height={24}
+                className="w-6 h-6 rounded-full"
+                alt={cat.name}
+              />
+
+              <span className="whitespace-nowrap text-xs sm:text-sm md:text-base leading-tight">
+                {cat.name}
+              </span>
             </button>
           ))}
         </div>
-        
+
         {/* Projected Box with Search */}
-        <div className="shadow-sm rounded-lg  p-4 border border-gray-100">
-          <div className="bg-white rounded-lg  p-4 mb-4">
-          <h3 className="text-gray-800 font-medium mb-3">What?</h3>
-          <div className="flex items-center w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50">
-            <CiSearch className="text-gray-400 text-xl" />
-            <input
-              type="text"
-              placeholder="Search the service..."
-              value={searchInput}
-              onChange={handleSearchInputChange}
-              className="ml-2 w-full outline-none text-gray-600 placeholder-gray-400 text-sm bg-transparent"
-            />
+        <div className="shadow-sm rounded-lg  px-4 py-4 border bg-white border-gray-100">
+          <div className="bg-white rounded-lg   mb-4">
+            <h3 className="text-gray-800 font-medium mb-3">What?</h3>
+            <div className="flex items-center w-full px-4 py-3 border border-gray-200 rounded-full bg-gray-50">
+              <CiSearch className="text-gray-400 text-xl" />
+              <input
+                type="text"
+                placeholder="Search the service..."
+                value={searchInput}
+                onChange={handleSearchInputChange}
+                className="ml-2 w-full outline-none text-gray-600 placeholder-gray-400 text-sm rounded-full bg-transparent"
+              />
+            </div>
           </div>
-        </div>
-        {searchResults ? (
-          <div>
-            <h3 className="text-gray-800 font-medium mb-4">Search Results</h3>
-            {(searchResults?.subcategory?.subCategories?.length ?? 0) > 0 ? (
-              <div className="space-y-3   ">
-                {searchResults?.subcategory?.subCategories?.map((subcat: Category) => (
+          {searchResults ? (
+            <div>
+              <h3 className="text-gray-800 font-medium mb-4">Search Results</h3>
+              {(searchResults?.subcategory?.subCategories?.length ?? 0) > 0 ? (
+                <div className="space-y-3   ">
+                  {searchResults?.subcategory?.subCategories?.map((subcat: Category) => (
+                    <Link key={subcat.id} href={`${currentCity}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id}`}>
+                      <div className="flex items-center gap-3 p-3 bg-white  hover:shadow-sm">
+                        <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-10 h-10 object-contain rounded-lg" />
+                        <span className="text-gray-700 text-sm font-medium">{subcat.name}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  No results found for &quot;{searchInput}&quot;
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <h3 className="text-gray-800 font-medium mb-4">Suggested Destinations</h3>
+              <div className="space-y-3  ">
+                {subcategories.map((subcat) => (
                   <Link key={subcat.id} href={`${currentCity}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id}`}>
-                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-100 hover:shadow-sm">
+                    <div className="flex items-center gap-3 p-3 mt-2 bg-white  hover:shadow-sm">
                       <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-10 h-10 object-contain rounded-lg" />
                       <span className="text-gray-700 text-sm font-medium">{subcat.name}</span>
                     </div>
                   </Link>
                 ))}
               </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                No results found for &quot;{searchInput}&quot;
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            <h3 className="text-gray-800 font-medium mb-4">Suggested Destinations</h3>
-            <div className="space-y-3  ">
-              {subcategories.map((subcat) => (
-                <Link key={subcat.id} href={`${currentCity}/${subcat.name.replace(/\s+/g, '-').toUpperCase()}/${subcat.unique_id}`}>
-                  <div className="flex items-center gap-3 p-3 mt-2 bg-white rounded-lg border border-gray-100 hover:shadow-sm">
-                    <img src={subcat.image || "/assets/logo/seg.png"} alt={subcat.name} className="w-10 h-10 object-contain rounded-lg" />
-                    <span className="text-gray-700 text-sm font-medium">{subcat.name}</span>
-                  </div>
-                </Link>
-              ))}
             </div>
-          </div>
-        )}
+          )}
         </div>
-        
+
       </div>
       <div className="fixed bottom-0 left-0 right-0 z-50">
-        <SeeAllFooter/>
+        <SeeAllFooter />
       </div>
-     
+
     </div>
   )
 }

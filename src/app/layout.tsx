@@ -3,6 +3,7 @@ import './globals.css'
 import DesktopHeader from '@/components/header/DesktopHeader'
 import ReduxProvider from '@/components/providers/ReduxProvider'
 import { Toaster } from 'react-hot-toast'
+import NavWrapper from '@/hooks/NavWrapper'
 
 
 export const metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning={true}>
         <ReduxProvider>
           <div className='flex flex-col min-h-screen'>
             <header className="hidden md:block fixed top-0 left-0 right-0 z-50">
@@ -31,6 +32,7 @@ export default function RootLayout({
             </main>
           </div>
           <Toaster position="top-right" />
+          <NavWrapper />
         </ReduxProvider>
       </body>
     </html>

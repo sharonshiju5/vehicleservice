@@ -156,8 +156,8 @@ function App() {
 
             {/* Action Button */}
             <button className={`w-full py-2 rounded-lg font-medium ${
-              booking.bookingStatus === 'pending' ? 'bg-[#782FF8] text-white' :
-              booking.bookingStatus === 'confirmed' ? 'bg-[#782FF8] text-white' :
+              booking.bookingStatus === 'pending' ? 'bg-[#FF5C02] text-white' :
+              booking.bookingStatus === 'confirmed' ? 'bg-[#FF5C02] text-white' :
               'bg-gray-200 text-gray-600'
             }`}>
               {booking.bookingStatus === 'pending' ? 'Track Work' :

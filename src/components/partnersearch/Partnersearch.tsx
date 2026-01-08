@@ -38,7 +38,7 @@ function Partnersearch() {
     }
   }
   return (
-     <div className="w-full min-h-[730px] lg:h-[730px] bg-[#782FF8] bg-[url('/assets/partner/bgpartner.png')] bg-cover bg-center bg-blend-overlay relative">
+     <div className="w-full min-h-[730px] lg:h-[730px] bg-[#FF5C02] bg-[url('/assets/partner/bgpartner.png')] bg-cover bg-center bg-blend-overlay relative">
       <div className="flex flex-col lg:flex-row items-center justify-between px-4 sm:px-8 lg:px-20 h-full py-8 lg:py-0">
         {/* Left Content */}
         <div className="flex-1 max-w-lg z-10 flex flex-col justify-between h-full lg:py-10 mb-8 lg:mb-0 relative">
@@ -83,7 +83,7 @@ function Partnersearch() {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF5C02] focus:border-transparent"
                 placeholder="Enter your name"
               />
             </div>
@@ -98,7 +98,7 @@ function Partnersearch() {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF5C02] focus:border-transparent"
                 placeholder="Enter your email"
               />
             </div>
@@ -141,7 +141,7 @@ function Partnersearch() {
                 name="address"
                 value={formData.address}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF5C02] focus:border-transparent"
                 placeholder="Enter your address"
               />
             </div>

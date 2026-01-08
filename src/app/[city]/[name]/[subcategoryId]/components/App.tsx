@@ -67,14 +67,14 @@ function App({ id }: AppProps) {
                 </Slider>
 
                 {/* Top-right counter */}
-                <div className="absolute top-2 right-2 bg-[#782FF8] text-white text-[12px] font-medium px-2 py-1 rounded-md">
+                <div className="absolute top-2 right-2 bg-[#FF5C02] text-white text-[12px] font-medium px-2 py-1 rounded-md">
                     {current + 1}/{images.length}
                 </div>
 
                 {/* Bottom progress bar */}
                 <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[30%] h-1 bg-gray-200 rounded-full">
                     <div
-                        className="h-1 bg-[#782FF8] rounded-full transition-all duration-500"
+                        className="h-1 bg-[#FF5C02] rounded-full transition-all duration-500"
                         style={{ width: `${((current + 1) / images.length) * 100}%` }}
                     />
                 </div>

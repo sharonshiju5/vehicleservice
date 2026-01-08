@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
+import { getBanners } from '@/services/commonapi/vehicleserviceApi';
 type Banner = {
   id: number;
   img: string;
@@ -18,6 +19,16 @@ function Mobilebanner() {
       link: "https://your-link-2.com",
     },
   ];
+  async function GetBannerImages() {
+    try {
+      const response= await getBanners()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    GetBannerImages()
+  },[] )
   return (
     <div className="w-full overflow-x-auto no-scrollbar px-6 py-4">
           <div className="flex gap-4">

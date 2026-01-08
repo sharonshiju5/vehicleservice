@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Slider from 'react-slick';
-import { getBanners } from '@/services/commonapi/commonApi';
+import { getBanners } from '@/services/commonapi/vehicleserviceApi';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
+ 
 type RawBanner = {
   id?: string;
   _id?: string;

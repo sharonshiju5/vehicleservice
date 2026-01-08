@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { FaStar } from 'react-icons/fa';
+import Link from 'next/link';
 type Service = {
   id: number;
   title: string;
@@ -38,11 +39,14 @@ function MostBooked() {
   ];
 
   return (
-   <div className="w-full  py- bg-white">
+   <div className="w-full  bg-white">
+        <div className='flex justify-between px-2'>
          <h2 className="font-semibold text-[18px] leading-[30px] tracking-[0.01px] mb-6 px-2">Popular Service Near You</h2>
-   
+          <Link href="/seeall/popularservice">
+              <p className='font-medium text-[12px] leading-[26px] tracking-[0.01px] text-[#FF5C02]'>See All</p>
+          </Link>        </div>
          {/* Scrollable Cards */}
-         <div className="flex gap-[9px] overflow-x-auto pb-2">
+         <div className="flex gap-[9px] overflow-x-auto pb-2 pl-4">
            {services.map((service) => (
              <div
                key={service.id}
@@ -58,8 +62,8 @@ function MostBooked() {
                    className="w-[187px] h-[114px] object-cover rounded-t-[3px]"
                  />
                  {/* Rating Badge */}
-                 <div className="absolute top-3 right-3  bg-purple-600 text-white text-xs font-semibold flex items-center gap-[3px] px-2 py-1 rounded-lg w-[35px] h-[17px]">
-                   <FaStar className="text-yellow-300 text-xs" />
+                 <div className="absolute bottom-3 right-3 bg-[#FF5C02] text-white text-xs font-semibold flex items-center gap-1 px-2 py-1 rounded-lg min-w-[35px] h-[17px]">
+                   <FaStar className="text-yellow-400 text-[14px]" />
                    {service.rating}
                  </div>
                </div>
@@ -72,7 +76,7 @@ function MostBooked() {
                  <p className="text-xs text-gray-500 mb-2">{service.subtitle}</p>
                  <div className="flex justify-between">
                    <span className="text-xs text-gray-500">Starting from</span>
-                   <span className="text-purple-600 font-semibold text-sm">
+                   <span className="text-[#3D155F] font-semibold text-sm">
                      {service.price}
                    </span>
                  </div>

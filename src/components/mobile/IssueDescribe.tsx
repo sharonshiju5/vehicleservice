@@ -29,7 +29,7 @@ function IssueDescribe({ onDescriptionChange }: IssueDescribeProps) {
                     setDescription(e.target.value);
                     onDescriptionChange?.(e.target.value);
                 }}
-                className="w-full h-[110px] p-3 border border-gray-100 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-700"
+                className="w-full h-[110px] p-3 border border-gray-100 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#FF5C02] focus:border-transparent bg-white text-gray-700"
                 placeholder="Describe the issue in detail..."
             ></textarea>
 

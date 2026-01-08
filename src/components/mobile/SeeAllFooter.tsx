@@ -53,11 +53,11 @@ function SeeAllFooter({ toggleCart }: MobileHeaderProps) {
         return () => window.removeEventListener('storage', handleStorageChange);
       }, []);
   return (
-    <div className='mobile-header w-full bg-white position-fixed px-4 py-3 shadow-sm border-t border-gray-200'>
+    <div className='mobile-header w-full  position-fixed px-4 py-3 shadow-sm  border-gray-200'>
       {/* Where Section */}
-      <div className="mb-3">
+      <div className="mb-1 p-4 border-1 rounded-2xl border-gray-200 bg-white">
         <div className="flex items-center justify-between">
-          <span className="text-gray-800 font-medium text-sm">Where</span>
+          <span className="text-gray-800 font-bold text-sm">Where</span>
           <span className="text-gray-500 text-sm cursor-pointer" onClick={() => setShowLocationModal(true)}>Search Location</span>
         </div>
       </div>
@@ -76,7 +76,7 @@ function SeeAllFooter({ toggleCart }: MobileHeaderProps) {
       ) : (
         <button 
           onClick={() => setShowLocationInput(true)}
-          className="w-full bg-[#8948F9] text-white py-3 rounded-lg flex items-center justify-center gap-2 font-medium"
+          className="w-full bg-gradient-to-r from-[#0F4C81] to-[#00B4D8] text-white py-3 rounded-lg flex items-center justify-center gap-2 font-medium"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

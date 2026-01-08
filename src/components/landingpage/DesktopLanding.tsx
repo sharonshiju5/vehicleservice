@@ -380,7 +380,7 @@ const DesktopLanding = () => {
 
 
                 <div className="w-full bg-white pt-32 pb-4">
-                    <div className="w-full h-[334px] rounded-2xl relative" style={{ backgroundColor: '#782FF8' }}>
+                    <div className="w-full h-[334px] rounded-2xl relative" style={{ backgroundColor: '#FF5C02' }}>
                         {/* Content Section */}
                         <div className="flex items-center h-full">
                             {/* Left Content */}

@@ -61,7 +61,7 @@ const AddressCard: React.FC<AddressCardProps> = ({ onAddressSelect }) => {
           }}
           className={`border rounded-2xl p-4 shadow-sm bg-white flex flex-col gap-2 relative cursor-pointer transition-all duration-200 ${
             selectedAddressId === address._id 
-              ? 'border-purple-500 bg-purple-50' 
+              ? 'border-[#FF5C02] bg-purple-50' 
               : 'border-gray-200 hover:border-purple-300'
           }`}
         >
@@ -79,7 +79,7 @@ const AddressCard: React.FC<AddressCardProps> = ({ onAddressSelect }) => {
                   <span className="text-white text-xs">✓</span>
                 </div>
               )}
-              <button className="text-purple-500 hover:text-purple-700 transition">
+              <button className="text-[#FF5C02] hover:text-purple-700 transition">
                 <FiEdit2 size={18} />
               </button>
             </div>

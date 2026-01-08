@@ -1,10 +1,10 @@
-import { getCategories, getSubCategories } from '@/services/commonapi/commonApi';
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useState, useRef } from 'react'
 import { CiShop } from "react-icons/ci";
 import { CategorySkeleton, SubcategorySkeleton } from '@/components/ui/SkeletonLoader';
 import { useLocation } from '@/hooks/useLocation';
+import { getVehicleCategories,getVehicleSubCategories } from '@/services/commonapi/vehicleserviceApi';
 
 interface Category {
     id: string
@@ -43,7 +43,7 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
 
     const fetchCategories = async (search: string = '') => {
         try {
-            const response = await getCategories(search)
+            const response = await getVehicleCategories(search)
             const categoriesArray = response?.data?.categories || []
             setCategories(categoriesArray)
             if (categoriesArray.length > 0 && !active) {
@@ -63,7 +63,7 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
         setIsSubcatLoading(true)
         try {
             const limit = showAll ? 1000 : 12
-            const response = await getSubCategories(search, page, limit, categoryId || '');
+            const response = await getVehicleSubCategories(search, page, limit, categoryId || '');
             const subcats = response?.data?.subCategories || [];
             const totalPages = response?.data?.totalPages || 1;
             setSubCategories(subcats);
@@ -129,7 +129,7 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
                     Categories
                 </p>
                 <Link href="/seeall">
-                    <p className='font-medium text-[12px] leading-[26px] tracking-[0.01px] text-[#782FF8]'>See All</p>
+                    <p className='font-medium text-[12px] leading-[26px] tracking-[0.01px] text-[#FF5C02]'>See All</p>
                 </Link>
             </div>
             <div className="w-full p-2">
@@ -145,7 +145,7 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
                                 onClick={() => handleCategoryClick(cat.id)}
                                 className={`flex items-center h-[50px] gap-2 px-4 py-2 rounded-[100px] border  transition
                                 ${active === cat.id
-                                        ? "border-purple-500 bg-purple-50 text-purple-600"
+                                        ? "border-[#FF5C02] bg-purple-50 text-[#FF5C02]"
                                         : "border-gray-200 bg-white text-gray-500"
                                     } ${index === 0 ? "ml-2" : ""}`}
                             >
@@ -192,7 +192,7 @@ function MobileSegment({ selectedCategoryId }: MobileSegmentProps) {
                     <div className="flex justify-center mt-4">
                         <button
                             onClick={handleSeeAllClick}
-                            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                            className="px-6 py-2 bg-[#FF5C02] text-white rounded-lg hover:bg-[#FF5C02] transition"
                         >
                             See All ({subcategories.length})
                         </button>

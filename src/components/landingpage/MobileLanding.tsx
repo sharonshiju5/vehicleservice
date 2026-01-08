@@ -9,8 +9,10 @@ import Popular from "../mobile/Popular";
 import Services from "../mobile/Services";
 import Refer from "../mobile/Refer";
 import Mobilefooter from "../footer/Mobilefooter";
-import { onSearch } from "@/services/commonapi/commonApi";
 import OffersDeals from "../mobile/OffersDeals";
+import { onSearch } from "@/services/commonapi/vehicleserviceApi";
+import Products from "../mobile/Products";
+import Contact from "../mobile/Contact";
 
 interface SearchCategory {
   id: string;
@@ -152,7 +154,7 @@ const MobileLanding = () => {
             readOnly
           />
           <div
-            className="w-10 h-10 bg-[#7940FF] rounded-full flex items-center justify-center cursor-pointer flex-shrink-0 m-1"
+            className="w-10 h-10 bg-[#FF5C02] rounded-full flex items-center justify-center cursor-pointer flex-shrink-0 m-1"
             onClick={handleSearchClick}
           >
             <CiSearch className="text-white text-xl" />
@@ -165,6 +167,7 @@ const MobileLanding = () => {
       <Popular />
       <OffersDeals />
       <Services />
+      <Products />
       <div className="w-[90%] mx-auto pb-[87px]">
         <Refer />
       </div>
@@ -237,7 +240,8 @@ const MobileLanding = () => {
           </div>
         </div>
       </div>
-      <Mobilefooter />
+      <Contact/>
+      {/* <Mobilefooter /> */}
     </div>
   );
 };

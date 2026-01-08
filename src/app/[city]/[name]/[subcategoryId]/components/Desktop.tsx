@@ -7,7 +7,7 @@ import MostPopular from '@/components/desktop/MostPopular';
 import Faq from '@/components/desktop/Faq';
 import ScheduleService from '@/components/desktop/ScheduleService';
 
-import { getPackages, serviceDeatil } from '@/services/commonapi/commonApi';
+import { getPackages, serviceDeatil } from '@/services/commonapi/vehicleserviceApi';
 import { useParams } from "next/navigation";
 import DesktopBookingModal from '@/components/bookingmodal/DesktopBookingModal';
 
